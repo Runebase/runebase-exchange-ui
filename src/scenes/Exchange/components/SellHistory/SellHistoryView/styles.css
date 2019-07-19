@@ -1,0 +1,12 @@
+.CONFIRMED{
+  box-shadow: inset 8px 0 10px -6px green, inset -8px 0 10px -6px green;  
+}
+.myTradeContainer{
+ text-align: center;
+}
+.sold{
+ color: red;
+}
+.bought{
+ color: green;
+}

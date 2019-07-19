@@ -1,0 +1,102 @@
+.ACTIVE {
+  box-shadow: inset 8px 0 10px -6px green;
+}
+.PENDING {
+  box-shadow: inset 8px 0 10px -6px saddlebrown;
+}
+.CANCELED {
+  box-shadow: inset 8px 0 10px -6px red;
+}
+.PENDINGCANCEL {
+  box-shadow: inset 8px 0 10px -6px darkorange;
+}
+.FULFILLED {
+  box-shadow: inset 8px 0 10px -6px midnightblue;
+}
+.fullWidth{
+ width: 100%;
+}
+.fullwidth img {
+ width: 45px !important;
+ display: block;
+ margin-left: auto;
+ margin-right: auto;
+}
+.inheritHeight {
+	height: inherit;
+	word-wrap: break-word;
+	white-space: pre-line;
+}
+.fullHeight {
+	height: 100%;
+}
+i.huge.icon, i.huge.icons{
+	font-size: 50px;
+}
+.activeIcon{
+	font-size: 50px;
+	color: green;
+}
+.cancelIcon{
+	font-size: 50px;
+	color: green;
+}
+.centerText{
+	text-align: center;
+}
+
+.ordersRoundBox{
+	border: 1px solid black;
+	border-radius: 10px 10px 0 0;
+
+}
+.ordersPropertyLabel{
+	border-bottom: 1px solid black;
+}
+.ordersPropertyContent{
+	display: flex;
+	flex-flow: column;
+	flex: 1 1 auto;
+	text-align: center;
+}
+.ordersPropertyContent p{
+	
+}
+.filledDivider{
+	width: 50%;
+	height: 1px;
+	background-color: black;
+	margin: auto;
+}
+
+.spacingOrderBook{
+	margin-top: 15px;
+}
+.verticalCenter{
+  display: flex;
+  align-items: center;
+  height: inherit; 
+  height: 100%;
+}
+
+.SELLORDERCOLOR{
+ color: darkorange;
+}
+.BUYORDERCOLOR{
+ color: blue;
+}
+.PENDINGCOLOR{
+ color: saddlebrown;
+}
+.ACTIVECOLOR{
+ color: green;
+}
+.CONFIRMEDCOLOR{
+ color: green;
+}
+.saddleBrown{
+ color: saddlebrown !important;
+}
+.darkOrange{
+ color: darkorange !important;
+}
