@@ -6,13 +6,6 @@ module.exports = {
     ACTIVITY_HISTORY: '/activities/history',
   },
 
-  Phases: {
-    UNCONFIRMED: 'UNCONFIRMED', // BETTING
-    BETTING: 'BETTING',
-    PENDING: 'PENDING', // VOTING
-    WITHDRAWING: 'WITHDRAWING',
-  },
-
   EventWarningType: {
     INFO: 'INFO',
     ERROR: 'ERROR',
