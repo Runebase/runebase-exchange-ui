@@ -59,9 +59,16 @@ export default class {
 
   getSellHistoryInfo = async (limit = this.limit, skip = this.skip) => {
     try {
-      const orderBy = { field: 'time', direction: 'DESC' };
       let sellHistoryInfo = [];
-      const filters = [{ tokenName: this.app.wallet.currentMarket, orderType: 'SELLORDER' }]; /* Filter From and To,  unique by txid */
+      const orderBy = {
+        field: 'time',
+        direction: 'DESC',
+      };
+      const filters = [{
+        tokenName: this.app.wallet.currentMarket,
+        orderType: 'SELLORDER',
+      }];
+      /* Filter From and To,  unique by txid */
       sellHistoryInfo = await queryAllTrades(filters, orderBy, limit, skip);
       if (sellHistoryInfo.length < limit) this.hasMoreSellHistory = false;
       if (sellHistoryInfo.length === limit) this.hasMoreSellHistory = true;

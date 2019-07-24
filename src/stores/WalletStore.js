@@ -156,7 +156,7 @@ export default class {
       const { data: { result } } = await axios.post(Routes.api.transactionCost, {
         type: TransactionType.WITHDRAWEXCHANGE,
         token: tokenChoice,
-        amount: tokenChoice === 'PRED' || tokenChoice === 'FUN' ? decimalToSatoshi(confirmAmount) : Number(confirmAmount),
+        amount: tokenChoice === 'RUNES' ? Number(confirmAmount) : decimalToSatoshi(confirmAmount),
         senderAddress: walletAddress,
         receiverAddress: this.toAddress,
       });
@@ -173,14 +173,8 @@ export default class {
   }
   @action
   confirmRedeemExchange = (onRedeem) => {
-    let amount = this.confirmAmount;
-    if (this.tokenChoice === 'PRED') {
-      amount = decimalToSatoshi(this.confirmAmount);
-    }
-    if (this.tokenChoice === 'FUN') {
-      amount = decimalToSatoshi(this.confirmAmount);
-    }
-    this.createTransferRedeemExchange(this.walletAddress, this.exchangeAddress, this.tokenChoice, amount);
+    console.log(decimalToSatoshi(this.confirmAmount));
+    this.createTransferRedeemExchange(this.walletAddress, this.exchangeAddress, this.tokenChoice, decimalToSatoshi(this.confirmAmount));
     runInAction(() => {
       onRedeem();
       this.redeemConfirmDialogOpen = false;
