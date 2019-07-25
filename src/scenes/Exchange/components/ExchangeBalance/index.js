@@ -9,15 +9,13 @@ import {
   Grid,
   withStyles,
 } from '@material-ui/core';
-
-import RedeemExchange from './RedeemExchange';
 import styles from './styles.css';
 
 @injectIntl
 @withStyles(styles, { withTheme: true })
 @inject('store')
 @observer
-export default class myBalance extends Component {
+export default class ExchangeBalance extends Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
   };
@@ -29,9 +27,6 @@ export default class myBalance extends Component {
     return (
       <div>
         <Grid container>
-          <Grid item xs={12}>
-            <RedeemExchange />
-          </Grid>
           <Grid container>
             <Grid item xs={12}>
               <Card className='dashboardOrderBookTitle'>

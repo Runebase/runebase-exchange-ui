@@ -12,3 +12,6 @@ export { default as BuyOrderConfirmDialog } from './BuyOrderConfirmDialog';
 export { default as SellOrderConfirmDialog } from './SellOrderConfirmDialog';
 export { default as CancelOrderConfirmDialog } from './CancelOrderConfirmDialog';
 export { default as ExecuteOrderConfirmDialog } from './ExecuteOrderConfirmDialog';
+
+export { default as DepositConfirmDialog } from './DepositConfirmDialog';
+export { default as WithdrawconfirmDialog } from './WithdrawConfirmDialog';

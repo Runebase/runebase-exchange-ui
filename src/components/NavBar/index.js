@@ -6,12 +6,11 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import {
   AppBar,
   Toolbar,
-  Badge,
   Button,
   withStyles,
 } from '@material-ui/core';
 import cx from 'classnames';
-import { Routes, EventStatus } from 'constants';
+import { Routes } from 'constants';
 import { Link } from 'react-router-dom';
 
 import NavLink from './components/NavLink';
@@ -19,6 +18,8 @@ import { faqUrls } from '../../config/app';
 import styles from './styles';
 import Tracking from '../../helpers/mixpanelUtil';
 import ImageLocaleWrapper from './components/ImageLocaleWrapper';
+import WithdrawExchangeButton from '../WithdrawExchangeButton';
+import DepositExchangeButton from '../DepositExchangeButton';
 
 @withStyles(styles, { withTheme: true })
 @injectIntl
@@ -41,8 +42,10 @@ export default class NavBar extends Component {
       <AppBar position="fixed" className={classes.navBar}>
         <Toolbar className={classes.navBarWrapper}>
           <NavSection>
-            <RunebaseExchangeLogo {...this.props} />
             <Exchange {...this.props} />
+            <DepositExchangeButton />
+            <WithdrawExchangeButton />
+            <WalletLink {...this.props} />
           </NavSection>
           <MyActivities {...this.props} />
           <Toggle onClick={this.changeDropDownDirection}><div className={`icon iconfont icon-ic_${this.state.dropdownDirection}`}></div></Toggle>
@@ -96,7 +99,7 @@ const MyActivities = observer(({ store: { global } }) => (
   <NavLink to={Routes.ACTIVITY_HISTORY}>
     <NavBarRightButtonContainer>
       <NavBarRightButton>
-        <FormattedMessage id="navBar.activities" defaultMessage="My Activities" />
+        <FormattedMessage id="navBar.history" defaultMessage="My History" />
       </NavBarRightButton>
     </NavBarRightButtonContainer>
   </NavLink>
@@ -178,15 +181,32 @@ const RunebaseExchangeLogo = ({ classes }) => (
   </Link>
 );
 
-const Exchange = observer(({ classes, store: { ui } }) => (
+const Exchange = observer(({ store: { ui } }) => (
   <NavLink to={Routes.EXCHANGE}>
     <Button
       className={cx(
-        classes.navEventsButton,
+        'ui',
+        'positive',
+        'button',
         ui.location === Routes.EXCHANGE ? 'selected' : '',
       )}
     >
       <FormattedMessage id="navbar.exchange" defaultMessage="Exchange" />
+    </Button>
+  </NavLink>
+));
+
+const WalletLink = observer(({ store: { ui, wallet } }) => (
+  <NavLink to={Routes.WALLET}>
+    <Button
+      className={cx(
+        'ui',
+        'negative',
+        'button',
+        ui.location === Routes.WALLET ? 'selected' : '',
+      )}
+    >
+      <FormattedMessage id="navbar.wallet" defaultMessage="Wallet" />
     </Button>
   </NavLink>
 ));

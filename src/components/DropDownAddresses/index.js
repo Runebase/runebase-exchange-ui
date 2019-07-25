@@ -9,34 +9,61 @@ import './styles.css';
 @inject('store')
 @observer
 export default class DropDownAddresses extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      show: false,
+    };
+  }
+
+  handleSelectChange = (key, event) => {
+    this.props.store.wallet.changeAddress(key, event);
+    this.setState({ show: false });
+  }
+
+  handleToggle = (e) => {
+    e.target.focus();
+    this.setState({ show: !this.state.show });
+  }
+
+  handleBlur = (e) => {
+    if (e.nativeEvent.explicitOriginalTarget &&
+        e.nativeEvent.explicitOriginalTarget === e.nativeEvent.originalTarget) {
+      return;
+    }
+
+    if (this.state.show) {
+      setTimeout(() => {
+        this.setState({ show: false });
+      }, 200);
+    }
+  }
+
   render() {
     const { store: { wallet } } = this.props;
-    const {
-      show,
-      handleToggle,
-      handleBlur,
-      handleSelectChange,
-    } = this.props;
     const addressSelectBoolean = wallet.currentAddressSelected === '';
     return (
       <div className='dropdown-container'>
-        <label className={`arrow ${addressSelectBoolean ? 'pulsate' : 'notPulsate'}`} htmlFor='selectAddress'>
-          <input
+        <div className={`arrow ${addressSelectBoolean ? 'pulsate' : 'notPulsate'}`} htmlFor='selectAddress'>
+          <div
             id='selectAddress'
             type='button'
             value={wallet.currentAddressSelected !== '' ? wallet.currentAddressSelected : 'Please Select An Address'}
             className='dropdown-btn'
-            onClick={handleToggle}
-            onBlur={handleBlur}
-          />
-        </label>
-        <ul className="dropdown-list" hidden={!show}>
+            onClick={this.handleToggle}
+            onBlur={this.handleBlur}
+          >
+            {wallet.currentAddressSelected !== '' ? wallet.currentAddressSelected : 'Please Select An Address'}
+          </div>
+
+        </div>
+        <ul className="dropdown-list" hidden={!this.state.show}>
           {wallet.addresses.map((addressData, key) => {
             if (addressData.fun > 0 || addressData.runebase > 0 || addressData.pred > 0 || addressData.exchangerunes > 0 || addressData.exchangepred > 0 || addressData.exchangefun > 0) {
               return (
                 <li
                   className="option"
-                  onClick={handleSelectChange.bind(this, key) /* eslint-disable-line */ }
+                  onClick={this.handleSelectChange.bind(this, key) /* eslint-disable-line */ }
                   key={key}
                   address={addressData.address}
                   runes={addressData.runebase}

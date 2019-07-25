@@ -31,7 +31,7 @@ module.exports = {
 
   TransactionStatus: {
     PENDING: 'PENDING',
-    SUCCESS: 'SUCCESS',
+    SUCCESS: 'CONFIRMED',
     FAIL: 'FAIL', // not used
   },
 
