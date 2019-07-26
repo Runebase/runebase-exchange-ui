@@ -212,6 +212,49 @@ export function queryAllMarkets(filters, orderBy, limit, skip) {
   }
   return request.execute();
 }
+/*
+* Queries BaseCurrency from GraphQL with optional filters.
+*
+*
+*/
+export function queryBaseCurrency(filters, orderBy, limit, skip) {
+  const request = new GraphQuery('getBaseCurrency', TYPE.baseCurrency);
+  if (!_.isEmpty(filters)) {
+    request.setFilters(filters);
+  }
+  if (!_.isEmpty(orderBy)) {
+    request.setOrderBy(orderBy);
+  }
+  if (_.isFinite(limit) && limit > 0) {
+    request.addParam('limit', limit);
+  }
+  if (_.isFinite(skip) && skip >= 0) {
+    request.addParam('skip', skip);
+  }
+  return request.execute();
+}
+
+/*
+* Queries allMarketImages from GraphQL with optional filters.
+*
+*
+*/
+export function queryAllMarketImages(filters, orderBy, limit, skip) {
+  const request = new GraphQuery('allMarketImages', TYPE.marketImage);
+  if (!_.isEmpty(filters)) {
+    request.setFilters(filters);
+  }
+  if (!_.isEmpty(orderBy)) {
+    request.setOrderBy(orderBy);
+  }
+  if (_.isFinite(limit) && limit > 0) {
+    request.addParam('limit', limit);
+  }
+  if (_.isFinite(skip) && skip >= 0) {
+    request.addParam('skip', skip);
+  }
+  return request.execute();
+}
 
 /*
 * Queries allTransactions from GraphQL with optional filters.

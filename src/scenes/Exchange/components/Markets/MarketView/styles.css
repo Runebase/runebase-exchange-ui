@@ -1,5 +1,5 @@
 .BUYORDER{
-  box-shadow: inset 8px 0 10px -6px blue, inset -8px 0 10px -6px blue;  
+  box-shadow: inset 8px 0 10px -6px blue, inset -8px 0 10px -6px blue;
 }
 .root{
  box-shadow: inset -8px 0 10px -6px black;
@@ -7,9 +7,7 @@
 .textCenter{
  text-align: center;
 }
-.fullheight{
- height: inherit;
-}
+
 .fullWidth{
  width: 100%;
 }
@@ -20,16 +18,16 @@
  margin-right: auto;
 }
 .marketCard {
- padding-bottom: 15px;
- cursor: pointer; 
+ padding-bottom: 5px;
+ cursor: pointer;
 }
 .marketCard:hover {
- box-shadow: inset 8px 0 10px -6px blue, inset -8px 0 10px -6px blue; 
+ box-shadow: inset 8px 0 10px -6px blue, inset -8px 0 10px -6px blue;
 }
 .activeCard{
- box-shadow: inset 8px 0 10px -6px blue, inset -8px 0 10px -6px blue; 	
+ box-shadow: inset 8px 0 10px -6px blue, inset -8px 0 10px -6px blue;
 }
-.like-table { 
+.like-table {
  display: table;
  height: 100%;
  width: 100%;

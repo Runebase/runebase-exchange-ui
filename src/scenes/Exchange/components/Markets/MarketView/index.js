@@ -1,17 +1,20 @@
 import React, { PureComponent } from 'react';
-import { inject } from 'mobx-react';
+import _ from 'lodash';
+import { inject, observer } from 'mobx-react';
 import { injectIntl } from 'react-intl';
 import { Card, Grid, Typography } from '@material-ui/core';
 import classNames from 'classnames/bind';
 import './styles.css';
 import { TokenImage } from '../../../helpers';
 
+
 @injectIntl
+@observer
 @inject('store')
 export default class MarketView extends PureComponent {
   render() {
     const { market, tokenName, price, change, volume } = this.props.event;
-    const { store: { wallet } } = this.props;
+    const { store: { wallet, marketStore, baseCurrencyStore } } = this.props;
     const fixedVolume = parseFloat(volume).toFixed(2);
     let active = false;
     let changePos = false;
@@ -37,21 +40,23 @@ export default class MarketView extends PureComponent {
       positiveChange: changePos,
       negativeChange: changeNeg,
     });
+    const findImage = _.find(marketStore.marketImages, { market: `${market}` });
+
     return (
       <div>
-        <Card className={triggerActive} onClick={() => this.props.store.wallet.changeMarket(market, this.props.store.wallet.addresses)}>
+        <Card className={triggerActive} onClick={() => wallet.changeMarket(market, wallet.addresses)}>
           <Grid container>
             <Grid item xs={3}>
               <p className='textCenter fat'>{tokenName}</p>
             </Grid>
             <Grid item xs={9}>
-              <p className='textCenter fat'>{market}/RUNES</p>
+              <p className='textCenter fat'>{market}/{baseCurrencyStore.baseCurrency.pair}</p>
             </Grid>
           </Grid>
           <Grid container>
             <Grid item xs={3} className='fullheight'>
               <div className='fullWidth'>
-                <TokenImage token={market} />
+                <img alt={market} src={findImage.image} />
               </div>
             </Grid>
             <Grid item xs={3}>

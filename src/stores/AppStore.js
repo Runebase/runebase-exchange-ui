@@ -10,6 +10,7 @@ import GlobalSnackbarStore from '../components/GlobalSnackbar/store';
 import WalletUnlockDialogStore from '../components/WalletUnlockDialog/store';
 import PendingTxsSnackbarStore from '../components/PendingTxsSnackbar/store';
 import WalletHistoryStore from '../scenes/Wallet/History/store';
+import MarketStore from './MarketStore';
 import BuyStore from './BuyStore';
 import SellStore from './SellStore';
 import MyTradeStore from './MyTradeStore';
@@ -20,6 +21,7 @@ import BuyHistoryStore from './BuyHistoryStore';
 import SellHistoryStore from './SellHistoryStore';
 import PriceChartStore from './PriceChartStore';
 import FundRedeemHistoryStore from './FundRedeemHistoryStore';
+import BaseCurrencyStore from './BaseCurrencyStore';
 
 class AppStore {
   @observable loading = true;
@@ -33,6 +35,7 @@ class AppStore {
   pendingTxsSnackbar = {}
   refreshing = {}
   activities = {}
+  marketStore = {}
   buyStore = {}
   sellStore = {}
   myTradeStore = {}
@@ -43,6 +46,7 @@ class AppStore {
   canceledOrderStore = {}
   priceChartStore = {}
   FundRedeemHistoryStore = {}
+  baseCurrencyStore = {}
 
   constructor() {
     // block content until all stores are initialized
@@ -50,12 +54,15 @@ class AppStore {
 
     this.router = new RouterStore();
     this.global = new GlobalStore(this);
+    this.baseCurrencyStore = new BaseCurrencyStore(this);
+    this.marketStore = new MarketStore(this);
     this.ui = new UiStore();
     this.wallet = new WalletStore(this);
     this.globalSnackbar = new GlobalSnackbarStore();
     this.walletUnlockDialog = new WalletUnlockDialogStore(this);
     this.pendingTxsSnackbar = new PendingTxsSnackbarStore(this);
     this.refreshing = new RefreshingStore();
+
 
     runInAction(() => {
       this.fundRedeemHistoryStore = new FundRedeemHistoryStore(this);

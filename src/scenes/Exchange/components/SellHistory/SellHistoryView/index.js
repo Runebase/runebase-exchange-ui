@@ -14,22 +14,23 @@ import { satoshiToDecimal } from '../../../../../helpers/utility';
 @inject('store')
 @withStyles(styles, { withTheme: true })
 class SellHistoryView extends PureComponent {
-  renderTrade(from, to, boughtTokens, amountToken, totalToken, totalToken2, tokenName, orderType) {
+  renderTrade(from, to, boughtTokens, amountToken, totalToken, totalToken2, tokenName, orderType, baseCurrency) {
     if (boughtTokens !== '0000000000000000000000000000000000000000' && orderType === 'SELLORDER') {
-      return (<Typography className='sold fat'>Sell {amountToken} {tokenName} for {totalToken} RUNES</Typography>);
+      return (<Typography className='sold fat'>Sell {amountToken} {tokenName} for {totalToken} {baseCurrency}</Typography>);
     }
     if (boughtTokens !== '0000000000000000000000000000000000000000' && orderType === 'BUYORDER') {
-      return (<Typography className='bought fat'>Buy {amountToken} {tokenName} for {totalToken2} RUNES</Typography>);
+      return (<Typography className='bought fat'>Buy {amountToken} {tokenName} for {totalToken2} {baseCurrency}</Typography>);
     }
     if (boughtTokens !== '0000000000000000000000000000000000000000' && orderType === 'SELLORDER') {
-      return (<Typography className='bought fat'>Buy {amountToken} {tokenName} for {totalToken} RUNES</Typography>);
+      return (<Typography className='bought fat'>Buy {amountToken} {tokenName} for {totalToken} {baseCurrency}</Typography>);
     }
     if (boughtTokens !== '0000000000000000000000000000000000000000' && orderType === 'BUYORDER') {
-      return (<Typography className='sold fat'>Sell {totalToken2} {tokenName} for {amountToken} RUNES</Typography>);
+      return (<Typography className='sold fat'>Sell {totalToken2} {tokenName} for {amountToken} {baseCurrency}</Typography>);
     }
   }
   render() {
     const { txid, from, to, boughtTokens, amount, price, tokenName, orderType, date } = this.props.event;
+    const { store: { baseCurrencyStore } } = this.props;
     const amountToken = satoshiToDecimal(amount);
     const totalToken = amountToken * price;
     const totalToken2 = (amountToken / price).toFixed(8);
@@ -41,7 +42,7 @@ class SellHistoryView extends PureComponent {
             <p>{date}</p>
           </Grid>
           <Grid item xs={12}>
-            {this.renderTrade(from, to, boughtTokens, amountToken, totalToken, totalToken2, tokenName, orderType)}
+            {this.renderTrade(from, to, boughtTokens, amountToken, totalToken, totalToken2, tokenName, orderType, baseCurrencyStore.baseCurrency.pair)}
           </Grid>
           <Grid item xs={12}>
             <Typography variant="caption" gutterBottom><a href={`https://explorer.runebase.io/tx/${txid}`}>{txid}</a></Typography>

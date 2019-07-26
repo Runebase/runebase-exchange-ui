@@ -1,4 +1,4 @@
-import { observable, action, reaction } from 'mobx';
+import { observable, action, reaction, runInAction } from 'mobx';
 import { Token } from 'constants';
 import _ from 'lodash';
 
@@ -41,24 +41,10 @@ export default class GlobalStore {
         }
       },
     );
-    // Update the actionable item count when the addresses or block number changes
-    reaction(
-      () => this.app.wallet.addresses + this.app.global.syncBlockNum,
-      () => {
-        if (this.syncPercent >= 100) {
-          this.getActionableItemCount();
-        }
-      },
-    );
 
     // Call syncInfo once to init the wallet addresses used by other stores
     this.getSyncInfo();
     this.subscribeSyncInfo();
-
-    // Call MarketsInfo once to init the wallet addresses used by other stores
-    this.getMarketInfo();
-    this.subscribeMarketInfo();
-
 
     // Call Selected Order info
     this.getSelectedOrderInfo();
@@ -68,7 +54,6 @@ export default class GlobalStore {
     // We use this to update the percentage of the loading screen
     syncInfoInterval = setInterval(this.getSyncInfo, AppConfig.intervals.syncInfo);
     setInterval(this.getSelectedOrderInfo, AppConfig.intervals.selectedOrderInfo);
-    setInterval(this.getMarketInfo, AppConfig.intervals.marketInfo);
   }
 
   /*
@@ -133,36 +118,6 @@ export default class GlobalStore {
     });
   }
 
-  /*
-  *
-  *
-  */
-  @action
-  onMarketInfo = (marketInfo) => {
-    if (marketInfo.error) {
-      console.error(marketInfo.error.message); // eslint-disable-line no-console
-    } else {
-      const result = _.uniqBy(marketInfo, 'market').map((market) => new Market(market, this.app));
-      const resultOrder = _.orderBy(result, ['market'], 'desc');
-      this.marketInfo = resultOrder;
-    }
-  }
-
-  /*
-  *
-  *
-  */
-  @action
-  getMarketInfo = async () => {
-    try {
-      const orderBy = { field: 'market', direction: 'DESC' };
-      const filters = [];
-      const marketInfo = await queryAllMarkets(filters, orderBy, 0, 0);
-      this.onMarketInfo(marketInfo);
-    } catch (error) {
-      this.onMarketInfo({ error });
-    }
-  }
 
   /*
   *
@@ -241,20 +196,5 @@ export default class GlobalStore {
         self.onSyncInfo({ error: err.message });
       },
     });
-  }
-
-  /**
-   * Gets the actionable item count for all the addresses the user owns.
-   * Actionable item count means the number of items the user can take action on.
-   *
-   */
-  @action
-  getActionableItemCount = async () => {
-    try {
-      // Get all transactions for all your addresses
-      console.log('getActionableItemCount: Get all transactions for all your addresses');
-    } catch (err) {
-      console.error(err); // eslint-disable-line
-    }
   }
 }

@@ -28,9 +28,6 @@ export default class NavBar extends Component {
   state = {
     dropdownDirection: 'down',
   }
-  componentDidMount() {
-    this.props.store.global.getActionableItemCount();
-  }
   changeDropDownDirection() {
     if (this.state.dropdownDirection === 'down') this.setState({ dropdownDirection: 'up' });
     if (this.state.dropdownDirection === 'up') this.setState({ dropdownDirection: 'down' });

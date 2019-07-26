@@ -6,28 +6,28 @@ import MarketView from './MarketView';
 import _Loading from '../../../../components/Loading';
 
 const messages = defineMessages({
-  loadAllBuyOrdersMsg: {
-    id: 'load.allNewOrders',
+  loadAllMarketsMsg: {
+    id: 'load.allMarkets',
     defaultMessage: 'loading',
   },
 });
 
 @injectIntl
-@inject('store')
 @observer
+@inject('store')
 export default class Markets extends Component {
   render() {
-    const { global } = this.props.store;
+    const { marketStore } = this.props.store;
 
     return (
       <Fragment>
-        <Events global={global} />
+        <Events marketStore={marketStore} />
       </Fragment>
     );
   }
 }
 
-const Events = observer(({ global: { marketInfo, loading } }) => {
+const Events = observer(({ marketStore: { marketInfo, loading } }) => {
   if (loading) return <Loading />;
   const markets = (marketInfo || []).map((event, i) => <MarketView key={i} index={i} event={event} />); // eslint-disable-line
   return (
@@ -35,7 +35,7 @@ const Events = observer(({ global: { marketInfo, loading } }) => {
   );
 });
 
-const Loading = withStyles(({ classes }) => <Row><_Loading className={classes.loading} text={messages.loadAllBuyOrdersMsg} /></Row>);
+const Loading = withStyles(({ classes }) => <Row><_Loading className={classes.loading} text={messages.loadAllMarketsMsg} /></Row>);
 
 const Row = withStyles(({ classes, ...props }) => (
   <div className={classes.row} {...props} />

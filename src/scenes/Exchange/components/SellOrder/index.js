@@ -84,7 +84,7 @@ export default class SellOrder extends Component {
 
 
   render() {
-    const { classes, store: { wallet } } = this.props;
+    const { classes, store: { wallet, baseCurrencyStore } } = this.props;
     const market = wallet.currentMarket.toLowerCase();
     const isEnabled = wallet.currentAddressSelected !== '';
     let tokenAmount;
@@ -110,7 +110,7 @@ export default class SellOrder extends Component {
           <Grid container className={classes.dashboardOrderBookWrapper}>
             <Grid item xs={12}>
               <Form className={classes.tokenSelect} onSubmit={this.handleSubmit}>
-                <h3>{wallet.currentMarket}/RUNES</h3>
+                <h3>{wallet.currentMarket}/{baseCurrencyStore.baseCurrency.pair}</h3>
                 {(() => {
                   if (wallet.currentAddressKey !== '') {
                     return (<Typography variant="body2" className='fat'>{tokenAmount} {wallet.market}</Typography>);

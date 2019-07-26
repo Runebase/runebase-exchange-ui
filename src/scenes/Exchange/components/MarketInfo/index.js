@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { injectIntl } from 'react-intl';
 import { inject, observer } from 'mobx-react';
+import _ from 'lodash';
 import {
   Grid,
   withStyles,
@@ -14,7 +15,8 @@ import styles from './styles';
 @observer
 export default class MarketInfo extends Component {
   render() {
-    const { store: { wallet } } = this.props;
+    const { store: { wallet, marketStore } } = this.props;
+    const findContractAddress = _.find(marketStore.marketInfo, { market: `${wallet.market}` });
     return (
       <div>
         <Grid container>
@@ -22,7 +24,7 @@ export default class MarketInfo extends Component {
             <div>{wallet.market}/RUNES</div>
           </Grid>
           <Grid item xs={12}>
-            <div>Contract Address: {wallet.currentMarketContract}</div>
+            <div>Contract Address: {findContractAddress.address}</div>
           </Grid>
         </Grid>
       </div>

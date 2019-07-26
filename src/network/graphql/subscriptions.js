@@ -66,13 +66,6 @@ const subscriptions = {
       }
     }
   `,
-  onMarketInfo: `
-    subscription OnMarketInfo {
-      onMarketInfo {
-        ${getTypeDef('Market')}
-      }
-    }
-  `,
   onFundRedeemInfo: `
     subscription OnFundRedeemInfo {
       onFundRedeemInfo {
@@ -107,5 +100,4 @@ export const channels = {
   ON_BUYORDER_INFO: 'onBuyOrderInfo',
   ON_SELLORDER_INFO: 'onSellOrderInfo',
   ON_SELECTEDORDER_INFO: 'onSelectedOrderInfo',
-  ON_MARKET_INFO: 'onMarketInfo',
 };

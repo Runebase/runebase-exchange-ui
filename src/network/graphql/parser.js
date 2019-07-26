@@ -8,7 +8,9 @@ class GraphParser {
       NewOrder: this.parseNewOrder,
       Trade: this.parseTrade,
       Market: this.parseMarket,
+      MarketImage: this.parseMarketImage,
       FundRedeem: this.parseFundRedeem,
+      BaseCurrency: this.parseBaseCurrency,
     };
     return PARSER_MAPPINGS[requestName];
   }
@@ -57,6 +59,22 @@ class GraphParser {
       price: entry.price,
       change: entry.change,
       volume: entry.volume,
+      address: entry.address,
+    }));
+  }
+
+  static parseMarketImage(data) {
+    return data.map((entry) => ({
+      market: entry.market,
+      image: entry.image,
+    }));
+  }
+
+  static parseBaseCurrency(data) {
+    return data.map((entry) => ({
+      pair: entry.pair,
+      name: entry.name,
+      address: entry.address,
     }));
   }
 

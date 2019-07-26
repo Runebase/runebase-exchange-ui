@@ -6,7 +6,9 @@ export const TYPE = {
   newOrder: 'NewOrder',
   trade: 'Trade',
   market: 'Market',
+  marketImage: 'MarketImage',
   fundRedeem: 'FundRedeem',
+  baseCurrency: 'BaseCurrency',
 };
 
 const TYPE_DEF = {
@@ -68,6 +70,18 @@ const TYPE_DEF = {
     price
     change
     volume
+    address
+  `,
+
+  MarketImage: `
+    market
+    image
+  `,
+
+  BaseCurrency: `
+    pair
+    name
+    address
   `,
 
   SyncInfo: `
