@@ -14,27 +14,28 @@ import styles from './styles.css';
 @inject('store')
 @withStyles(styles, { withTheme: true })
 class MyTradesView extends PureComponent {
-  renderTrade(from, to, boughtTokens, myaddress, amountToken, totalToken, totalToken2, tokenName, orderType) {
+  renderTrade(from, to, boughtTokens, myaddress, amountToken, totalToken, totalToken2, token, orderType, baseCurrency) {
     if (to === myaddress && boughtTokens !== '0000000000000000000000000000000000000000' && orderType === 'SELLORDER') {
-      return (<Typography className='sold fat'>Sell {amountToken} {tokenName} for {totalToken} RUNES</Typography>);
+      return (<Typography className='sold fat'>Sell {amountToken} {token} for {totalToken} {baseCurrency}</Typography>);
     }
     if (to === myaddress && boughtTokens !== '0000000000000000000000000000000000000000' && orderType === 'BUYORDER') {
-      return (<Typography className='bought fat'>Buy {amountToken} {tokenName} for {totalToken2} RUNES</Typography>);
+      return (<Typography className='bought fat'>Buy {amountToken} {token} for {totalToken2} {baseCurrency}</Typography>);
     }
     if (from === myaddress && boughtTokens !== '0000000000000000000000000000000000000000' && orderType === 'SELLORDER') {
-      return (<Typography className='bought fat'>Buy {amountToken} {tokenName} for {totalToken} RUNES</Typography>);
+      return (<Typography className='bought fat'>Buy {amountToken} {token} for {totalToken} {baseCurrency}</Typography>);
     }
     if (from === myaddress && boughtTokens !== '0000000000000000000000000000000000000000' && orderType === 'BUYORDER') {
-      return (<Typography className='sold fat'>Sell {totalToken2} {tokenName} for {amountToken} RUNES</Typography>);
+      return (<Typography className='sold fat'>Sell {totalToken2} {token} for {amountToken} {baseCurrency}</Typography>);
     }
   }
   render() {
-    const { store: { wallet } } = this.props;
-    const { txid, status, from, to, boughtTokens, amount, price, tokenName, orderType, date } = this.props.event;
+    const { store: { wallet, baseCurrencyStore } } = this.props;
+    const { txid, status, from, to, boughtTokens, amount, price, token, orderType, date } = this.props.event;
     const amountToken = satoshiToDecimal(amount);
     const totalToken = parseFloat((amountToken * price).toFixed(8));
     const totalToken2 = parseFloat((amountToken / price).toFixed(8));
     const myaddress = wallet.addresses[wallet.currentAddressKey].address;
+    const baseCurrency = baseCurrencyStore.baseCurrency.pair;
 
     return (
       <div className={`${status}`}>
@@ -46,7 +47,7 @@ class MyTradesView extends PureComponent {
             <p className={`fat ${status}COLOR`}>{status}</p>
           </Grid>
           <Grid item xs={12} className='fat'>
-            {this.renderTrade(from, to, boughtTokens, myaddress, amountToken, totalToken, totalToken2, tokenName, orderType)}
+            {this.renderTrade(from, to, boughtTokens, myaddress, amountToken, totalToken, totalToken2, token, orderType, baseCurrency)}
           </Grid>
           <Grid item xs={12} className='breakWord'>
             <Typography variant="caption" gutterBottom><a href={`https://explorer.runebase.io/tx/${txid}`}>{txid}</a></Typography>

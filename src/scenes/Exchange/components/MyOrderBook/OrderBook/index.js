@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import _ from 'lodash';
 import PropTypes from 'prop-types';
 import 'semantic-ui-css/semantic.min.css';
 import { inject } from 'mobx-react';
@@ -18,7 +19,7 @@ import {
   DialogTitle } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CancelOrderTxConfirmDialog from '../CancelOrderTxConfirmDialog';
-import { TokenImage, OrderTypeIcon, StatusIcon } from '../../../helpers';
+import { OrderTypeIcon, StatusIcon } from '../../../helpers';
 import { satoshiToDecimal } from '../../../../../helpers/utility';
 
 
@@ -70,13 +71,16 @@ export default class OrderBook extends PureComponent {
 
   render() {
     const { classes } = this.props;
-    const { store: { wallet } } = this.props;
-    const { orderId, txid, amount, startAmount, owner, blockNum, time, price, token, type, status } = this.props.order;
+    const { store: { wallet, marketStore, baseCurrencyStore } } = this.props;
+    const { orderId, txid, amount, startAmount, owner, blockNum, time, price, token, tokenName, type, status } = this.props.order;
     const amountToken = satoshiToDecimal(amount);
     const startAmountToken = satoshiToDecimal(startAmount);
     const filled = parseFloat((startAmountToken - amountToken).toFixed(8));
     let total = amountToken * price;
     total = total.toFixed(8);
+    const findImage = _.find(marketStore.marketImages, { market: `${token}` });
+    console.log('baseCurrency');
+    console.log(baseCurrencyStore.baseCurrency.name);
     return (
       <div className={`classes.root ${status}`}>
         <Dialog
@@ -129,9 +133,9 @@ export default class OrderBook extends PureComponent {
               <Grid item xs={12}>
                 <Grid container justify="center">
                   <Grid item xs={3}>
-                    <p className='fat'>{token}/RUNES</p>
+                    <p className='fat'>{token}/{baseCurrencyStore.baseCurrency.pair}</p>
                     <div className='fullwidth'>
-                      <TokenImage token={token} />
+                      <img alt={tokenName} src={findImage.image} />
                     </div>
                   </Grid>
                   <Grid item xs={3} className='inheritHeight'>
@@ -154,12 +158,12 @@ export default class OrderBook extends PureComponent {
                   <Grid item xs={3} className='inheritHeight ordersRoundBox'>
                     <Typography variant='title' className='ordersPropertyLabel'>price</Typography>
                     <Typography variant='subheading' className='ordersPropertyContent inheritHeight'>{price}</Typography>
-                    <Typography variant='subheading' className='ordersPropertyContent inheritHeight'>RUNES</Typography>
+                    <Typography variant='subheading' className='ordersPropertyContent inheritHeight'>{baseCurrencyStore.baseCurrency.pair}</Typography>
                   </Grid>
                   <Grid item xs={3} className='inheritHeight ordersRoundBox'>
                     <Typography variant='title' className='ordersPropertyLabel'>total</Typography>
                     <Typography variant='subheading' className='ordersPropertyContent inheritHeight'>{total}</Typography>
-                    <Typography variant='subheading' className='ordersPropertyContent inheritHeight'>RUNES</Typography>
+                    <Typography variant='subheading' className='ordersPropertyContent inheritHeight'>{baseCurrencyStore.baseCurrency.pair}</Typography>
                   </Grid>
                   <Grid item xs={3} className='inheritHeight ordersRoundBox'>
                     <Typography variant='title' className='ordersPropertyLabel'>filled</Typography>

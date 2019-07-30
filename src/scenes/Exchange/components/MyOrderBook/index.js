@@ -27,6 +27,7 @@ export default class MyOrderBook extends Component {
     this.props.store.activeOrderStore.init();
     this.props.store.fulfilledOrderStore.init();
     this.props.store.canceledOrderStore.init();
+    console.log('component did mount');
   }
 
   handleActiveNext = async () => {

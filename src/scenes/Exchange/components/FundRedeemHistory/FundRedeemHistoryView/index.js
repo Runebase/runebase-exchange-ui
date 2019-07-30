@@ -14,7 +14,7 @@ import styles from './styles.css';
 @withStyles(styles, { withTheme: true })
 class FundRedeemHistoryView extends PureComponent {
   render() {
-    const { txid, type, tokenName, status, date, amount } = this.props.event;
+    const { txid, type, token, status, date, amount } = this.props.event;
     let renderType;
     if (type === 'DEPOSITEXCHANGE') {
       renderType = 'Deposit';
@@ -32,7 +32,7 @@ class FundRedeemHistoryView extends PureComponent {
             <p className={`fat ${status}COLOR`}>{status}</p>
           </Grid>
           <Grid item xs={12} className={`${type} fat`}>
-            {renderType} {amount} {tokenName}
+            {renderType} {amount} {token}
           </Grid>
           <Grid item xs={12} className='breakWord'>
             <Typography variant="caption" gutterBottom><a href={`https://explorer.runebase.io/tx/${txid}`}>{txid}</a></Typography>

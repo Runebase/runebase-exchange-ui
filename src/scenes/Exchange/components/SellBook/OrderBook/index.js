@@ -257,7 +257,7 @@ class OrderBook extends PureComponent {
                 <Grid item xs={12}>
                   <Grid container justify="center">
                     <Grid item xs={3}>
-                      <p>{global.selectedOrderInfo.token}/RUNES</p>
+                      <p>{global.selectedOrderInfo.token}/{baseCurrencyStore.baseCurrency.pair}</p>
                       <div className='fullwidth'>
                         <img alt={wallet.market} src={findImage.image} />
                       </div>
@@ -282,12 +282,12 @@ class OrderBook extends PureComponent {
                     <Grid item xs={3} className='inheritHeight ordersRoundBox'>
                       <Typography variant='title' className='ordersPropertyLabel'>price</Typography>
                       <Typography variant='subheading' className='ordersPropertyContent inheritHeight'>{global.selectedOrderInfo.price}</Typography>
-                      <Typography variant='subheading' className='ordersPropertyContent inheritHeight'>RUNES</Typography>
+                      <Typography variant='subheading' className='ordersPropertyContent inheritHeight'>{baseCurrencyStore.baseCurrency.pair}</Typography>
                     </Grid>
                     <Grid item xs={3} className='inheritHeight ordersRoundBox'>
                       <Typography variant='title' className='ordersPropertyLabel'>total</Typography>
                       <Typography variant='subheading' className='ordersPropertyContent inheritHeight'>{total}</Typography>
-                      <Typography variant='subheading' className='ordersPropertyContent inheritHeight'>RUNES</Typography>
+                      <Typography variant='subheading' className='ordersPropertyContent inheritHeight'>{baseCurrencyStore.baseCurrency.pair}</Typography>
                     </Grid>
                     <Grid item xs={3} className='inheritHeight ordersRoundBox'>
                       <Typography variant='title' className='ordersPropertyLabel'>filled</Typography>
@@ -333,7 +333,7 @@ class OrderBook extends PureComponent {
                   Trade
                 </div>
                 <Grid item xs={6}>
-                  <Typography variant='subheading' className={classes.root}>Runes Available</Typography>
+                  <Typography variant='subheading' className={classes.root}>{baseCurrencyStore.baseCurrency.pair} Available</Typography>
                   <Typography>{walletAmount}</Typography>
                 </Grid>
                 <Grid item xs={6}>
@@ -358,7 +358,7 @@ class OrderBook extends PureComponent {
                   <Input disabled={!isEnabled} className='inputWidth inputOrderSpacing' type="number" step="0.00000001" min="0" max={amountToken} value={this.state.exchangeAmount} onChange={(event) => { this.changeAmount(event, price, walletAmount, amountToken, maxSlider); }} name="amount" />
                 </Grid>
                 <Grid item xs={12}>
-                  {this.state.total && <span className='messageStyle'>Buy <span className='fat'>{this.state.exchangeAmount}</span> {token} for <span className='fat'>{this.state.total}</span> RUNES</span>}
+                  {this.state.total && <span className='messageStyle'>Buy <span className='fat'>{this.state.exchangeAmount}</span> {token} for <span className='fat'>{this.state.total}</span> {baseCurrencyStore.baseCurrency.pair}</span>}
                 </Grid>
                 <Grid item xs={12}>
                   <div>

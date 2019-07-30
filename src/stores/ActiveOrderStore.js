@@ -86,8 +86,14 @@ export default class {
     if (activeOrderInfo.error) {
       console.error(activeOrderInfo.error.message); // eslint-disable-line no-console
     } else {
+      console.log('onactive1');
+      console.log(activeOrderInfo);
       const result = _.uniqBy(activeOrderInfo, 'txid').map((newOrder) => new NewOrder(newOrder, this.app));
+      console.log('onactive2');
+      console.log(result);
       const resultOrder = _.orderBy(result, ['time'], 'desc');
+      console.log('onactive3');
+      console.log(resultOrder);
       this.activeOrderInfo = resultOrder;
     }
   }

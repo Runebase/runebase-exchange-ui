@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
+import _ from 'lodash';
 import PropTypes from 'prop-types';
 import 'semantic-ui-css/semantic.min.css';
 import { inject } from 'mobx-react';
 import Moment from 'react-moment';
-import _ from 'lodash';
 import { injectIntl, defineMessages } from 'react-intl';
 import {
   withMobileDialog,
@@ -135,7 +135,7 @@ class OrderBook extends PureComponent {
 
   render() {
     const { classes, fullScreen } = this.props;
-    const { store: { wallet, global } } = this.props;
+    const { store: { wallet, global, baseCurrencyStore, marketStore } } = this.props;
     const { orderId, amount, price, token, type, status } = this.props.event;
     const isEnabled = wallet.currentAddressSelected !== '';
     const isEnabledButton = wallet.currentAddressSelected !== '' && this.state.exchangeAmount > 0;
@@ -149,20 +149,21 @@ class OrderBook extends PureComponent {
     let walletAmount;
     let availableGasAmount;
     let maxSlider;
+    const findImage = _.find(marketStore.marketImages, { market: `${wallet.market}` });
 
     if (wallet.currentAddressKey !== '') {
       switch (token) {
         case 'PRED':
-          walletAmount = wallet.addresses[wallet.currentAddressKey].exchangepred;
-          availableGasAmount = wallet.addresses[wallet.currentAddressKey].RUNES;
+          walletAmount = wallet.addresses[wallet.currentAddressKey].Exchange.PRED;
+          availableGasAmount = wallet.addresses[wallet.currentAddressKey].Wallet[baseCurrencyStore.baseCurrency.pair];
           break;
         case 'FUN':
-          walletAmount = wallet.addresses[wallet.currentAddressKey].exchangefun;
-          availableGasAmount = wallet.addresses[wallet.currentAddressKey].RUNES;
+          walletAmount = wallet.addresses[wallet.currentAddressKey].Exchange.FUN;
+          availableGasAmount = wallet.addresses[wallet.currentAddressKey].Wallet[baseCurrencyStore.baseCurrency.pair];
           break;
         default:
           walletAmount = 0;
-          availableGasAmount = wallet.addresses[wallet.currentAddressKey].RUNES;
+          availableGasAmount = wallet.addresses[wallet.currentAddressKey].Wallet[baseCurrencyStore.baseCurrency.pair];
           break;
       }
     }
@@ -257,9 +258,9 @@ class OrderBook extends PureComponent {
                 <Grid item xs={12}>
                   <Grid container justify="center">
                     <Grid item xs={3}>
-                      <p>{global.selectedOrderInfo.token}/RUNES</p>
+                      <p>{global.selectedOrderInfo.token}/{baseCurrencyStore.baseCurrency.pair}</p>
                       <div className='fullwidth'>
-                        <TokenImage token={global.selectedOrderInfo.token} />
+                        <img alt={wallet.market} src={findImage.image} />
                       </div>
                     </Grid>
                     <Grid item xs={3} className='inheritHeight'>
@@ -282,12 +283,12 @@ class OrderBook extends PureComponent {
                     <Grid item xs={3} className='inheritHeight ordersRoundBox'>
                       <Typography variant='title' className='ordersPropertyLabel'>price</Typography>
                       <Typography variant='subheading' className='ordersPropertyContent inheritHeight'>{global.selectedOrderInfo.price}</Typography>
-                      <Typography variant='subheading' className='ordersPropertyContent inheritHeight'>RUNES</Typography>
+                      <Typography variant='subheading' className='ordersPropertyContent inheritHeight'>{baseCurrencyStore.baseCurrency.pair}</Typography>
                     </Grid>
                     <Grid item xs={3} className='inheritHeight ordersRoundBox'>
                       <Typography variant='title' className='ordersPropertyLabel'>total</Typography>
                       <Typography variant='subheading' className='ordersPropertyContent inheritHeight'>{total}</Typography>
-                      <Typography variant='subheading' className='ordersPropertyContent inheritHeight'>RUNES</Typography>
+                      <Typography variant='subheading' className='ordersPropertyContent inheritHeight'>{baseCurrencyStore.baseCurrency.pair}</Typography>
                     </Grid>
                     <Grid item xs={3} className='inheritHeight ordersRoundBox'>
                       <Typography variant='title' className='ordersPropertyLabel'>filled</Typography>
@@ -358,7 +359,7 @@ class OrderBook extends PureComponent {
                   <Input disabled={!isEnabled} className='inputWidth inputOrderSpacing' type="number" step="0.00000001" min="0" max={amountToken} value={this.state.exchangeAmount} onChange={(event) => { this.changeAmount(event, price, walletAmount, amountToken, maxSlider); }} name="amount" />
                 </Grid>
                 <Grid item xs={12}>
-                  {this.state.total && <span className='messageStyle'>Sell<span className='fat'>{this.state.exchangeAmount}</span> {token} for <span className='fat'>{this.state.total}</span> RUNES</span>}
+                  {this.state.total && <span className='messageStyle'>Sell<span className='fat'>{this.state.exchangeAmount}</span> {token} for <span className='fat'>{this.state.total}</span> {baseCurrencyStore.baseCurrency.pair}</span>}
                 </Grid>
                 <Grid item xs={12}>
                   <div>
