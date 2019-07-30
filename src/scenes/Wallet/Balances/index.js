@@ -131,7 +131,7 @@ export default class MyBalances extends Component {
     let totalFun = 0;
     const walletAddresses = wallet.addresses;
     if (walletAddresses && walletAddresses.length) {
-      totalRunebase = _.sumBy(walletAddresses, (address) => address.runebase ? address.runebase : 0);
+      totalRunebase = _.sumBy(walletAddresses, (address) => address.RUNES ? address.RUNES : 0);
       totalPred = _.sumBy(walletAddresses, (address) => address.pred ? address.pred : 0);
       totalFun = _.sumBy(walletAddresses, (address) => address.fun ? address.fun : 0);
     }
@@ -312,7 +312,7 @@ export default class MyBalances extends Component {
               </CopyToClipboard>
             </TableCell>
             <TableCell numeric>
-              <Typography variant="body1">{item.runebase}</Typography>
+              <Typography variant="body1">{item.RUNES}</Typography>
             </TableCell>
             <TableCell numeric>
               <Typography variant="body1">{item.pred}</Typography>
@@ -328,7 +328,7 @@ export default class MyBalances extends Component {
                 className={classes.tableRowActionButton}
                 onClick={this.onDepositClicked}
                 data-address={item.address}
-                data-runebase={item.runebase}
+                data-runebase={item.RUNES}
                 data-pred={item.pred}
                 data-fun={item.fun}
               >
@@ -341,7 +341,7 @@ export default class MyBalances extends Component {
                 className={classes.tableRowActionButton}
                 onClick={this.onWithdrawClicked}
                 data-address={item.address}
-                data-runebase={item.runebase}
+                data-runebase={item.RUNES}
                 data-pred={item.pred}
                 data-fun={item.fun}
               >

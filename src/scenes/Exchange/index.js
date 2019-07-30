@@ -46,9 +46,7 @@ export default class Exchange extends Component {
                 <MarketInfo />
               </Grid>
               <Grid item xs={12}>
-                <PriceChart
-                  id="chart"
-                />
+                <PriceChart id="chart" />
               </Grid>
             </Grid>
             <Grid container>

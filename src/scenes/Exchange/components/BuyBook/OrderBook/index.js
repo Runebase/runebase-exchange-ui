@@ -154,15 +154,15 @@ class OrderBook extends PureComponent {
       switch (token) {
         case 'PRED':
           walletAmount = wallet.addresses[wallet.currentAddressKey].exchangepred;
-          availableGasAmount = wallet.addresses[wallet.currentAddressKey].runebase;
+          availableGasAmount = wallet.addresses[wallet.currentAddressKey].RUNES;
           break;
         case 'FUN':
           walletAmount = wallet.addresses[wallet.currentAddressKey].exchangefun;
-          availableGasAmount = wallet.addresses[wallet.currentAddressKey].runebase;
+          availableGasAmount = wallet.addresses[wallet.currentAddressKey].RUNES;
           break;
         default:
           walletAmount = 0;
-          availableGasAmount = wallet.addresses[wallet.currentAddressKey].runebase;
+          availableGasAmount = wallet.addresses[wallet.currentAddressKey].RUNES;
           break;
       }
     }

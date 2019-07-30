@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import _ from 'lodash';
 import PropTypes from 'prop-types';
 import 'semantic-ui-css/semantic.min.css';
 import { inject } from 'mobx-react';
@@ -134,7 +135,7 @@ class OrderBook extends PureComponent {
 
   render() {
     const { classes, fullScreen } = this.props;
-    const { store: { wallet, global } } = this.props;
+    const { store: { wallet, global, marketStore, baseCurrencyStore } } = this.props;
     const isEnabled = wallet.currentAddressSelected !== '';
     const isEnabledButton = wallet.currentAddressSelected !== '' && this.state.exchangeAmount > 0;
     const { orderId, amount, price, token, type, status } = this.props.event;
@@ -145,6 +146,7 @@ class OrderBook extends PureComponent {
     let total = amountToken * global.selectedOrderInfo.price;
     total = total.toFixed(8).replace(/\.?0+$/, '');
     const exchangeAmount = decimalToSatoshi(this.state.exchangeAmount);
+    const findImage = _.find(marketStore.marketImages, { market: `${wallet.market}` });
     let walletAmount;
     let availableGasAmount;
     let maxSlider;
@@ -153,15 +155,15 @@ class OrderBook extends PureComponent {
       switch (token) {
         case 'PRED':
           walletAmount = wallet.addresses[wallet.currentAddressKey].exchangerunes;
-          availableGasAmount = wallet.addresses[wallet.currentAddressKey].runebase;
+          availableGasAmount = wallet.addresses[wallet.currentAddressKey].RUNES;
           break;
         case 'FUN':
           walletAmount = wallet.addresses[wallet.currentAddressKey].exchangerunes;
-          availableGasAmount = wallet.addresses[wallet.currentAddressKey].runebase;
+          availableGasAmount = wallet.addresses[wallet.currentAddressKey].RUNES;
           break;
         default:
           walletAmount = 0;
-          availableGasAmount = wallet.addresses[wallet.currentAddressKey].runebase;
+          availableGasAmount = wallet.addresses[wallet.currentAddressKey].RUNES;
           break;
       }
     }
@@ -257,7 +259,7 @@ class OrderBook extends PureComponent {
                     <Grid item xs={3}>
                       <p>{global.selectedOrderInfo.token}/RUNES</p>
                       <div className='fullwidth'>
-                        <TokenImage token={global.selectedOrderInfo.token} />
+                        <img alt={wallet.market} src={findImage.image} />
                       </div>
                     </Grid>
                     <Grid item xs={3} className='inheritHeight'>

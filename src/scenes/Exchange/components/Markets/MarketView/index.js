@@ -9,7 +9,6 @@ import { TokenImage } from '../../../helpers';
 
 
 @injectIntl
-@observer
 @inject('store')
 export default class MarketView extends PureComponent {
   render() {

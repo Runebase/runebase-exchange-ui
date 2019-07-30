@@ -11,6 +11,7 @@ export default class Trade {
   soldTokens = ''
   boughtTokens = ''
   tokenName = ''
+  token = ''
   orderType = ''
   price = ''
   orderId = ''
@@ -30,6 +31,7 @@ export default class Trade {
     this.status = trade.status;
     this.soldTokens = trade.soldTokens;
     this.boughtTokens = trade.boughtTokens;
+    this.token = trade.token;
     this.tokenName = trade.tokenName;
     this.orderType = trade.orderType;
     this.price = trade.price;

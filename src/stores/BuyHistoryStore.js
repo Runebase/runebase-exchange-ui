@@ -61,13 +61,12 @@ export default class {
     try {
       const orderBy = { field: 'time', direction: 'DESC' };
       let buyHistoryInfo = [];
-      const filters = [{ tokenName: this.app.wallet.currentMarket, orderType: 'BUYORDER' }]; /* Filter From and To,  unique by txid */
+      const filters = [{ token: this.app.wallet.currentMarket, orderType: 'BUYORDER' }];
       buyHistoryInfo = await queryAllTrades(filters, orderBy, limit, skip);
       if (buyHistoryInfo.length < limit) this.hasMoreBuyHistory = false;
       if (buyHistoryInfo.length === limit) this.hasMoreBuyHistory = true;
       if (this.skip === 0) this.hasLessBuyHistory = false;
       if (this.skip > 0) this.hasLessBuyHistory = true;
-
       this.onBuyHistoryInfo(buyHistoryInfo);
     } catch (error) {
       this.onBuyHistoryInfo({ error });

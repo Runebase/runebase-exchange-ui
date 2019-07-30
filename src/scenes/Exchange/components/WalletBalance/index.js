@@ -37,7 +37,7 @@ export default class WalletBalance extends Component {
                     <Grid container className='marginTopBot fat'>
                       <Grid item xs={3}>
                         <Typography variant="body2">RUNES(GAS)</Typography>
-                        <Typography variant="body2">{wallet.addresses[wallet.currentAddressKey].runebase}</Typography>
+                        <Typography variant="body2">{wallet.addresses[wallet.currentAddressKey].RUNES}</Typography>
                       </Grid>
                       <Grid item xs={3}>
                         <Typography variant="body2">PRED</Typography>

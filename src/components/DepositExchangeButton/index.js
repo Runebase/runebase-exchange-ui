@@ -43,7 +43,7 @@ export default class DepositExchanegButton extends Component {
   }
 
   handleClickOpenDepositChoice = () => {
-    this.hasRunes = this.props.store.wallet.addresses[this.props.store.wallet.currentAddressKey].runebase > 0;
+    this.hasRunes = this.props.store.wallet.addresses[this.props.store.wallet.currentAddressKey].RUNES > 0;
     this.hasPred = this.props.store.wallet.addresses[this.props.store.wallet.currentAddressKey].pred > 0;
     this.hasFun = this.props.store.wallet.addresses[this.props.store.wallet.currentAddressKey].fun > 0;
     if (this.props.store.wallet.currentAddressSelected === '') {
@@ -64,7 +64,7 @@ export default class DepositExchanegButton extends Component {
     if (event.target.value === 'RUNES') {
       this.setState({
         tokenChoice: 'RUNES',
-        available: this.props.store.wallet.addresses[this.props.store.wallet.currentAddressKey].runebase,
+        available: this.props.store.wallet.addresses[this.props.store.wallet.currentAddressKey].RUNES,
       });
     }
     if (event.target.value === 'PRED') {

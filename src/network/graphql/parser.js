@@ -89,6 +89,7 @@ class GraphParser {
       soldTokens: entry.soldTokens,
       boughtTokens: entry.boughtTokens,
       tokenName: entry.tokenName,
+      token: entry.token,
       orderType: entry.orderType,
       price: entry.price,
       orderId: entry.orderId,

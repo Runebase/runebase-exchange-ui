@@ -59,14 +59,14 @@ export default class DropDownAddresses extends Component {
         </div>
         <ul className="dropdown-list" hidden={!this.state.show}>
           {wallet.addresses.map((addressData, key) => {
-            if (addressData.fun > 0 || addressData.runebase > 0 || addressData.pred > 0 || addressData.exchangerunes > 0 || addressData.exchangepred > 0 || addressData.exchangefun > 0) {
+            if (addressData.fun > 0 || addressData.RUNES > 0 || addressData.pred > 0 || addressData.exchangerunes > 0 || addressData.exchangepred > 0 || addressData.exchangefun > 0) {
               return (
                 <li
                   className="option"
                   onClick={this.handleSelectChange.bind(this, key) /* eslint-disable-line */ }
                   key={key}
                   address={addressData.address}
-                  runes={addressData.runebase}
+                  runes={addressData.RUNES}
                   pred={addressData.pred}
                   fun={addressData.fun}
                   role='presentation'
@@ -83,7 +83,7 @@ export default class DropDownAddresses extends Component {
                         RUNES
                       </div>
                       <div className='fullWidth fat'>
-                        {addressData.runebase}
+                        {addressData.RUNES}
                       </div>
                     </Grid>
                     <Grid item xs={3} address={addressData.address}>

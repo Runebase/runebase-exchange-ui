@@ -62,12 +62,14 @@ export default class {
   getBuyOrderInfo = async (limit = this.limit, skip = this.skip) => {
     const orderBy = { field: 'price', direction: 'DESC' };
     let buyOrders = [];
-    const filters = [{ orderType: 'BUYORDER', tokenName: this.app.wallet.market, status: 'ACTIVE' }];
+    const filters = [{ orderType: 'BUYORDER', token: this.app.wallet.market, status: 'ACTIVE' }];
     buyOrders = await queryAllNewOrders(filters, orderBy, limit, skip);
     if (buyOrders.length < limit) this.hasMoreBuyOrders = false;
     if (buyOrders.length === limit) this.hasMoreBuyOrders = true;
     if (this.skip === 0) this.hasLessBuyOrders = false;
     if (this.skip > 0) this.hasLessBuyOrders = true;
+    console.log('getBuyOrderInfo');
+    console.log(buyOrders);
     this.onBuyOrderInfo(buyOrders);
   }
 

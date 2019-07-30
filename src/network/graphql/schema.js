@@ -43,6 +43,7 @@ const TYPE_DEF = {
     soldTokens
     boughtTokens
     tokenName
+    token
     orderType
     price
     orderId
@@ -91,12 +92,13 @@ const TYPE_DEF = {
     peerNodeCount
     addressBalances {
       address
-      runebase
+      RUNES
       pred
       fun
       exchangerunes
       exchangepred
       exchangefun
+      balance
     }
   `,
 
@@ -255,12 +257,6 @@ const ENUMS = {
     'BUYORDER',
     'SELLORDER',
     'EXECUTEORDER',
-  ],
-
-  token: [
-    'RUNES',
-    'PRED',
-    'FUN',
   ],
 };
 

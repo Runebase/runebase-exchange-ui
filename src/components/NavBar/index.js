@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { inject, observer } from 'mobx-react';
+import { inject, observer, mobx } from 'mobx-react';
 import _ from 'lodash';
 import styled, { css } from 'styled-components';
 import { FormattedMessage, injectIntl } from 'react-intl';
@@ -20,6 +20,7 @@ import Tracking from '../../helpers/mixpanelUtil';
 import ImageLocaleWrapper from './components/ImageLocaleWrapper';
 import WithdrawExchangeButton from '../WithdrawExchangeButton';
 import DepositExchangeButton from '../DepositExchangeButton';
+import AddressBalance from '../../stores/models/AddressBalance';
 
 @withStyles(styles, { withTheme: true })
 @injectIntl
@@ -103,9 +104,27 @@ const MyActivities = observer(({ store: { global } }) => (
 ));
 
 const Wallet = styled(({ store: { wallet } }) => {
-  const totalRUNES = _.sumBy(wallet.addresses, ({ runebase }) => runebase).toFixed(2) || '0.00';
-  const totalPRED = _.sumBy(wallet.addresses, ({ pred }) => pred).toFixed(2) || '0.00';
-  const totalFUN = _.sumBy(wallet.addresses, ({ fun }) => fun).toFixed(2) || '0.00';
+  const sums = {};
+  const Parcel = _.map(wallet.addresses, (addressBalance) => new AddressBalance(addressBalance));
+  console.log('Parcel');
+  console.log(Parcel);
+  _.each(wallet.addresses, (item) => {
+    console.log('item wallet');
+    console.log(item.Wallet);
+    _.each(item.Wallet, (item1, data) => {
+      console.log('data');
+      console.log(data);
+      sums[data] = (parseInt(sums[data], 10) || 0) + parseInt(item.Wallet[data], 10);
+      console.log('item value');
+      console.log(item.Wallet[item1]);
+    });
+  });
+  console.log('sums');
+  console.log(sums);
+
+  const totalRUNES = _.sumBy(wallet.addresses, ({ RUNES }) => RUNES).toFixed(2) || '0.00';
+  const totalPRED = _.sumBy(wallet.addresses, ({ PRED }) => PRED).toFixed(2) || '0.00';
+  const totalFUN = _.sumBy(wallet.addresses, ({ FUN }) => FUN).toFixed(2) || '0.00';
   return (<Link to={Routes.WALLET}>
     <Item>
       <WalletItem>

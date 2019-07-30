@@ -203,20 +203,14 @@ export default class {
     if (market === this.market) {
       return;
     }
-    if (market === 'PRED') {
-      this.marketContract = 'd271c668dbb500e0567ea2c18f6525da9443d7d4';
-    }
-    if (market === 'FUN') {
-      this.marketContract = '84704b205c32d602bdb18a4fe14eb4dffc9cd10d';
-    }
     this.currentAddressBalanceRunes = '';
     this.currentAddressBalanceToken = '';
     this.addressList = [];
     this.market = market;
     market = market.toLowerCase();
     addresses.forEach((address) => {
-      if (address[market] || address.runebase) {
-        this.accountData = [address.address, market, address[market], address.runebase];
+      if (address[market] || address.RUNES) {
+        this.accountData = [address.address, market, address[market], address.RUNES];
         this.addressList.push(this.accountData);
       }
     });
@@ -479,11 +473,11 @@ export default class {
     this.toAddress = this.exchangeAddress;
     this.confirmAmount = confirmAmount;
     this.tokenChoice = tokenChoice;
-    const calc = (this.addresses[this.currentAddressKey].runebase - confirmAmount);
+    const calc = (this.addresses[this.currentAddressKey].RUNES - confirmAmount);
 
     if (tokenChoice === 'RUNES' && calc < 2) {
       this.hasEnoughGasCoverage = true;
-    } else if (tokenChoice !== 'RUNES' && this.addresses[this.currentAddressKey].runebase < 2) {
+    } else if (tokenChoice !== 'RUNES' && this.addresses[this.currentAddressKey].RUNES < 2) {
       this.hasEnoughGasCoverage = true;
     } else {
       try {
@@ -571,7 +565,7 @@ export default class {
   }
 
   @computed get lastAddressWithdrawLimit() {
-    return { RUNES: this.lastUsedWallet.runebase, PRED: this.lastUsedWallet.pred, FUN: this.lastUsedWallet.fun };
+    return { RUNES: this.lastUsedWallet.RUNES, PRED: this.lastUsedWallet.pred, FUN: this.lastUsedWallet.fun };
   }
   @computed get depsoitDialogHasError() {
     if (this.withdrawDialogError.withdrawAmount !== '') return true;
@@ -580,7 +574,7 @@ export default class {
   }
 
   @computed get lastAddressDepositLimit() {
-    return { RUNES: this.lastUsedWallet.runebase, PRED: this.lastUsedWallet.pred, FUN: this.lastUsedWallet.fun };
+    return { RUNES: this.lastUsedWallet.RUNES, PRED: this.lastUsedWallet.pred, FUN: this.lastUsedWallet.fun };
   }
   @computed get lastUsedWallet() {
     const res = _.filter(this.addresses, (x) => x.address === this.lastUsedAddress);

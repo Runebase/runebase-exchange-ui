@@ -150,13 +150,14 @@ export default class GlobalStore {
     if (syncInfo.error) {
       console.error(syncInfo.error.message); // eslint-disable-line no-console
     } else {
+      console.log('syncInfo');
+      console.log(syncInfo);
       const { percent, blockNum, blockTime, balances, exchangeBalances, peerNodeCount } = new SyncInfo(syncInfo);
       this.syncPercent = percent;
       this.syncBlockNum = blockNum;
       this.syncBlockTime = blockTime;
       this.peerNodeCount = peerNodeCount || 0;
       this.app.wallet.addresses = balances;
-      this.app.wallet.exchangeAddresses = exchangeBalances;
     }
   }
 

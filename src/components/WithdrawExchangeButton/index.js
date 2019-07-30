@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import _ from 'lodash';
 import Button from '@material-ui/core/Button';
 import {
   TextField,
@@ -60,19 +61,20 @@ export default class WithdrawExchangeButton extends Component {
   };
 
   handleClickOpenRedeemDialog = (event) => {
-    if (event.target.value === 'RUNES') {
+    console.log(event.currentTarget.value);
+    if (event.currentTarget.value === 'RUNES') {
       this.setState({
         tokenChoice: 'RUNES',
         available: this.props.store.wallet.addresses[this.props.store.wallet.currentAddressKey].exchangerunes,
       });
     }
-    if (event.target.value === 'PRED') {
+    if (event.currentTarget.value === 'PRED') {
       this.setState({
         tokenChoice: 'PRED',
         available: this.props.store.wallet.addresses[this.props.store.wallet.currentAddressKey].exchangepred,
       });
     }
-    if (event.target.value === 'FUN') {
+    if (event.currentTarget.value === 'FUN') {
       this.setState({
         tokenChoice: 'FUN',
         available: this.props.store.wallet.addresses[this.props.store.wallet.currentAddressKey].exchangefun,
@@ -161,7 +163,7 @@ export default class WithdrawExchangeButton extends Component {
           <DialogContent>
           </DialogContent>
           <DialogActions>
-            <Button value='RUNES' disabled={!this.hasExchangeRunes} onClick={this.handleClickOpenRedeemDialog}>RUNES</Button>
+            <Button value='RUNES' disabled={!this.hasExchangeRunes} onClick={(event) => this.handleClickOpenRedeemDialog(event)}>RUNES</Button>
             <Button value='PRED' disabled={!this.hasExchangePred} onClick={this.handleClickOpenRedeemDialog}>PRED</Button>
             <Button value='FUN' disabled={!this.hasExchangeFun} onClick={this.handleClickOpenRedeemDialog}>FUN</Button>
             <Button onClick={this.handleClose}>Close</Button>

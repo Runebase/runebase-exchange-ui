@@ -62,9 +62,8 @@ export default class {
     this.skip = skip;
     const orderBy = { field: 'price', direction: 'ASC' };
     let sellOrders = [];
-    const filters = [{ orderType: 'SELLORDER', tokenName: this.app.wallet.market, status: 'ACTIVE' }];
+    const filters = [{ orderType: 'SELLORDER', token: this.app.wallet.market, status: 'ACTIVE' }];
     sellOrders = await queryAllNewOrders(filters, orderBy, limit, skip);
-
     this.onSellOrderInfo(sellOrders);
     runInAction(() => {
       if (sellOrders.length < limit) this.hasMoreSellOrders = false;

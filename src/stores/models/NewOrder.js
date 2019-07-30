@@ -8,6 +8,7 @@ export default class NewOrder {
   type = ''
   status = ''
   token = ''
+  tokenName = ''
   price = ''
   orderId = ''
   owner = ''
@@ -29,6 +30,7 @@ export default class NewOrder {
     this.txid = newOrder.txid;
     this.status = newOrder.status;
     this.token = newOrder.token;
+    this.tokenName = newOrder.tokenName;
     this.price = newOrder.price;
     this.type = newOrder.type;
     this.sellToken = newOrder.sellToken;

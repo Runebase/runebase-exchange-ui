@@ -14,6 +14,6 @@ export default class SyncInfo {
   constructor(syncInfo) {
     Object.assign(this, syncInfo);
     const balances = _.map(syncInfo.addressBalances, (addressBalance) => new AddressBalance(addressBalance));
-    this.balances = _.orderBy(balances, ['runebase'], [SortBy.DESCENDING.toLowerCase()]);
+    this.balances = _.orderBy(balances, ['RUNES'], [SortBy.DESCENDING.toLowerCase()]);
   }
 }

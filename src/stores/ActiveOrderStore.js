@@ -75,6 +75,8 @@ export default class {
       if (activeOrders.length === limit) this.hasMoreActiveOrders = true;
       if (this.skip === 0) this.hasLessActiveOrders = false;
       if (this.skip > 0) this.hasLessActiveOrders = true;
+      console.log('activeOrders');
+      console.log(activeOrders);
       this.onActiveOrderInfo(activeOrders);
     }
   }
