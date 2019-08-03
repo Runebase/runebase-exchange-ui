@@ -55,7 +55,7 @@ export default class MarketView extends PureComponent {
           <Grid container>
             <Grid item xs={3} className='fullheight'>
               <div className='fullWidth'>
-                <img alt={market} src={findImage.image} />
+                <img alt={market} src={`https://ipfs.io/ipfs/${findImage.image}`} />
               </div>
             </Grid>
             <Grid item xs={3}>

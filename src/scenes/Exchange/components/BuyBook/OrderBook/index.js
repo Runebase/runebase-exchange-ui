@@ -260,7 +260,7 @@ class OrderBook extends PureComponent {
                     <Grid item xs={3}>
                       <p>{global.selectedOrderInfo.token}/{baseCurrencyStore.baseCurrency.pair}</p>
                       <div className='fullwidth'>
-                        <img alt={wallet.market} src={findImage.image} />
+                        <img alt={wallet.market} src={`https://ipfs.io/ipfs/${findImage.image}`} />
                       </div>
                     </Grid>
                     <Grid item xs={3} className='inheritHeight'>
