@@ -6,8 +6,6 @@ export default class AddressBalance {
   balance = ''
   Wallet = {}
   Exchange = {}
-  RUNES = ''
-  PRED = ''
 
 
   constructor(addressBalance) {
@@ -30,17 +28,5 @@ export default class AddressBalance {
         this.Exchange[key] = this.balance.Exchange[key];
       });
     }
-    if (!_.isEmpty(addressBalance.balance)) {
-      this.RUNES = satoshiToDecimal(this.balance.RUNES);
-      this.PRED = satoshiToDecimal(this.balance.Wallet.PRED);
-      this.FUN = satoshiToDecimal(this.balance.Wallet.FUN);
-      this.exchangerunes = satoshiToDecimal(this.balance.Exchange.RUNES);
-      this.exchangepred = satoshiToDecimal(this.balance.Exchange.PRED);
-      this.exchangefun = satoshiToDecimal(this.balance.Exchange.FUN);
-      this.Exchange.RUNES = satoshiToDecimal(this.balance.Exchange.RUNES);
-    }
-
-    console.log('Address Balance Model:');
-    console.log(this);
   }
 }

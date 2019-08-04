@@ -17,10 +17,7 @@ export default class SyncInfo {
     this.blockNum = syncInfo.syncBlockNum;
     this.blockTime = Number(syncInfo.syncBlockTime);
     this.peerCount = Number(syncInfo.peerNodeCount);
-    console.log('syncInfo.addressBalances');
-    console.log(syncInfo.addressBalances);
     const balances = _.map(syncInfo.addressBalances, (addressBalance) => new AddressBalance(addressBalance));
-
     this.balances = _.orderBy(balances, ['RUNES'], [SortBy.DESCENDING.toLowerCase()]);
   }
 }

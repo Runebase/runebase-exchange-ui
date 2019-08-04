@@ -92,12 +92,6 @@ const TYPE_DEF = {
     peerNodeCount
     addressBalances {
       address
-      RUNES
-      pred
-      fun
-      exchangerunes
-      exchangepred
-      exchangefun
       balance
     }
   `,

@@ -43,9 +43,9 @@ export default class DepositExchanegButton extends Component {
   }
 
   handleClickOpenDepositChoice = () => {
-    this.hasRunes = this.props.store.wallet.addresses[this.props.store.wallet.currentAddressKey].RUNES > 0;
-    this.hasPred = this.props.store.wallet.addresses[this.props.store.wallet.currentAddressKey].pred > 0;
-    this.hasFun = this.props.store.wallet.addresses[this.props.store.wallet.currentAddressKey].fun > 0;
+    this.hasRunes = this.props.store.wallet.addresses[this.props.store.wallet.currentAddressKey].Wallet.RUNES > 0;
+    this.hasPred = this.props.store.wallet.addresses[this.props.store.wallet.currentAddressKey].Wallet.PRED > 0;
+    this.hasFun = this.props.store.wallet.addresses[this.props.store.wallet.currentAddressKey].Wallet.FUN > 0;
     if (this.props.store.wallet.currentAddressSelected === '') {
       this.setState({
         open: false,
@@ -64,19 +64,19 @@ export default class DepositExchanegButton extends Component {
     if (event.target.value === 'RUNES') {
       this.setState({
         tokenChoice: 'RUNES',
-        available: this.props.store.wallet.addresses[this.props.store.wallet.currentAddressKey].RUNES,
+        available: this.props.store.wallet.addresses[this.props.store.wallet.currentAddressKey].Wallet.RUNES,
       });
     }
     if (event.target.value === 'PRED') {
       this.setState({
         tokenChoice: 'PRED',
-        available: this.props.store.wallet.addresses[this.props.store.wallet.currentAddressKey].pred,
+        available: this.props.store.wallet.addresses[this.props.store.wallet.currentAddressKey].Wallet.PRED,
       });
     }
     if (event.target.value === 'FUN') {
       this.setState({
         tokenChoice: 'FUN',
-        available: this.props.store.wallet.addresses[this.props.store.wallet.currentAddressKey].fun,
+        available: this.props.store.wallet.addresses[this.props.store.wallet.currentAddressKey].Wallet.FUN,
       });
     }
 

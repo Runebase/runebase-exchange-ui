@@ -22,7 +22,23 @@ export default class WalletBalance extends Component {
   };
 
   render() {
-    const { classes, store: { wallet } } = this.props;
+    const { classes, store: { wallet, baseCurrencyStore } } = this.props;
+    const rows = [];
+    if (wallet.currentAddressKey !== '') {
+      Object.keys(wallet.addresses[wallet.currentAddressKey].Wallet).forEach((key) => {
+        if (key === baseCurrencyStore.baseCurrency.pair) {
+          rows.push(<Grid item xs={3}>
+            <Typography variant="body2">{key}(GAS)</Typography>
+            <Typography variant="body2">{wallet.addresses[wallet.currentAddressKey].Wallet[key]}</Typography>
+          </Grid>);
+        } else {
+          rows.push(<Grid item xs={3}>
+            <Typography variant="body2">{key}</Typography>
+            <Typography variant="body2">{wallet.addresses[wallet.currentAddressKey].Wallet[key]}</Typography>
+          </Grid>);
+        }
+      });
+    }
     return (
       <div>
         <Card className={classes.dashboardOrderBookTitle}>
@@ -35,18 +51,7 @@ export default class WalletBalance extends Component {
                 <Grid item xs={12}>
                   <Card className={classes.dashboardOrderBook}>
                     <Grid container className='marginTopBot fat'>
-                      <Grid item xs={3}>
-                        <Typography variant="body2">RUNES(GAS)</Typography>
-                        <Typography variant="body2">{wallet.addresses[wallet.currentAddressKey].RUNES}</Typography>
-                      </Grid>
-                      <Grid item xs={3}>
-                        <Typography variant="body2">PRED</Typography>
-                        <Typography variant="body2">{wallet.addresses[wallet.currentAddressKey].pred}</Typography>
-                      </Grid>
-                      <Grid item xs={3}>
-                        <Typography variant="body2">FUN</Typography>
-                        <Typography variant="body2">{wallet.addresses[wallet.currentAddressKey].fun}</Typography>
-                      </Grid>
+                      {rows}
                     </Grid>
                   </Card>
                 </Grid>

@@ -105,35 +105,24 @@ const MyActivities = observer(({ store: { global } }) => (
 
 const Wallet = styled(({ store: { wallet } }) => {
   const sums = {};
-  const Parcel = _.map(wallet.addresses, (addressBalance) => new AddressBalance(addressBalance));
-  console.log('Parcel');
-  console.log(Parcel);
+  const rows = [];
   _.each(wallet.addresses, (item) => {
-    console.log('item wallet');
-    console.log(item.Wallet);
     _.each(item.Wallet, (item1, data) => {
-      console.log('data');
-      console.log(data);
-      sums[data] = (parseInt(sums[data], 10) || 0) + parseInt(item.Wallet[data], 10);
-      console.log('item value');
-      console.log(item.Wallet[item1]);
+      sums[data] = (parseFloat(sums[data], 10) || 0) + parseFloat(item.Wallet[data], 10);
     });
   });
-  console.log('sums');
-  console.log(sums);
+  Object.keys(sums).forEach((key) => {
+    rows.push(<div><b>{sums[key]}</b> {key}</div>);
+  });
 
-  const totalRUNES = _.sumBy(wallet.addresses, ({ RUNES }) => RUNES).toFixed(2) || '0.00';
-  const totalPRED = _.sumBy(wallet.addresses, ({ PRED }) => PRED).toFixed(2) || '0.00';
-  const totalFUN = _.sumBy(wallet.addresses, ({ FUN }) => FUN).toFixed(2) || '0.00';
   return (<Link to={Routes.WALLET}>
     <Item>
       <WalletItem>
         <i className={cx('icon', 'iconfont', 'icon-ic_wallet')}></i>
       </WalletItem>
       <WalletItem>
-        <div style={{ paddingPredtom: '10px' }}><b>{totalRUNES}</b> RUNES</div>
-        <div><b>{totalPRED}</b> PRED</div>
-        <div><b>{totalFUN}</b> FUN</div>
+        <div style={{ paddingPredtom: '10px' }}></div>
+        {rows}
       </WalletItem>
       <WalletItem>{'>'}</WalletItem>
     </Item>

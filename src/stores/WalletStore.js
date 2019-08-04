@@ -565,7 +565,7 @@ export default class {
   }
 
   @computed get lastAddressWithdrawLimit() {
-    return { RUNES: this.lastUsedWallet.RUNES, PRED: this.lastUsedWallet.pred, FUN: this.lastUsedWallet.fun };
+    return { RUNES: this.lastUsedWallet.Wallet.RUNES, PRED: this.lastUsedWallet.Wallet.PRED, FUN: this.lastUsedWallet.Wallet.FUN };
   }
   @computed get depsoitDialogHasError() {
     if (this.withdrawDialogError.withdrawAmount !== '') return true;
@@ -574,7 +574,7 @@ export default class {
   }
 
   @computed get lastAddressDepositLimit() {
-    return { RUNES: this.lastUsedWallet.RUNES, PRED: this.lastUsedWallet.pred, FUN: this.lastUsedWallet.fun };
+    return { RUNES: this.lastUsedWallet.Wallet.RUNES, PRED: this.lastUsedWallet.Wallet.PRED, FUN: this.lastUsedWallet.Wallet.FUN };
   }
   @computed get lastUsedWallet() {
     const res = _.filter(this.addresses, (x) => x.address === this.lastUsedAddress);

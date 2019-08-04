@@ -125,37 +125,26 @@ export default class MyBalances extends Component {
 
   getTotalsGrid() {
     const { classes, store: { wallet } } = this.props;
-
-    let totalRunebase = 0;
-    let totalPred = 0;
-    let totalFun = 0;
     const walletAddresses = wallet.addresses;
-    if (walletAddresses && walletAddresses.length) {
-      totalRunebase = _.sumBy(walletAddresses, (address) => address.RUNES ? address.RUNES : 0);
-      totalPred = _.sumBy(walletAddresses, (address) => address.pred ? address.pred : 0);
-      totalFun = _.sumBy(walletAddresses, (address) => address.fun ? address.fun : 0);
-    }
+    const sums = {};
+    const rows = [];
+    const items = [];
+    const total = [];
 
-    const items = [
-      {
-        id: 'runebase',
-        name: 'str.runebase',
-        nameDefault: 'RUNES',
-        total: totalRunebase,
-      },
-      {
-        id: 'pred',
-        name: 'str.pred',
-        nameDefault: 'PRED',
-        total: totalPred,
-      },
-      {
-        id: 'fun',
-        name: 'str.fun',
-        nameDefault: 'FUN',
-        total: totalFun,
-      },
-    ];
+    _.each(walletAddresses, (item) => {
+      _.each(item.Wallet, (item1, data) => {
+        sums[data] = (parseFloat(sums[data], 10) || 0) + parseFloat(item.Wallet[data], 10);
+      });
+    });
+
+    Object.keys(sums).forEach((key) => {
+      items.push({
+        id: key,
+        name: `str.${key}`,
+        nameDefault: key,
+        total: sums[key],
+      });
+    });
 
     return (
       <Grid container className={classes.totalsContainerGrid}>
@@ -172,7 +161,7 @@ export default class MyBalances extends Component {
   }
 
   getTableHeader() {
-    const cols = [
+    const colsFront = [
       {
         id: 'address',
         name: 'str.address',
@@ -187,6 +176,8 @@ export default class MyBalances extends Component {
         numeric: false,
         sortable: false,
       },
+    ];
+    const colsMid = [
       {
         id: 'runebase',
         name: 'str.runebase',
@@ -208,6 +199,8 @@ export default class MyBalances extends Component {
         numeric: true,
         sortable: true,
       },
+    ];
+    const colsEnd = [
       {
         id: 'actions',
         name: 'str.actions',
@@ -220,7 +213,9 @@ export default class MyBalances extends Component {
     return (
       <TableHead>
         <TableRow>
-          {cols.map((column) => column.sortable ? this.getSortableCell(column) : this.getNonSortableCell(column))}
+          {colsFront.map((column) => column.sortable ? this.getSortableCell(column) : this.getNonSortableCell(column))}
+          {colsMid.map((column) => column.sortable ? this.getSortableCell(column) : this.getNonSortableCell(column))}
+          {colsEnd.map((column) => column.sortable ? this.getSortableCell(column) : this.getNonSortableCell(column))}
         </TableRow>
       </TableHead>
     );
@@ -312,13 +307,13 @@ export default class MyBalances extends Component {
               </CopyToClipboard>
             </TableCell>
             <TableCell numeric>
-              <Typography variant="body1">{item.RUNES}</Typography>
+              <Typography variant="body1">{item.Wallet.RUNES}</Typography>
             </TableCell>
             <TableCell numeric>
-              <Typography variant="body1">{item.pred}</Typography>
+              <Typography variant="body1">{item.Wallet.PRED}</Typography>
             </TableCell>
             <TableCell numeric>
-              <Typography variant="body1">{item.fun}</Typography>
+              <Typography variant="body1">{item.Wallet.FUN}</Typography>
             </TableCell>
             <TableCell>
               <Button
