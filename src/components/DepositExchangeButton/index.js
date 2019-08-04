@@ -28,9 +28,7 @@ const messages = defineMessages({
 export default class DepositExchanegButton extends Component {
   constructor(props) {
     super(props);
-    this.hasRunes = false;
-    this.hasPred = false;
-    this.hasFun = false;
+    this.hasWallet = [];
     this.state = {
       open: false,
       open2: false,
@@ -42,10 +40,10 @@ export default class DepositExchanegButton extends Component {
     };
   }
 
-  handleClickOpenDepositChoice = () => {
-    this.hasRunes = this.props.store.wallet.addresses[this.props.store.wallet.currentAddressKey].Wallet.RUNES > 0;
-    this.hasPred = this.props.store.wallet.addresses[this.props.store.wallet.currentAddressKey].Wallet.PRED > 0;
-    this.hasFun = this.props.store.wallet.addresses[this.props.store.wallet.currentAddressKey].Wallet.FUN > 0;
+  handleClickOpenDepositChoice = (addresses, currentAddressKey, currentAddressSelected) => {
+    Object.keys(addresses[currentAddressKey].Wallet).forEach((currency) => {
+      this.hasWallet[currency] = addresses[currentAddressKey].Wallet[currency] > 0;
+    });
     if (this.props.store.wallet.currentAddressSelected === '') {
       this.setState({
         open: false,
@@ -60,25 +58,15 @@ export default class DepositExchanegButton extends Component {
     });
   };
 
-  handleClickOpenDepositDialog = (event) => {
-    if (event.target.value === 'RUNES') {
-      this.setState({
-        tokenChoice: 'RUNES',
-        available: this.props.store.wallet.addresses[this.props.store.wallet.currentAddressKey].Wallet.RUNES,
-      });
-    }
-    if (event.target.value === 'PRED') {
-      this.setState({
-        tokenChoice: 'PRED',
-        available: this.props.store.wallet.addresses[this.props.store.wallet.currentAddressKey].Wallet.PRED,
-      });
-    }
-    if (event.target.value === 'FUN') {
-      this.setState({
-        tokenChoice: 'FUN',
-        available: this.props.store.wallet.addresses[this.props.store.wallet.currentAddressKey].Wallet.FUN,
-      });
-    }
+  handleClickOpenDepositDialog = (event, addresses, currentAddressKey, currentAddressSelected) => {
+    Object.keys(addresses[currentAddressKey].Wallet).forEach((currency) => {
+      if (event.currentTarget.value === currency) {
+        this.setState({
+          tokenChoice: currency,
+          available: addresses[currentAddressKey].Wallet[currency],
+        });
+      }
+    });
 
     this.setState({
       open: false,
@@ -106,12 +94,15 @@ export default class DepositExchanegButton extends Component {
         [name]: event.target.value,
       });
     }
+
     if (event.target.value > this.state.available) {
       this.setState({
         [name]: this.state.available,
       });
     }
-    if (this.state.tokenChoice === 'RUNES') {
+
+    // Keep atleast 2 RUNES for gasCoverage.
+    if (this.state.tokenChoice === this.props.store.baseCurrencyStore.baseCurrency.pair) {
       if (this.state.available > 2 && this.state.available < event.target.value) {
         this.setState({
           [name]: this.state.available - 2,
@@ -119,6 +110,7 @@ export default class DepositExchanegButton extends Component {
       }
     }
   };
+
   onWithdraw = () => {
     this.setState({
       open: false,
@@ -135,14 +127,34 @@ export default class DepositExchanegButton extends Component {
   }
 
   render() {
-    const { store: { wallet } } = this.props;
+    const { store: { wallet, baseCurrencyStore, marketStore: { marketInfo } } } = this.props;
     const isEnabledFund = wallet.currentAddressSelected !== '';
+    const rows = [];
+
+    rows.push(<Button
+      value={baseCurrencyStore.baseCurrency.pair}
+      disabled={!this.hasWallet[baseCurrencyStore.baseCurrency.pair]}
+      onClick={(event) => this.handleClickOpenDepositDialog(event, wallet.addresses, wallet.currentAddressKey, wallet.currentAddressSelected)}
+    >
+      {baseCurrencyStore.baseCurrency.pair}
+    </Button>);
+
+    Object.keys(marketInfo).forEach((key) => {
+      rows.push(<Button
+        value={marketInfo[key].market}
+        disabled={!this.hasWallet[marketInfo[key].market]}
+        onClick={(event) => this.handleClickOpenDepositDialog(event, wallet.addresses, wallet.currentAddressKey, wallet.currentAddressSelected)}
+      >
+        {marketInfo[key].market}
+      </Button>);
+    });
+
     return (
       <div>
         <button
           disabled={!isEnabledFund}
           className="ui positive button"
-          onClick={this.handleClickOpenDepositChoice}
+          onClick={() => this.handleClickOpenDepositChoice(wallet.addresses, wallet.currentAddressKey, wallet.currentAddressSelected)}
         >
           <FastRewind className='verticalTextButton'></FastRewind>
           <AccountBalanceWallet className='verticalTextButton'></AccountBalanceWallet>
@@ -171,9 +183,7 @@ export default class DepositExchanegButton extends Component {
         >
           <DialogTitle id="form-dialog-title">Deposit to Exchange Contract</DialogTitle>
           <DialogActions>
-            <Button value='RUNES' disabled={!this.hasRunes} onClick={this.handleClickOpenDepositDialog}>RUNES</Button>
-            <Button value='PRED' disabled={!this.hasPred} onClick={this.handleClickOpenDepositDialog}>PRED</Button>
-            <Button value='FUN' disabled={!this.hasFun} onClick={this.handleClickOpenDepositDialog}>FUN</Button>
+            {rows}
             <Button onClick={this.handleClose}>Close</Button>
           </DialogActions>
         </Dialog>

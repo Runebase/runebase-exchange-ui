@@ -28,9 +28,7 @@ const messages = defineMessages({
 export default class WithdrawExchangeButton extends Component {
   constructor(props) {
     super(props);
-    this.hasExchangeRunes = false;
-    this.hasExchangePred = false;
-    this.hasExchangeFun = false;
+    this.hasExchange = [];
     this.state = {
       open: false,
       open2: false,
@@ -42,10 +40,10 @@ export default class WithdrawExchangeButton extends Component {
     };
   }
 
-  handleClickOpenRedeemChoice = () => {
-    this.hasExchangeRunes = this.props.store.wallet.addresses[this.props.store.wallet.currentAddressKey].exchangerunes > 0;
-    this.hasExchangePred = this.props.store.wallet.addresses[this.props.store.wallet.currentAddressKey].exchangepred > 0;
-    this.hasExchangeFun = this.props.store.wallet.addresses[this.props.store.wallet.currentAddressKey].exchangefun > 0;
+  handleClickOpenRedeemChoice = (addresses, currentAddressKey, currentAddressSelected) => {
+    Object.keys(addresses[currentAddressKey].Exchange).forEach((currency) => {
+      this.hasExchange[currency] = addresses[currentAddressKey].Exchange[currency] > 0;
+    });
     if (this.props.store.wallet.currentAddressSelected === '') {
       this.setState({
         open: false,
@@ -60,30 +58,20 @@ export default class WithdrawExchangeButton extends Component {
     });
   };
 
-  handleClickOpenRedeemDialog = (event) => {
-    console.log(event.currentTarget.value);
-    if (event.currentTarget.value === 'RUNES') {
-      this.setState({
-        tokenChoice: 'RUNES',
-        available: this.props.store.wallet.addresses[this.props.store.wallet.currentAddressKey].exchangerunes,
-      });
-    }
-    if (event.currentTarget.value === 'PRED') {
-      this.setState({
-        tokenChoice: 'PRED',
-        available: this.props.store.wallet.addresses[this.props.store.wallet.currentAddressKey].exchangepred,
-      });
-    }
-    if (event.currentTarget.value === 'FUN') {
-      this.setState({
-        tokenChoice: 'FUN',
-        available: this.props.store.wallet.addresses[this.props.store.wallet.currentAddressKey].exchangefun,
-      });
-    }
+  handleClickOpenRedeemDialog = (event, addresses, currentAddressKey, currentAddressSelected) => {
+    Object.keys(addresses[currentAddressKey].Exchange).forEach((currency) => {
+      if (event.currentTarget.value === currency) {
+        this.setState({
+          tokenChoice: currency,
+          available: addresses[currentAddressKey].Exchange[currency],
+        });
+      }
+    });
+
     this.setState({
       open: false,
       open2: true,
-      address: this.props.store.wallet.currentAddressSelected,
+      address: currentAddressSelected,
     });
   };
 
@@ -108,6 +96,7 @@ export default class WithdrawExchangeButton extends Component {
       });
     }
   };
+
   onRedeem = () => {
     this.setState({
       open: false,
@@ -115,6 +104,7 @@ export default class WithdrawExchangeButton extends Component {
       amount: '',
     });
   }
+
   closeAll = () => {
     this.setState({
       open: false,
@@ -123,16 +113,38 @@ export default class WithdrawExchangeButton extends Component {
     });
     this.props.store.wallet.closeTxDialog();
   }
+
   render() {
-    const { store: { wallet } } = this.props;
+    const { store: { wallet, baseCurrencyStore, marketStore: { marketInfo } } } = this.props;
     const isEnabledRedeem = wallet.currentAddressSelected !== '';
+
+    const rows = [];
+
+    rows.push(<Button
+      value={baseCurrencyStore.baseCurrency.pair}
+      disabled={!this.hasExchange[baseCurrencyStore.baseCurrency.pair]}
+      onClick={(event) => this.handleClickOpenRedeemDialog(event, wallet.addresses, wallet.currentAddressKey, wallet.currentAddressSelected)}
+    >
+      {baseCurrencyStore.baseCurrency.pair}
+    </Button>);
+
+    Object.keys(marketInfo).forEach((key) => {
+      rows.push(<Button
+        value={marketInfo[key].market}
+        disabled={!this.hasExchange[marketInfo[key].market]}
+        onClick={(event) => this.handleClickOpenRedeemDialog(event, wallet.addresses, wallet.currentAddressKey, wallet.currentAddressSelected)}
+      >
+        {marketInfo[key].market}
+      </Button>);
+    });
+
     return (
       <div>
         <div style={{ float: 'right' }}>
           <button
             disabled={!isEnabledRedeem}
             className="ui negative button"
-            onClick={this.handleClickOpenRedeemChoice}
+            onClick={() => this.handleClickOpenRedeemChoice(wallet.addresses, wallet.currentAddressKey, wallet.currentAddressSelected)}
           >
             <span className='verticalTextButton rightPadMidBut'>Withdraw</span>
             <AccountBalance className='verticalTextButton'></AccountBalance>
@@ -163,9 +175,7 @@ export default class WithdrawExchangeButton extends Component {
           <DialogContent>
           </DialogContent>
           <DialogActions>
-            <Button value='RUNES' disabled={!this.hasExchangeRunes} onClick={(event) => this.handleClickOpenRedeemDialog(event)}>RUNES</Button>
-            <Button value='PRED' disabled={!this.hasExchangePred} onClick={this.handleClickOpenRedeemDialog}>PRED</Button>
-            <Button value='FUN' disabled={!this.hasExchangeFun} onClick={this.handleClickOpenRedeemDialog}>FUN</Button>
+            {rows}
             <Button onClick={this.handleClose}>Close</Button>
           </DialogActions>
         </Dialog>
