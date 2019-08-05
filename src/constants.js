@@ -13,11 +13,6 @@ module.exports = {
   },
 
   /* GraphQL Constants */
-  Token: {
-    RUNES: 'RUNES',
-    PRED: 'PRED',
-    FUN: 'FUN',
-  },
 
   TransactionType: {
     TRANSFER: 'TRANSFER',

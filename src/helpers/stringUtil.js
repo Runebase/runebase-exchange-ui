@@ -4,10 +4,6 @@ import { TransactionType } from 'constants';
 import { getIntlProvider } from './i18nUtil';
 
 const strings = defineMessages({
-  approvePredTransfer: {
-    id: 'tx.approvePredTransfer',
-    defaultMessage: 'Approve PRED Transfer',
-  },
   transfer: {
     id: 'str.transfer',
     defaultMessage: 'Transfer',

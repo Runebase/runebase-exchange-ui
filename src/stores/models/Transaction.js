@@ -23,7 +23,7 @@ export default class Transaction {
   receiverAddress = '' // Receiver's address. Only used for TRANSFER types.
   name = '' // Name of the event
   optionIdx = 0 // Result index used for Transaction. eg. For a bet, this would be the result index the user bet on.
-  token = '' // Token type used for Transaction. RUNES for BET. PRED for VOTE.
+  token = '' // Token type used for Transaction.
   amount = '' // Amount of token used
   version = 0 // Current version of the contract. To manage deprecations later.
 

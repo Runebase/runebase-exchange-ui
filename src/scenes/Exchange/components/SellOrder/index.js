@@ -84,23 +84,19 @@ export default class SellOrder extends Component {
 
 
   render() {
-    const { classes, store: { wallet, baseCurrencyStore } } = this.props;
-    const market = wallet.currentMarket.toLowerCase();
+    const { classes, store: { wallet, marketStore, baseCurrencyStore } } = this.props;
+    const market = wallet.currentMarket;
     const isEnabled = wallet.currentAddressSelected !== '';
     let tokenAmount;
+
     if (wallet.currentAddressKey !== '') {
-      switch (market) {
-        case 'pred':
-          tokenAmount = wallet.addresses[wallet.currentAddressKey].exchangepred;
-          break;
-        case 'fun':
-          tokenAmount = wallet.addresses[wallet.currentAddressKey].exchangefun;
-          break;
-        default:
-          tokenAmount = 0;
-          break;
-      }
+      Object.keys(marketStore.marketInfo).forEach((key) => {
+        if (market === marketStore.marketInfo[key].market) {
+          tokenAmount = wallet.addresses[wallet.currentAddressKey].Exchange[market];
+        }
+      });
     }
+
     return (
       <Grid item xs={6}>
         <Card className={classes.dashboardOrderBookTitle}>

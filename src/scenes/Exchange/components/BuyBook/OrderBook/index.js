@@ -152,20 +152,14 @@ class OrderBook extends PureComponent {
     const findImage = _.find(marketStore.marketImages, { market: `${wallet.market}` });
 
     if (wallet.currentAddressKey !== '') {
-      switch (token) {
-        case 'PRED':
-          walletAmount = wallet.addresses[wallet.currentAddressKey].Exchange.PRED;
-          availableGasAmount = wallet.addresses[wallet.currentAddressKey].Wallet[baseCurrencyStore.baseCurrency.pair];
-          break;
-        case 'FUN':
-          walletAmount = wallet.addresses[wallet.currentAddressKey].Exchange.FUN;
-          availableGasAmount = wallet.addresses[wallet.currentAddressKey].Wallet[baseCurrencyStore.baseCurrency.pair];
-          break;
-        default:
-          walletAmount = 0;
-          availableGasAmount = wallet.addresses[wallet.currentAddressKey].Wallet[baseCurrencyStore.baseCurrency.pair];
-          break;
-      }
+      Object.keys(marketStore.marketInfo).forEach((key) => {
+        if (token === marketStore.marketInfo[key].market) {
+          walletAmount = wallet.addresses[wallet.currentAddressKey].Wallet[token];
+        }
+      });
+    }
+    if (wallet.currentAddressKey !== '') {
+      availableGasAmount = wallet.addresses[wallet.currentAddressKey].Wallet[baseCurrencyStore.baseCurrency.pair];
     }
 
     let maxAmount = walletAmount;

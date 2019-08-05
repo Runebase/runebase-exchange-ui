@@ -55,9 +55,6 @@ export default class MyBalances extends Component {
       orderBy: 'address',
       addrCopiedSnackbarVisible: false,
       selectedAddress: undefined,
-      selectedAddressRunebase: undefined,
-      selectedAddressPred: undefined,
-      selectedAddressFun: undefined,
       depositDialogVisible: false,
       withdrawDialogVisible: false,
     };
@@ -80,9 +77,6 @@ export default class MyBalances extends Component {
     const { classes } = this.props;
     const {
       selectedAddress,
-      selectedAddressRunebase,
-      selectedAddressPred,
-      selectedAddressFun,
       depositDialogVisible,
       withdrawDialogVisible,
     } = this.state;
@@ -104,18 +98,12 @@ export default class MyBalances extends Component {
             onClose={this.handleDepositDialogClose}
             onCopyClicked={this.onCopyClicked}
             walletAddress={selectedAddress}
-            runebaseAmount={selectedAddressRunebase}
-            predAmount={selectedAddressPred}
-            funAmount={selectedAddressFun}
           />
           <WithdrawDialog
             dialogVisible={withdrawDialogVisible}
             onClose={this.handleWithdrawDialogClose}
             onWithdraw={this.onWithdraw}
             walletAddress={selectedAddress}
-            runebaseAmount={selectedAddressRunebase}
-            predAmount={selectedAddressPred}
-            funAmount={selectedAddressFun}
           />
           <WithdrawTxConfirmDialog onWithdraw={this.onWithdraw} id={messages.txConfirmMsgSendMsg.id} />
         </Grid>
@@ -140,7 +128,7 @@ export default class MyBalances extends Component {
     Object.keys(sums).forEach((key) => {
       items.push({
         id: key,
-        name: `str.${key}`,
+        name: key,
         nameDefault: key,
         total: sums[key],
       });
@@ -161,6 +149,8 @@ export default class MyBalances extends Component {
   }
 
   getTableHeader() {
+    const { store: { baseCurrencyStore, marketStore } } = this.props;
+
     const colsFront = [
       {
         id: 'address',
@@ -177,29 +167,24 @@ export default class MyBalances extends Component {
         sortable: false,
       },
     ];
-    const colsMid = [
-      {
-        id: 'runebase',
-        name: 'str.runebase',
-        nameDefault: 'RUNES',
+    const colsMid = [];
+    colsMid.push({
+      id: baseCurrencyStore.baseCurrency.pair,
+      name: baseCurrencyStore.baseCurrency.pair,
+      nameDefault: baseCurrencyStore.baseCurrency.pair,
+      numeric: true,
+      sortable: true,
+    });
+    Object.keys(marketStore.marketInfo).forEach((key) => {
+      colsMid.push({
+        id: marketStore.marketInfo[key].market,
+        name: marketStore.marketInfo[key].market,
+        nameDefault: marketStore.marketInfo[key].market,
         numeric: true,
         sortable: true,
-      },
-      {
-        id: 'pred',
-        name: 'str.pred',
-        nameDefault: 'PRED',
-        numeric: true,
-        sortable: true,
-      },
-      {
-        id: 'fun',
-        name: 'str.fun',
-        nameDefault: 'FUN',
-        numeric: true,
-        sortable: true,
-      },
-    ];
+      });
+    });
+
     const colsEnd = [
       {
         id: 'actions',
@@ -242,7 +227,7 @@ export default class MyBalances extends Component {
             onClick={this.handleSorting(column.id)}
           >
             <Typography variant="body1" className={classes.tableHeaderItemText}>
-              <FormattedMessage id={column.name} default={column.nameDefault} />
+              {column.name}
             </Typography>
           </TableSortLabel>
         </Tooltip>
@@ -259,7 +244,7 @@ export default class MyBalances extends Component {
         numeric={column.numeric}
       >
         <Typography variant="body1" className={classes.tableHeaderItemText}>
-          <FormattedMessage id={column.name} default={column.nameDefault} />
+          {column.name}
         </Typography>
       </TableCell>
     );
@@ -288,11 +273,15 @@ export default class MyBalances extends Component {
 
   getTableBody() {
     const { classes, store: { wallet } } = this.props;
-
     return (
       <TableBody>
-        {wallet.addresses.map((item, index) =>
-          (<TableRow key={item.address} selected={index % 2 !== 0}>
+        {wallet.addresses.map((item, index) => {
+          const rows = [];
+          Object.keys(item.Wallet).forEach((key) => {
+            rows.push(<TableCell numeric><Typography variant="body1">{item.Wallet[key]}</Typography></TableCell>);
+          });
+
+          return (<TableRow key={item.address} selected={index % 2 !== 0}>
             <TableCell>
               <Typography variant="body1">{item.address}</Typography>
             </TableCell>
@@ -306,15 +295,7 @@ export default class MyBalances extends Component {
                 </Button>
               </CopyToClipboard>
             </TableCell>
-            <TableCell numeric>
-              <Typography variant="body1">{item.Wallet.RUNES}</Typography>
-            </TableCell>
-            <TableCell numeric>
-              <Typography variant="body1">{item.Wallet.PRED}</Typography>
-            </TableCell>
-            <TableCell numeric>
-              <Typography variant="body1">{item.Wallet.FUN}</Typography>
-            </TableCell>
+            {rows}
             <TableCell>
               <Button
                 variant="raised"
@@ -323,9 +304,6 @@ export default class MyBalances extends Component {
                 className={classes.tableRowActionButton}
                 onClick={this.onDepositClicked}
                 data-address={item.address}
-                data-runebase={item.RUNES}
-                data-pred={item.pred}
-                data-fun={item.fun}
               >
                 <FormattedMessage id="myBalances.deposit" defaultMessage="Deposit" />
               </Button>
@@ -336,14 +314,13 @@ export default class MyBalances extends Component {
                 className={classes.tableRowActionButton}
                 onClick={this.onWithdrawClicked}
                 data-address={item.address}
-                data-runebase={item.RUNES}
-                data-pred={item.pred}
-                data-fun={item.fun}
               >
                 <FormattedMessage id="str.withdraw" defaultMessage="Withdraw" />
               </Button>
             </TableCell>
-          </TableRow>))}
+          </TableRow>);
+        })
+        }
       </TableBody>
     );
   }
@@ -380,9 +357,6 @@ export default class MyBalances extends Component {
   onDepositClicked(event) {
     this.setState({
       selectedAddress: event.currentTarget.getAttribute('data-address'),
-      selectedAddressRunebase: event.currentTarget.getAttribute('data-runebase'),
-      selectedAddressPred: event.currentTarget.getAttribute('data-pred'),
-      selectedAddressFun: event.currentTarget.getAttribute('data-fun'),
       depositDialogVisible: true,
     });
 
@@ -392,9 +366,6 @@ export default class MyBalances extends Component {
   handleDepositDialogClose = () => {
     this.setState({
       selectedAddress: undefined,
-      selectedAddressRunebase: undefined,
-      selectedAddressPred: undefined,
-      selectedAddressFun: undefined,
       depositDialogVisible: false,
     });
   };
@@ -404,9 +375,6 @@ export default class MyBalances extends Component {
 
     this.setState({
       selectedAddress: event.currentTarget.getAttribute('data-address'),
-      selectedAddressRunebase: event.currentTarget.getAttribute('data-runebase'),
-      selectedAddressPred: event.currentTarget.getAttribute('data-pred'),
-      selectedAddressFun: event.currentTarget.getAttribute('data-fun'),
       withdrawDialogVisible: true,
     });
     wallet.lastUsedAddress = event.currentTarget.getAttribute('data-address');
@@ -417,9 +385,6 @@ export default class MyBalances extends Component {
   handleWithdrawDialogClose = () => {
     this.setState({
       selectedAddress: undefined,
-      selectedAddressRunebase: undefined,
-      selectedAddressPred: undefined,
-      selectedAddressFun: undefined,
       withdrawDialogVisible: false,
     });
   };

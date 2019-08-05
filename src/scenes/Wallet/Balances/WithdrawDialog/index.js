@@ -51,14 +51,12 @@ export default class WithdrawDialog extends Component {
     classes: PropTypes.object.isRequired,
     dialogVisible: PropTypes.bool.isRequired,
     walletAddress: PropTypes.string,
-    predAmount: PropTypes.string,
     onClose: PropTypes.func.isRequired,
     onWithdraw: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     walletAddress: undefined,
-    predAmount: undefined,
   };
 
   render() {
@@ -75,7 +73,7 @@ export default class WithdrawDialog extends Component {
         onClose={onClose}
       >
         <DialogTitle>
-          <FormattedMessage id="withdrawDialog.title" defaultMessage="Withdraw RUNES/PRED" />
+          <FormattedMessage id="withdrawDialog.title" defaultMessage="Withdraw" />
         </DialogTitle>
         <DialogContent>
           <FromToField walletAddress={walletAddress} />
@@ -127,7 +125,7 @@ class FromToField extends Component {
         </div>
       </div>
     );
-  }  
+  }
 }
 
 @injectIntl
@@ -139,10 +137,17 @@ class AmountField extends Component {
     const {
       classes,
       intl,
-      store: { wallet },
+      store: { wallet, baseCurrencyStore, marketStore },
     } = this.props;
 
     const withdrawAmountText = intl.formatMessage(messages.youCanWithdraw);
+    const rows = [];
+
+    rows.push(<MenuItem value={baseCurrencyStore.baseCurrency.pair}>{baseCurrencyStore.baseCurrency.pair}</MenuItem>);
+
+    Object.keys(marketStore.marketInfo).forEach((key) => {
+      rows.push(<MenuItem value={marketStore.marketInfo[key].market}>{marketStore.marketInfo[key].market}</MenuItem>);
+    });
 
     return (
       <div>
@@ -165,9 +170,7 @@ class AmountField extends Component {
             onBlur={wallet.validateWithdrawDialogAmount}
             inputProps={{ name: 'selectedToken', id: 'selectedToken' }}
           >
-            <MenuItem value={Token.RUNES}>RUNES</MenuItem>
-            <MenuItem value={Token.PRED}>PRED</MenuItem>
-            <MenuItem value={Token.PRED}>FUN</MenuItem>
+            {rows}
           </Select>
           {!!wallet.withdrawDialogError.withdrawAmount && <FormHelperText error>{intl.formatMessage({ id: wallet.withdrawDialogError.withdrawAmount })}</FormHelperText>}
         </div>

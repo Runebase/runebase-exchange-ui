@@ -33,7 +33,7 @@ const messages = defineMessages({
   },
   tutorial1Content6Msg: {
     id: 'tutorial1.content6',
-    defaultMessage: 'If you send your public key (Runebase address) to someone, they can send you RUNES or PRED.',
+    defaultMessage: 'If you send your public key (Runebase address) to someone, they can send you RUNES or Tokens.',
   },
   tutorial1Content7Msg: {
     id: 'tutorial1.content7',

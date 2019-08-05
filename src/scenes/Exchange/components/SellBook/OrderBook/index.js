@@ -152,20 +152,14 @@ class OrderBook extends PureComponent {
     let maxSlider;
 
     if (wallet.currentAddressKey !== '') {
-      switch (token) {
-        case 'PRED':
-          walletAmount = wallet.addresses[wallet.currentAddressKey].exchangerunes;
-          availableGasAmount = wallet.addresses[wallet.currentAddressKey].RUNES;
-          break;
-        case 'FUN':
-          walletAmount = wallet.addresses[wallet.currentAddressKey].exchangerunes;
-          availableGasAmount = wallet.addresses[wallet.currentAddressKey].RUNES;
-          break;
-        default:
-          walletAmount = 0;
-          availableGasAmount = wallet.addresses[wallet.currentAddressKey].RUNES;
-          break;
-      }
+      Object.keys(marketStore.marketInfo).forEach((key) => {
+        if (token === marketStore.marketInfo[key].market) {
+          walletAmount = wallet.addresses[wallet.currentAddressKey].Exchange[baseCurrencyStore.baseCurrency.pair];
+        }
+      });
+    }
+    if (wallet.currentAddressKey !== '') {
+      availableGasAmount = wallet.addresses[wallet.currentAddressKey].Wallet[baseCurrencyStore.baseCurrency.pair];
     }
 
     const maxAmount = walletAmount / price;
@@ -175,6 +169,7 @@ class OrderBook extends PureComponent {
     } else {
       maxSlider = amountToken;
     }
+
     return (
       <div className={`classes.root ${type}`}>
         <Dialog

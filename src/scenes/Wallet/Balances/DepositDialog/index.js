@@ -22,16 +22,12 @@ export default class DepositDialog extends Component {
     classes: PropTypes.object.isRequired,
     dialogVisible: PropTypes.bool.isRequired,
     walletAddress: PropTypes.string,
-    runebaseAmount: PropTypes.string,
-    predAmount: PropTypes.string,
     onClose: PropTypes.func.isRequired,
     onCopyClicked: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
     walletAddress: undefined,
-    runebaseAmount: undefined,
-    predAmount: undefined,
   }
 
   render() {
@@ -39,8 +35,6 @@ export default class DepositDialog extends Component {
       classes,
       dialogVisible,
       walletAddress,
-      runebaseAmount,
-      predAmount,
       onClose,
       onCopyClicked,
     } = this.props;
@@ -52,17 +46,11 @@ export default class DepositDialog extends Component {
     return (
       <Dialog open={dialogVisible} onClose={onClose}>
         <DialogTitle>
-          <FormattedMessage id="depositDialog.title" defaultMessage="RUNES/PRED Deposit Address" />
+          <FormattedMessage id="depositDialog.title" defaultMessage="Deposit Address" />
         </DialogTitle>
         <DialogContent>
           <Typography variant="title" className={classes.depositAddress}>
             {walletAddress}
-          </Typography>
-          <Typography variant="body1" className={classes.runebaseAmount}>
-            {`RUNES: ${runebaseAmount}`}
-          </Typography>
-          <Typography variant="body1">
-            {`PRED: ${predAmount}`}
           </Typography>
         </DialogContent>
         <DialogActions>

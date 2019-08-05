@@ -9,7 +9,6 @@ import { getIntlProvider } from './i18nUtil';
 import { SortBy } from '../constants';
 
 const SATOSHI_CONVERSION = 10 ** 8;
-const PRED_MIN_VALUE = 0.01; // eslint-disable-line
 const GAS_COST = 0.0000004;
 const FORMAT_DATE_TIME = 'MMM Do, YYYY H:mm:ss';
 const FORMAT_SHORT_DATE_TIME = 'M/D/YY H:mm:ss';
@@ -81,9 +80,9 @@ export function calculateBlock(currentBlock, futureDate, averageBlockTime) {
 }
 
 /**
- * Converts a decimal number to Satoshi/Predoshi 10^8.
+ * Converts a decimal number to Satoshi 10^8.
  * @param number {String/Number} The decimal number to convert.
- * @return {String} The converted Satoshi/Predoshi number.
+ * @return {String} The converted Satoshi number.
  */
 export function decimalToSatoshi(number) {
   if (!number) {
@@ -95,8 +94,8 @@ export function decimalToSatoshi(number) {
 }
 
 /**
- * Converts Satoshi/Predoshi to a decimal number.
- * @param number {String} The Satoshi/Predoshi string (or hex string) to convert.
+ * Converts Satoshi to a decimal number.
+ * @param number {String} The Satoshi string (or hex string) to convert.
  * @return {String} The converted decimal number.
  */
 export function satoshiToDecimal(number) {
