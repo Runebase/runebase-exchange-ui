@@ -79,8 +79,6 @@ export default class OrderBook extends PureComponent {
     let total = amountToken * price;
     total = total.toFixed(8);
     const findImage = _.find(marketStore.marketImages, { market: `${token}` });
-    console.log('baseCurrency');
-    console.log(baseCurrencyStore.baseCurrency.name);
     return (
       <div className={`classes.root ${status}`}>
         <Dialog

@@ -1,12 +1,10 @@
 import _ from 'lodash';
-import { satoshiToDecimal } from '../../helpers/utility';
 
 export default class AddressBalance {
   address = ''
   balance = ''
   Wallet = {}
   Exchange = {}
-
 
   constructor(addressBalance) {
     Object.assign(this, addressBalance);

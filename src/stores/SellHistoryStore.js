@@ -68,8 +68,6 @@ export default class {
       if (sellHistoryInfo.length === limit) this.hasMoreSellHistory = true;
       if (this.skip === 0) this.hasLessSellHistory = false;
       if (this.skip > 0) this.hasLessSellHistory = true;
-      console.log('getSellHistoryInfo');
-      console.log(sellHistoryInfo);
       this.onSellHistoryInfo(sellHistoryInfo);
     } catch (error) {
       this.onSellHistoryInfo({ error });

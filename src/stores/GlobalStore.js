@@ -1,10 +1,7 @@
-import { observable, action, reaction, runInAction } from 'mobx';
-import { Token } from 'constants';
-import _ from 'lodash';
+import { observable, action, reaction } from 'mobx';
 
 import SyncInfo from './models/SyncInfo';
-import Market from './models/Market';
-import { querySyncInfo, queryAllNewOrders, queryAllMarkets } from '../network/graphql/queries';
+import { querySyncInfo, queryAllNewOrders } from '../network/graphql/queries';
 import getSubscription, { channels } from '../network/graphql/subscriptions';
 import apolloClient from '../network/graphql';
 import AppConfig from '../config/app';
@@ -150,9 +147,7 @@ export default class GlobalStore {
     if (syncInfo.error) {
       console.error(syncInfo.error.message); // eslint-disable-line no-console
     } else {
-      console.log('syncInfo');
-      console.log(syncInfo);
-      const { percent, blockNum, blockTime, balances, exchangeBalances, peerNodeCount } = new SyncInfo(syncInfo);
+      const { percent, blockNum, blockTime, balances, peerNodeCount } = new SyncInfo(syncInfo);
       this.syncPercent = percent;
       this.syncBlockNum = blockNum;
       this.syncBlockTime = blockTime;

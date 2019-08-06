@@ -1,6 +1,5 @@
-import { observable, action, runInAction, computed, reaction } from 'mobx';
+import { observable, action, runInAction, reaction } from 'mobx';
 import _ from 'lodash';
-import { Routes } from 'constants';
 import { queryAllMarkets, queryAllMarketImages } from '../network/graphql/queries';
 import Market from './models/Market';
 
@@ -26,7 +25,6 @@ export default class MarketStore {
       () => this.app.refreshing + this.app.global.syncBlockNum,
       () => {
         this.getMarketInfo();
-        console.log(this.app.global.syncBlockNum);
       }
     );
     this.getMarketInfo();
@@ -41,7 +39,6 @@ export default class MarketStore {
       const result = _.uniqBy(marketImages, 'market').map((market) => new Market(market, this.app));
       const resultOrder = _.orderBy(result, ['market'], 'desc');
       this.marketImages = resultOrder;
-      console.log(this.marketImages);
     }
     runInAction(() => {
       this.loading = false;
@@ -54,7 +51,6 @@ export default class MarketStore {
       const orderBy = { field: 'market', direction: 'DESC' };
       const filters = [];
       const marketImages = await queryAllMarketImages(filters, orderBy, 0, 0);
-      console.log(marketImages);
       this.onMarketImages(marketImages);
     } catch (error) {
       this.onMarketImages({ error });
@@ -68,9 +64,7 @@ export default class MarketStore {
     } else {
       const result = _.uniqBy(marketInfo, 'market').map((market) => new Market(market, this.app));
       const resultOrder = _.orderBy(result, ['market'], 'desc');
-      console.log(resultOrder);
       this.marketInfo = resultOrder;
-      console.log(this.marketInfo);
     }
     runInAction(() => {
       this.loading = false;

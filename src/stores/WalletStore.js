@@ -1,7 +1,7 @@
 import { observable, action, runInAction, reaction, computed } from 'mobx';
 import _ from 'lodash';
 import moment from 'moment';
-import { TransactionType, Token } from 'constants';
+import { TransactionType } from 'constants';
 import { Transaction, TransactionCost } from 'models';
 import { defineMessages } from 'react-intl';
 import axios from '../network/api';
@@ -170,7 +170,6 @@ export default class {
 
   @action
   confirmRedeemExchange = (onRedeem) => {
-    console.log(decimalToSatoshi(this.confirmAmount));
     this.createTransferRedeemExchange(this.walletAddress, this.exchangeAddress, this.tokenChoice, decimalToSatoshi(this.confirmAmount));
     runInAction(() => {
       onRedeem();
@@ -498,7 +497,6 @@ export default class {
   @action
   confirmFundExchange = (onWithdraw) => {
     let amount = this.confirmAmount;
-    console.log(this.app.marketStore.marketInfo);
     Object.keys(this.app.marketStore.marketInfo).forEach((key) => {
       if (this.tokenChoice === this.app.marketStore.marketInfo[key].market) {
         amount = decimalToSatoshi(this.confirmAmount);
@@ -565,7 +563,6 @@ export default class {
     Object.keys(this.lastUsedWallet.Wallet).forEach((key) => {
       WithdrawLimit[key] = this.lastUsedWallet.Wallet[key];
     });
-    console.log(WithdrawLimit);
     return WithdrawLimit;
   }
 

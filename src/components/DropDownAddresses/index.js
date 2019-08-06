@@ -62,7 +62,6 @@ export default class DropDownAddresses extends Component {
           {wallet.addresses.map((addressData, key) => {
             const walletRows = [];
             const exchangeRows = [];
-            console.log(_.findKey(addressData.Wallet, (v) => v !== '0'));
 
             Object.keys(addressData.Wallet).forEach((walletData) => {
               if (walletData === baseCurrencyStore.baseCurrency.pair) {

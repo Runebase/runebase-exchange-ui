@@ -1,8 +1,5 @@
-import { observable, action, runInAction, computed, reaction, mobx } from 'mobx';
-import _ from 'lodash';
-import { Routes } from 'constants';
+import { observable, action, runInAction } from 'mobx';
 import { queryBaseCurrency } from '../network/graphql/queries';
-import BaseCurrency from './models/BaseCurrency';
 
 
 const INIT_VALUES = {
@@ -20,12 +17,6 @@ export default class BaseCurrencyStore {
 
   constructor(app) {
     this.app = app;
-    reaction(
-      () => this.app.refreshing + this.app.global.syncBlockNum,
-      () => {
-        console.log(this.app.global.syncBlockNum);
-      }
-    );
     this.getBaseCurrency();
   }
 

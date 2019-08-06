@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import _ from 'lodash';
 import Button from '@material-ui/core/Button';
 import {
   TextField,

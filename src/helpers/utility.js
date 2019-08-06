@@ -6,7 +6,6 @@ import { tsvParse } from 'd3-dsv';
 import { timeParse } from 'd3-time-format';
 
 import { getIntlProvider } from './i18nUtil';
-import { SortBy } from '../constants';
 
 const SATOSHI_CONVERSION = 10 ** 8;
 const GAS_COST = 0.0000004;

@@ -20,7 +20,7 @@ import {
 import Slider from '@material-ui/lab/Slider';
 import { Clear } from '@material-ui/icons';
 import ExecuteOrderTxConfirmDialog from '../ExecuteOrderTxConfirmDialog';
-import { TokenImage, OrderTypeIcon, StatusIcon } from '../../../helpers';
+import { OrderTypeIcon, StatusIcon } from '../../../helpers';
 import { satoshiToDecimal, decimalToSatoshi } from '../../../../../helpers/utility';
 
 

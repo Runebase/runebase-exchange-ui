@@ -1,7 +1,4 @@
-import _ from 'lodash';
-
-import { Token, TransactionType } from 'constants';
-import { gasToRunebase, satoshiToDecimal } from '../../helpers/utility';
+import { gasToRunebase } from '../../helpers/utility';
 
 
 /*

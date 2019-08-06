@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { inject, observer, mobx } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import _ from 'lodash';
 import styled, { css } from 'styled-components';
 import { FormattedMessage, injectIntl } from 'react-intl';
@@ -17,10 +17,8 @@ import NavLink from './components/NavLink';
 import { faqUrls } from '../../config/app';
 import styles from './styles';
 import Tracking from '../../helpers/mixpanelUtil';
-import ImageLocaleWrapper from './components/ImageLocaleWrapper';
 import WithdrawExchangeButton from '../WithdrawExchangeButton';
 import DepositExchangeButton from '../DepositExchangeButton';
-import AddressBalance from '../../stores/models/AddressBalance';
 
 @withStyles(styles, { withTheme: true })
 @injectIntl
@@ -174,17 +172,6 @@ const Toggle = styled.div`
     opacity: 1;
   }
 `;
-
-const RunebaseExchangeLogo = ({ classes }) => (
-  <Link to={Routes.EXCHANGE}>
-    <ImageLocaleWrapper
-      appliedLanguages={['zh-Hans-CN']}
-      src="/images/runebaseexchange-logo.svg"
-      alt="runebaseexchange-logo"
-      className={classes.navBarLogo}
-    />
-  </Link>
-);
 
 const Exchange = observer(({ store: { ui } }) => (
   <NavLink to={Routes.EXCHANGE}>

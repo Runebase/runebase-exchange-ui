@@ -68,8 +68,6 @@ export default class {
     if (buyOrders.length === limit) this.hasMoreBuyOrders = true;
     if (this.skip === 0) this.hasLessBuyOrders = false;
     if (this.skip > 0) this.hasLessBuyOrders = true;
-    console.log('getBuyOrderInfo');
-    console.log(buyOrders);
     this.onBuyOrderInfo(buyOrders);
   }
 

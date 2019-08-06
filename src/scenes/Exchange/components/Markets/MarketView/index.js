@@ -1,12 +1,10 @@
 import React, { PureComponent } from 'react';
 import _ from 'lodash';
-import { inject, observer } from 'mobx-react';
+import { inject } from 'mobx-react';
 import { injectIntl } from 'react-intl';
 import { Card, Grid, Typography } from '@material-ui/core';
 import classNames from 'classnames/bind';
 import './styles.css';
-import { TokenImage } from '../../../helpers';
-
 
 @injectIntl
 @inject('store')

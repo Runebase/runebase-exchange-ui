@@ -2,8 +2,6 @@ import { observable, action, reaction, computed } from 'mobx';
 import _ from 'lodash';
 import { TransactionType, SortBy, Routes } from 'constants';
 import { Transaction } from 'models';
-
-import { getDetailPagePath } from '../../../helpers/utility';
 import { queryAllTransactions } from '../../../network/graphql/queries';
 
 const INIT_VALUES = {

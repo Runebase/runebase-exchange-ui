@@ -115,9 +115,7 @@ export default class MyBalances extends Component {
     const { classes, store: { wallet } } = this.props;
     const walletAddresses = wallet.addresses;
     const sums = {};
-    const rows = [];
     const items = [];
-    const total = [];
 
     _.each(walletAddresses, (item) => {
       _.each(item.Wallet, (item1, data) => {
