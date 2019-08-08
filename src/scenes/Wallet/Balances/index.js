@@ -215,16 +215,18 @@ export default class MyBalances extends Component {
         sortDirection={orderBy === column.id ? order : false}
       >
         <Tooltip
+          key={column.id}
           title={<FormattedMessage id="str.sort" defaultMessage="Sort" />}
           enterDelay={Config.intervals.tooltipDelay}
           placement={column.numeric ? 'bottom-end' : 'bottom-start'}
         >
           <TableSortLabel
+            key={column.id}
             active={orderBy === column.id}
             direction={order}
             onClick={this.handleSorting(column.id)}
           >
-            <Typography variant="body1" className={classes.tableHeaderItemText}>
+            <Typography variant="body1" className={classes.tableHeaderItemText} key={column.id}>
               {column.name}
             </Typography>
           </TableSortLabel>
@@ -276,7 +278,7 @@ export default class MyBalances extends Component {
         {wallet.addresses.map((item, index) => {
           const rows = [];
           Object.keys(item.Wallet).forEach((key) => {
-            rows.push(<TableCell numeric><Typography variant="body1">{item.Wallet[key]}</Typography></TableCell>);
+            rows.push(<TableCell numeric key={key}><Typography variant="body1">{item.Wallet[key]}</Typography></TableCell>);
           });
 
           return (<TableRow key={item.address} selected={index % 2 !== 0}>

@@ -65,12 +65,12 @@ export default class DropDownAddresses extends Component {
 
             Object.keys(addressData.Wallet).forEach((walletData) => {
               if (walletData === baseCurrencyStore.baseCurrency.pair) {
-                walletRows.push(<Grid item xs={3}>
+                walletRows.push(<Grid item xs={3} key={walletData}>
                   <div className='fullWidth'>{walletData}(GAS)</div>
                   <div className='fullWidth fat'>{addressData.Wallet[walletData]}</div>
                 </Grid>);
               } else {
-                walletRows.push(<Grid item xs={3}>
+                walletRows.push(<Grid item xs={3} key={walletData}>
                   <div className='fullWidth'>{walletData}</div>
                   <div className='fullWidth fat'>{addressData.Wallet[walletData]}</div>
                 </Grid>);
@@ -78,7 +78,7 @@ export default class DropDownAddresses extends Component {
             });
 
             Object.keys(addressData.Exchange).forEach((exchangeData) => {
-              exchangeRows.push(<Grid item xs={3}>
+              exchangeRows.push(<Grid item xs={3} key={exchangeData}>
                 <div className='fullWidth'>{exchangeData}</div>
                 <div className='fullWidth fat'>{addressData.Exchange[exchangeData]}</div>
               </Grid>);

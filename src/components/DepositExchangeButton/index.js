@@ -25,7 +25,7 @@ const messages = defineMessages({
 @injectIntl
 @inject('store')
 @observer
-export default class DepositExchanegButton extends Component {
+export default class DepositExchangeButton extends Component {
   constructor(props) {
     super(props);
     this.hasWallet = [];
@@ -41,8 +41,8 @@ export default class DepositExchanegButton extends Component {
   }
 
   handleClickOpenDepositChoice = (addresses, currentAddressKey, currentAddressSelected) => {
-    Object.keys(addresses[currentAddressKey].Wallet).forEach((currency) => {
-      this.hasWallet[currency] = addresses[currentAddressKey].Wallet[currency] > 0;
+    Object.keys(addresses[currentAddressKey].Wallet).forEach((depositChoice) => {
+      this.hasWallet[depositChoice] = addresses[currentAddressKey].Wallet[depositChoice] > 0;
     });
     if (this.props.store.wallet.currentAddressSelected === '') {
       this.setState({
@@ -132,6 +132,7 @@ export default class DepositExchanegButton extends Component {
     const rows = [];
 
     rows.push(<Button
+      key='depositBaseCurrency'
       value={baseCurrencyStore.baseCurrency.pair}
       disabled={!this.hasWallet[baseCurrencyStore.baseCurrency.pair]}
       onClick={(event) => this.handleClickOpenDepositDialog(event, wallet.addresses, wallet.currentAddressKey, wallet.currentAddressSelected)}
@@ -141,6 +142,7 @@ export default class DepositExchanegButton extends Component {
 
     Object.keys(marketInfo).forEach((key) => {
       rows.push(<Button
+        key={marketInfo[key].market}
         value={marketInfo[key].market}
         disabled={!this.hasWallet[marketInfo[key].market]}
         onClick={(event) => this.handleClickOpenDepositDialog(event, wallet.addresses, wallet.currentAddressKey, wallet.currentAddressSelected)}

@@ -25,7 +25,7 @@ export default class ExchangeBalance extends Component {
     if (wallet.currentAddressKey !== '') {
       Object.keys(wallet.addresses[wallet.currentAddressKey].Exchange).forEach((key) => {
         const isActive = (wallet.market === key) ? 'MarketBalanceActive' : 'NotSoActive';
-        rows.push(<Grid item xs={3}>
+        rows.push(<Grid item xs={3} key={key}>
           <Typography variant="body2" className={`${isActive}`}>{key}</Typography>
           <Typography variant="body2" className={`${isActive}`}>{wallet.addresses[wallet.currentAddressKey].Exchange[key]}</Typography>
         </Grid>);

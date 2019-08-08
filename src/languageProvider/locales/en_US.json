@@ -1,4 +1,7 @@
 {
+  "str.withdraw": "Withdraw",
+  "navbar.wallet": "Wallet",
+  "navBar.history": "History",
   "navbar.exchange": "Exchange",
   "orderbooksect": "orderbooksect",
   "tradedata": "tradedata",

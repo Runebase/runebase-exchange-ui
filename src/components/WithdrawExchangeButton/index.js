@@ -120,6 +120,7 @@ export default class WithdrawExchangeButton extends Component {
     const rows = [];
 
     rows.push(<Button
+      key='withdrawBaseCurrency'
       value={baseCurrencyStore.baseCurrency.pair}
       disabled={!this.hasExchange[baseCurrencyStore.baseCurrency.pair]}
       onClick={(event) => this.handleClickOpenRedeemDialog(event, wallet.addresses, wallet.currentAddressKey, wallet.currentAddressSelected)}
@@ -129,6 +130,7 @@ export default class WithdrawExchangeButton extends Component {
 
     Object.keys(marketInfo).forEach((key) => {
       rows.push(<Button
+        key={marketInfo[key].market}
         value={marketInfo[key].market}
         disabled={!this.hasExchange[marketInfo[key].market]}
         onClick={(event) => this.handleClickOpenRedeemDialog(event, wallet.addresses, wallet.currentAddressKey, wallet.currentAddressSelected)}

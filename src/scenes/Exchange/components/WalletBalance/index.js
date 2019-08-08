@@ -27,12 +27,12 @@ export default class WalletBalance extends Component {
     if (wallet.currentAddressKey !== '') {
       Object.keys(wallet.addresses[wallet.currentAddressKey].Wallet).forEach((key) => {
         if (key === baseCurrencyStore.baseCurrency.pair) {
-          rows.push(<Grid item xs={3}>
+          rows.push(<Grid item xs={3} key={key}>
             <Typography variant="body2">{key}(GAS)</Typography>
             <Typography variant="body2">{wallet.addresses[wallet.currentAddressKey].Wallet[key]}</Typography>
           </Grid>);
         } else {
-          rows.push(<Grid item xs={3}>
+          rows.push(<Grid item xs={3} key={key}>
             <Typography variant="body2">{key}</Typography>
             <Typography variant="body2">{wallet.addresses[wallet.currentAddressKey].Wallet[key]}</Typography>
           </Grid>);

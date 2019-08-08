@@ -110,7 +110,7 @@ const Wallet = styled(({ store: { wallet } }) => {
     });
   });
   Object.keys(sums).forEach((key) => {
-    rows.push(<div><b>{sums[key]}</b> {key}</div>);
+    rows.push(<div key={key}><b>{sums[key]}</b> {key}</div>);
   });
 
   return (<Link to={Routes.WALLET}>
