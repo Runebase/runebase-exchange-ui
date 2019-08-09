@@ -86,14 +86,12 @@ export default class ExecuteOrderConfirmDialog extends Component {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {txFees.map(({ type, amount, gasCost, gasLimit, token }, i) => (
-                  <TableRow key={i}>
-                    <TableCell>{type}</TableCell>
-                    <TableCell>{amount} {token}</TableCell>
-                    <TableCell>{gasCost}</TableCell>
-                    <TableCell>{gasLimit}</TableCell>
-                  </TableRow>
-                ))}
+                <TableRow>
+                  <TableCell>{txFees[0].props.type}</TableCell>
+                  <TableCell>{txFees[0].props.amount} {txFees[0].props.token}</TableCell>
+                  <TableCell>{txFees[0].props.gasCost}</TableCell>
+                  <TableCell>{txFees[0].props.gasLimit}</TableCell>
+                </TableRow>
               </TableBody>
             </Table>
           )}

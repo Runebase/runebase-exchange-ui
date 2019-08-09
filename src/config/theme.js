@@ -46,10 +46,10 @@ const borderColor = '#ECECEC';
 const borderRadius = 4;
 
 const spaceUnit = 8;
-const paddingXs = spaceUnit * 1; // 16
-const paddingSm = spaceUnit * 1; // 24
-const paddingMd = spaceUnit * 1; // 40
-const paddingLg = spaceUnit * 1; // 56
+const paddingXs = spaceUnit * 2; // 16
+const paddingSm = spaceUnit * 2; // 24
+const paddingMd = spaceUnit * 2; // 40
+const paddingLg = spaceUnit * 2; // 56
 
 const navHeight = 70;
 const footerHeight = '34.48px';
