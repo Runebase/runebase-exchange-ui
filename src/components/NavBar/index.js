@@ -4,6 +4,8 @@ import _ from 'lodash';
 import styled, { css } from 'styled-components';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import {
+  Select,
+  MenuItem,
   AppBar,
   Toolbar,
   Button,
@@ -12,6 +14,7 @@ import {
 import cx from 'classnames';
 import { Routes } from 'constants';
 import { Link } from 'react-router-dom';
+import ReactCountryFlag from 'react-country-flag';
 
 import NavLink from './components/NavLink';
 import { faqUrls } from '../../config/app';
@@ -39,19 +42,14 @@ export default class NavBar extends Component {
         <Toolbar className={classes.navBarWrapper}>
           <NavSection>
             <Exchange {...this.props} />
-            <DepositExchangeButton />
-            <WithdrawExchangeButton />
+
             <WalletLink {...this.props} />
           </NavSection>
-          <MyActivities {...this.props} />
+          {/* <MyActivities {...this.props} /> */}
+          <LanguageSelector {...this.props} />
           <Toggle onClick={this.changeDropDownDirection}><div className={`icon iconfont icon-ic_${this.state.dropdownDirection}`}></div></Toggle>
           <Dropdown data-show={this.state.dropdownDirection === 'down'}>
             <Wallet {...this.props} />
-            <Link to={Routes.SETTINGS}>
-              <Item onClick={this.changeDropDownDirection}>
-                <FormattedMessage id="navBar.settings" defaultMessage="Settings" />
-              </Item>
-            </Link>
             <QAButton {...this.props} changeDropDownDirection={this.changeDropDownDirection} />
           </Dropdown>
         </Toolbar>
@@ -59,6 +57,23 @@ export default class NavBar extends Component {
     );
   }
 }
+
+const LanguageSelector = inject('store')(observer(({ store: { ui } }) => (
+  <NavBarRightButtonContainer>
+    <NavBarRightButton>
+      <Select
+        value={ui.locale}
+        onChange={(e) => ui.changeLocale(e.target.value)}
+        name="lang"
+        disableUnderline
+      >
+        <MenuItem value="en-US"><ReactCountryFlag code="us" svg />English</MenuItem>
+        <MenuItem value="zh-Hans-CN">中文</MenuItem>
+        <MenuItem value="ko-KR">한국어</MenuItem>
+      </Select>
+    </NavBarRightButton>
+  </NavBarRightButtonContainer>
+)));
 
 const QAButton = ({ intl, changeDropDownDirection }) => (
   <a

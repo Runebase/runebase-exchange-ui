@@ -151,10 +151,10 @@ export default class DepositExchangeButton extends Component {
     });
 
     return (
-      <div>
+      <div className='positionbutton'>
         <button
           disabled={!isEnabledFund}
-          className="ui positive button"
+          className="ui positive button depositButton"
           onClick={() => this.handleClickOpenDepositChoice(wallet.addresses, wallet.currentAddressKey, wallet.currentAddressSelected)}
         >
           <FastRewind className='verticalTextButton'></FastRewind>

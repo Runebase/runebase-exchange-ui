@@ -992,3 +992,52 @@ li {
   100% {-webkit-filter: drop-shadow( -.75px 0px 6px #31eefd );
                 filter: drop-shadow( -.75px 0px 6px #31eefd ); stroke:#31eefd;}
 }
+
+.depositButton {
+  position:relative;
+  left: 25%;
+  width: 100%;
+  display: block;
+  transform-origin: top left;
+  transform: rotate(-90deg) translate(-50%) translateX(0%);
+  -webkit-transform: rotate(-90deg) translate(-50%) translateX(0%);
+  -moz-transform: rotate(-90deg) translate(-50%) translateX(0%);
+  -o-transform: rotate(-90deg) translate(-50%) translateX(0%);
+  -ms-transform: rotate(-90deg) translate(-50%) translateX(0%);
+  margin-top: -50%;
+  white-space: nowrap;
+}
+
+.withdrawButton {
+  position:relative;
+  left: 50%;
+  width: 100%;
+  display: block;
+  transform-origin: top left;
+  transform: rotate(-90deg) translate(-50%);
+  -webkit-transform: rotate(-90deg) translate(-50%);
+  -moz-transform: rotate(-90deg) translate(-50%);
+  -o-transform: rotate(-90deg) translate(-50%);
+  -ms-transform: rotate(-90deg) translate(-50%);
+  margin-top: -50%;
+  white-space: nowrap;
+}
+
+.rotation-wrapper-outer {
+  display: table;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+}
+.rotation-wrapper-inner {
+  text-align:center;
+  padding: 50% 0;
+  height: 0;
+  justify-content: center;
+  align-items: center;
+}
+
+.positionbutton {
+  position:relative;
+  left: 50%;
+}

@@ -17,6 +17,8 @@ import {
   BuyHistory,
   FundRedeemHistory,
   DropDownAddresses,
+  WithdrawExchangeButton,
+  DepositExchangeButton,
 } from 'components';
 import Loading from '../../components/EventListLoading';
 import '../../style/style.css';
@@ -36,12 +38,36 @@ export default class Exchange extends Component {
         </Grid>
         <Grid container>
           <Grid item xs={12} sm={12} lg={4}>
-            <WalletBalance />
-            <ExchangeBalance />
-            <Markets />
-            <MyOrderBook />
-            <MyTrades />
-            <FundRedeemHistory />
+            <Grid container>
+              <Grid item xs={12}>
+                <WalletBalance />
+              </Grid>
+            </Grid>
+            <Grid container>
+              <Grid item xs={6}>
+                <div className='rotation-wrapper-outer'>
+                  <div className='rotation-wrapper-inner'>
+                    <DepositExchangeButton />
+                  </div>
+                </div>
+              </Grid>
+              <Grid item xs={6}>
+                <div className='rotation-wrapper-outer'>
+                  <div className='rotation-wrapper-inner'>
+                    <WithdrawExchangeButton />
+                  </div>
+                </div>
+              </Grid>
+            </Grid>
+            <Grid container>
+              <Grid item xs={12}>
+                <ExchangeBalance />
+                <Markets />
+                <MyOrderBook />
+                <MyTrades />
+                <FundRedeemHistory />
+              </Grid>
+            </Grid>
           </Grid>
           <Grid item xs={12} sm={12} lg={8}>
             <Grid container>

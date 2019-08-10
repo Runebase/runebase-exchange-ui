@@ -141,10 +141,10 @@ export default class WithdrawExchangeButton extends Component {
 
     return (
       <div>
-        <div style={{ float: 'right' }}>
+        <div className='positionbutton'>
           <button
             disabled={!isEnabledRedeem}
-            className="ui negative button"
+            className="ui negative button withdrawButton"
             onClick={() => this.handleClickOpenRedeemChoice(wallet.addresses, wallet.currentAddressKey, wallet.currentAddressSelected)}
           >
             <span className='verticalTextButton rightPadMidBut'>Withdraw</span>

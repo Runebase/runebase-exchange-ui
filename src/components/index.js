@@ -30,3 +30,5 @@ export { default as SellHistory } from './SellHistory';
 export { default as BuyHistory } from './BuyHistory';
 export { default as FundRedeemHistory } from './FundRedeemHistory';
 export { default as DropDownAddresses } from './DropDownAddresses';
+export { default as WithdrawExchangeButton } from './WithdrawExchangeButton';
+export { default as DepositExchangeButton } from './DepositExchangeButton';
