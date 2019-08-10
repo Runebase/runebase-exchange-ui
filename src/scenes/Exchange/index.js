@@ -32,7 +32,7 @@ export default class Exchange extends Component {
           </Grid>
         </Grid>
         <Grid container>
-          <Grid item xs={4}>
+          <Grid item xs={12} sm={12} lg={4}>
             <WalletBalance />
             <ExchangeBalance />
             <Markets />
@@ -40,7 +40,7 @@ export default class Exchange extends Component {
             <MyTrades />
             <FundRedeemHistory />
           </Grid>
-          <Grid item xs={8}>
+          <Grid item xs={12} sm={12} lg={8}>
             <Grid container>
               <Grid item xs={12}>
                 <MarketInfo />
@@ -50,22 +50,26 @@ export default class Exchange extends Component {
               </Grid>
             </Grid>
             <Grid container>
-              <BuyOrder />
-              <SellOrder />
+              <Grid item xs={12} sm={12} lg={6}>
+                <BuyOrder />
+              </Grid>
+              <Grid item xs={12} sm={12} lg={6}>
+                <SellOrder />
+              </Grid>
             </Grid>
             <Grid container>
-              <Grid item xs={6}>
+              <Grid item xs={12} sm={12} lg={6}>
                 <SellBook />
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12} sm={12} lg={6}>
                 <BuyBook />
               </Grid>
             </Grid>
             <Grid container>
-              <Grid item xs={6}>
+              <Grid item xs={12} sm={12} lg={6}>
                 <SellHistory />
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12} sm={12} lg={6}>
                 <BuyHistory />
               </Grid>
             </Grid>

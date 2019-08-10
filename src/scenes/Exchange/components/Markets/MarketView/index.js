@@ -9,6 +9,14 @@ import './styles.css';
 @injectIntl
 @inject('store')
 export default class MarketView extends PureComponent {
+  componentDidMount() {
+    this.asyncRequest = this.props.store.marketStore.getMarketInfo();
+  }
+  componentWillUnmount() {
+    if (this.asyncRequest) {
+      this.asyncRequest.cancel();
+    }
+  }
   render() {
     const { market, tokenName, price, change, volume } = this.props.event;
     const { store: { wallet, marketStore, baseCurrencyStore } } = this.props;
@@ -53,7 +61,7 @@ export default class MarketView extends PureComponent {
           <Grid container>
             <Grid item xs={3} className='fullheight'>
               <div className='fullWidth'>
-                <img alt={market} src={`https://ipfs.io/ipfs/${findImage.image}`} />
+                {findImage ? (<img alt={market} src={`https://ipfs.io/ipfs/${findImage.image}`} />) : (<div>Loading...</div>)}
               </div>
             </Grid>
             <Grid item xs={3}>

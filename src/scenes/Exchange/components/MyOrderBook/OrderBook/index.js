@@ -133,7 +133,7 @@ export default class OrderBook extends PureComponent {
                   <Grid item xs={3}>
                     <p className='fat'>{token}/{baseCurrencyStore.baseCurrency.pair}</p>
                     <div className='fullwidth'>
-                      <img alt={tokenName} src={findImage.image} />
+                      {findImage ? (<img alt={tokenName} src={`https://ipfs.io/ipfs/${findImage.image}`} />) : (<div>Loading...</div>)}
                     </div>
                   </Grid>
                   <Grid item xs={3} className='inheritHeight'>

@@ -98,7 +98,7 @@ export default class SellOrder extends Component {
     }
 
     return (
-      <Grid item xs={6}>
+      <div>
         <Card className={classes.dashboardOrderBookTitle}>
           <p>Create Sell Order ({wallet.currentMarket})</p>
         </Card>
@@ -166,7 +166,7 @@ export default class SellOrder extends Component {
             </Grid>
           </Grid>
         </Card>
-      </Grid>
+      </div>
     );
   }
 }

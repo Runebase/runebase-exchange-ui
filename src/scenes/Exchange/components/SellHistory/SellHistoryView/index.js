@@ -44,7 +44,7 @@ class SellHistoryView extends PureComponent {
           <Grid item xs={12}>
             {this.renderTrade(from, to, boughtTokens, amountToken, totalToken, totalToken2, token, orderType, baseCurrencyStore.baseCurrency.pair)}
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} className='breakWord'>
             <Typography variant="caption" gutterBottom><a href={`https://explorer.runebase.io/tx/${txid}`}>{txid}</a></Typography>
           </Grid>
         </Grid>
