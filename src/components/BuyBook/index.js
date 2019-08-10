@@ -5,7 +5,6 @@ import { defineMessages } from 'react-intl';
 
 import OrderBook from './OrderBook';
 import _Loading from '../Loading';
-import styles from './style.css';
 
 
 const messages = defineMessages({
@@ -65,8 +64,8 @@ const Events = observer(({ buyStore: { buyOrderInfo, loading } }) => {
   );
 });
 
-const Loading = withStyles(styles)(({ classes }) => <Row><_Loading className={classes.loading} text={messages.loadAllEventsMsg} /></Row>);
+const Loading = withStyles()(() => <Row><_Loading text={messages.loadAllEventsMsg} /></Row>);
 
-const Row = withStyles(styles)(({ classes, ...props }) => (
-  <div className={classes.row} {...props} />
+const Row = withStyles()(({ ...props }) => (
+  <div {...props} />
 ));

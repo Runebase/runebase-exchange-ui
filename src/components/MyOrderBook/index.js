@@ -5,7 +5,6 @@ import { defineMessages } from 'react-intl';
 import SwipeableViews from 'react-swipeable-views';
 import _Loading from '../Loading';
 import OrderBook from './OrderBook';
-import styles from './styles.css';
 
 const messages = defineMessages({
   loadAllOrdersMsg: {
@@ -176,8 +175,8 @@ const OrdersCanceled = observer(({ canceledOrderStore: { canceledOrderInfo, load
   );
 });
 
-const Loading = withStyles(styles)(({ classes }) => <Row><_Loading className={classes.loading} text={messages.loadAllOrdersMsg} /></Row>);
+const Loading = withStyles()(() => <Row><_Loading text={messages.loadAllOrdersMsg} /></Row>);
 
-const Row = withStyles(styles)(({ classes, ...props }) => (
-  <div className={classes.row} {...props} />
+const Row = withStyles()(({ ...props }) => (
+  <div {...props} />
 ));

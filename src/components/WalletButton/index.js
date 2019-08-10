@@ -5,7 +5,6 @@ import {
   Grid,
 } from '@material-ui/core';
 import { AccountBalanceWallet } from '@material-ui/icons';
-import './styles.css';
 
 @inject('store')
 @observer

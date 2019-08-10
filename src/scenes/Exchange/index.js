@@ -19,6 +19,7 @@ import {
   DropDownAddresses,
 } from 'components';
 import Loading from '../../components/EventListLoading';
+import '../../style/style.css';
 
 @inject('store')
 @observer

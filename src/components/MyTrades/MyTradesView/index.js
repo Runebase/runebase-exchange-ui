@@ -8,11 +8,9 @@ import {
   Typography,
   withStyles } from '@material-ui/core';
 import { satoshiToDecimal } from '../../../helpers/utility';
-import styles from './styles.css';
 
 @injectIntl
 @inject('store')
-@withStyles(styles, { withTheme: true })
 class MyTradesView extends PureComponent {
   renderTrade(from, to, boughtTokens, myaddress, amountToken, totalToken, totalToken2, token, orderType, baseCurrency) {
     if (to === myaddress && boughtTokens !== '0000000000000000000000000000000000000000' && orderType === 'SELLORDER') {

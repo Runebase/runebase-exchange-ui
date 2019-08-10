@@ -22,10 +22,8 @@ import { Clear } from '@material-ui/icons';
 import ExecuteOrderTxConfirmDialog from '../ExecuteOrderTxConfirmDialog';
 import { OrderTypeIcon, StatusIcon } from '../../../helpers';
 import { satoshiToDecimal, decimalToSatoshi } from '../../../helpers/utility';
-
-
 import styles from './styles';
-import './styles.css';
+
 const messages = defineMessages({
   executeOrderConfirmMsgSendMsg: {
     id: 'executeOrderConfirmMsg.send',

@@ -7,12 +7,10 @@ import {
   Grid,
   Typography,
   withStyles } from '@material-ui/core';
-import styles from './styles.css';
 import { satoshiToDecimal } from '../../../helpers/utility';
 
 @injectIntl
 @inject('store')
-@withStyles(styles, { withTheme: true })
 class SellHistoryView extends PureComponent {
   renderTrade(from, to, boughtTokens, amountToken, totalToken, totalToken2, token, orderType, baseCurrency) {
     if (boughtTokens !== '0000000000000000000000000000000000000000' && orderType === 'SELLORDER') {

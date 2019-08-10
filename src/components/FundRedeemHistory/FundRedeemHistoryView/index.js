@@ -7,11 +7,9 @@ import {
   Grid,
   Typography,
   withStyles } from '@material-ui/core';
-import styles from './styles.css';
 
 @injectIntl
 @inject('store')
-@withStyles(styles, { withTheme: true })
 class FundRedeemHistoryView extends PureComponent {
   render() {
     const { txid, type, token, status, date, amount } = this.props.event;

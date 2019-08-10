@@ -9,10 +9,8 @@ import {
   Grid,
   withStyles,
 } from '@material-ui/core';
-import styles from './styles.css';
 
 @injectIntl
-@withStyles(styles, { withTheme: true })
 @inject('store')
 @observer
 export default class ExchangeBalance extends Component {
@@ -55,7 +53,7 @@ export default class ExchangeBalance extends Component {
               }
               return (
                 <Grid item xs={12}>
-                  <Card className={classes.dashboardOrderBook}>
+                  <Card>
                     <Grid container>
                       <Grid item xs={12} className='dashboardOrderBook'>
                         <p className='textCenter'>...</p>

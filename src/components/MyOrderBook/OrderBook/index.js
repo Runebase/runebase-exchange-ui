@@ -21,10 +21,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CancelOrderTxConfirmDialog from '../CancelOrderTxConfirmDialog';
 import { OrderTypeIcon, StatusIcon } from '../../../helpers';
 import { satoshiToDecimal } from '../../../helpers/utility';
-
-
 import styles from './styles';
-import './styles.css';
+
 const messages = defineMessages({
   cancelOrderConfirmMsgSendMsg: {
     id: 'cancelOrderConfirmMsg.send',

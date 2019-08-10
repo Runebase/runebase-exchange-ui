@@ -4,7 +4,6 @@ import { inject } from 'mobx-react';
 import { injectIntl } from 'react-intl';
 import { Card, Grid, Typography } from '@material-ui/core';
 import classNames from 'classnames/bind';
-import './styles.css';
 
 @injectIntl
 @inject('store')

@@ -14,7 +14,6 @@ import Form from 'muicss/lib/react/form';
 import Input from 'muicss/lib/react/input';
 import styles from './styles';
 import OrderExchange from './OrderExchange';
-import './style.css';
 
 @injectIntl
 @withStyles(styles, { withTheme: true })

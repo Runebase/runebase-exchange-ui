@@ -5,7 +5,6 @@ import _ from 'lodash';
 import {
   Grid,
 } from '@material-ui/core';
-import './styles.css';
 
 @inject('store')
 @observer

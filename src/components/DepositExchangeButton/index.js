@@ -13,7 +13,6 @@ import { inject, observer } from 'mobx-react';
 import { FastRewind, AccountBalanceWallet } from '@material-ui/icons';
 import { TxSentDialog } from 'components';
 import DepositExchangeTxConfirmDialog from '../DepositExchangeTxConfirmDialog';
-import './styles.css';
 
 const messages = defineMessages({
   fundConfirmMsgSendMsg: {

@@ -10,7 +10,6 @@ import {
 } from '@material-ui/core';
 import 'semantic-ui-css/semantic.min.css';
 import styles from './styles';
-import './mystyle.css';
 
 @injectIntl
 @withStyles(styles, { withTheme: true })

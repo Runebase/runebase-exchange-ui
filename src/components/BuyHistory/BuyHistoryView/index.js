@@ -8,7 +8,6 @@ import {
   Typography,
   withStyles } from '@material-ui/core';
 import styles from './styles';
-import './styles.css';
 import { satoshiToDecimal } from '../../../helpers/utility';
 
 @injectIntl
