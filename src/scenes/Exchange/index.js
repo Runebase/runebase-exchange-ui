@@ -1,22 +1,24 @@
 import React, { Component, Fragment } from 'react';
 import { inject, observer } from 'mobx-react';
 import { Grid } from '@material-ui/core';
+import {
+  ExchangeBalance,
+  MyOrderBook,
+  PriceChart,
+  MyTrades,
+  Markets,
+  MarketInfo,
+  WalletBalance,
+  BuyOrder,
+  SellOrder,
+  BuyBook,
+  SellBook,
+  SellHistory,
+  BuyHistory,
+  FundRedeemHistory,
+  DropDownAddresses,
+} from 'components';
 import Loading from '../../components/EventListLoading';
-import MyOrderBook from './components/MyOrderBook';
-import PriceChart from './components/PriceChart';
-import MyTrades from './components/MyTrades';
-import Markets from './components/Markets';
-import MarketInfo from './components/MarketInfo';
-import ExchangeBalance from './components/ExchangeBalance';
-import WalletBalance from './components/WalletBalance';
-import BuyOrder from './components/BuyOrder';
-import SellOrder from './components/SellOrder';
-import BuyBook from './components/BuyBook';
-import SellBook from './components/SellBook';
-import SellHistory from './components/SellHistory';
-import BuyHistory from './components/BuyHistory';
-import FundRedeemHistory from './components/FundRedeemHistory';
-import DropDownAddresses from '../../components/DropDownAddresses';
 
 @inject('store')
 @observer

@@ -1,0 +1,49 @@
+.BUYORDER{
+  box-shadow: inset 8px 0 10px -6px blue, inset -8px 0 10px -6px blue !important;
+}
+.root{
+ box-shadow: inset -8px 0 10px -6px black;
+}
+.textCenter{
+ text-align: center;
+}
+
+.fullWidth{
+ width: 100%;
+}
+.fullWidth img {
+ width: 50%;
+ display: block;
+ margin-left: auto;
+ margin-right: auto;
+}
+.marketCard {
+ padding-bottom: 5px;
+ cursor: pointer;
+}
+.marketCard:hover {
+ box-shadow: inset 8px 0 10px -6px blue, inset -8px 0 10px -6px blue !important;
+}
+.activeCard{
+ box-shadow: inset 8px 0 10px -6px blue, inset -8px 0 10px -6px blue !important;
+}
+.like-table {
+ display: table;
+ height: 100%;
+ width: 100%;
+}
+.like-table-row { display: table-row }
+.like-table-cell { display: table-cell }
+.valign-middle { vertical-align: middle }
+.positiveChange{
+ color: green;
+}
+.negativeChange{
+ color: red;
+}
+.fat{
+ font-weight: 900 !important;
+}
+.underline{
+ text-decoration: underline;
+}

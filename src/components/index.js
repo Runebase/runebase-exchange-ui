@@ -12,6 +12,21 @@ export { default as BuyOrderConfirmDialog } from './BuyOrderConfirmDialog';
 export { default as SellOrderConfirmDialog } from './SellOrderConfirmDialog';
 export { default as CancelOrderConfirmDialog } from './CancelOrderConfirmDialog';
 export { default as ExecuteOrderConfirmDialog } from './ExecuteOrderConfirmDialog';
-
 export { default as DepositConfirmDialog } from './DepositConfirmDialog';
 export { default as WithdrawconfirmDialog } from './WithdrawConfirmDialog';
+
+export { default as ExchangeBalance } from './ExchangeBalance';
+export { default as MyOrderBook } from './MyOrderBook';
+export { default as PriceChart } from './PriceChart';
+export { default as MyTrades } from './MyTrades';
+export { default as Markets } from './Markets';
+export { default as MarketInfo } from './MarketInfo';
+export { default as WalletBalance } from './WalletBalance';
+export { default as BuyOrder } from './BuyOrder';
+export { default as SellOrder } from './SellOrder';
+export { default as BuyBook } from './BuyBook';
+export { default as SellBook } from './SellBook';
+export { default as SellHistory } from './SellHistory';
+export { default as BuyHistory } from './BuyHistory';
+export { default as FundRedeemHistory } from './FundRedeemHistory';
+export { default as DropDownAddresses } from './DropDownAddresses';
