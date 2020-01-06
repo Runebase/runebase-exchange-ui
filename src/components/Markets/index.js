@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment, react/jsx-fragments, react/jsx-props-no-spreading */
 import React, { Component, Fragment } from 'react';
 import { inject, observer } from 'mobx-react';
 import { injectIntl, defineMessages } from 'react-intl';

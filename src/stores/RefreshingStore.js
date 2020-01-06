@@ -7,6 +7,7 @@ const INIT_VALUES = {
 
 export default class {
   @observable status = INIT_VALUES.status
+
   @observable type = INIT_VALUES.type
 
   @action

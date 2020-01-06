@@ -1,5 +1,4 @@
 
-
 const styles = ({ palette: { primary } }) => ({
   '@keyframes loading': {
     '0%': {

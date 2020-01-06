@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading, react/require-default-props */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { format } from 'd3-format';

@@ -18,17 +18,25 @@ const INIT_VALUES = {
 
 export default class {
   @observable loaded = INIT_VALUES.loaded
+
   @observable loadingMore = INIT_VALUES.loadingMore
+
   @observable hasMoreFundRedeems = INIT_VALUES.hasMoreFundRedeems
+
   @observable hasLessFundRedeems = INIT_VALUES.hasLessFundRedeems
+
   @observable fundRedeemInfo = INIT_VALUES.fundRedeemInfo
+
   @computed get hasMore() {
     return this.hasMoreFundRedeems;
   }
+
   @computed get hasLess() {
     return this.hasLessFundRedeems;
   }
+
   @observable skip = INIT_VALUES.skip
+
   limit = 10
 
   constructor(app) {

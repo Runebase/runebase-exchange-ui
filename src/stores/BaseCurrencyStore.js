@@ -11,8 +11,11 @@ const INIT_VALUES = {
 
 export default class BaseCurrencyStore {
   @observable baseCurrency = INIT_VALUES.baseCurrency
+
   @observable skip = INIT_VALUES.skip
+
   @observable limit = INIT_VALUES.limit
+
   @observable loading = INIT_VALUES.loading
 
   constructor(app) {

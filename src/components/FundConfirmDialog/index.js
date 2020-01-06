@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import _ from 'lodash';

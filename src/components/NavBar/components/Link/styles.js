@@ -1,5 +1,3 @@
-
-
 const styles = () => ({
   navBarLink: {
     display: 'flex',

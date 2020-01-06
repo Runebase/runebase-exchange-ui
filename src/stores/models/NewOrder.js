@@ -5,19 +5,33 @@
 */
 export default class NewOrder {
   txid = ''
+
   type = ''
+
   status = ''
+
   token = ''
+
   tokenName = ''
+
   price = ''
+
   orderId = ''
+
   owner = ''
+
   sellToken = ''
+
   buyToken = ''
+
   priceMul = ''
+
   priceDiv = ''
+
   time = ''
+
   amount = ''
+
   blockNum = ''
 
   // for invalid option

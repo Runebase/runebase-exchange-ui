@@ -1,4 +1,4 @@
-/* eslint-disable react/no-unused-state */
+/* eslint-disable react/no-unused-state, react/static-property-placement, react/state-in-constructor, react/destructuring-assignment, react/jsx-fragments, react/jsx-one-expression-per-line */
 import React, { Component, Fragment } from 'react';
 import { inject, observer } from 'mobx-react';
 import { Paper, Grid, Typography, withStyles } from '@material-ui/core';

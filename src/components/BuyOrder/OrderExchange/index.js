@@ -1,3 +1,4 @@
+/* eslint-disable lines-between-class-members, react/destructuring-assignment, operator-linebreak, react/jsx-one-expression-per-line */
 import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
 import {

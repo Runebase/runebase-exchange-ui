@@ -1,3 +1,4 @@
+/* eslint-disable import/no-useless-path-segments */
 import React from 'react';
 import { ApolloProvider } from 'react-apollo';
 import { IntlProvider } from 'react-intl';

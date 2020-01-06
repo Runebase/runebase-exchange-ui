@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment, operator-assignment, react/jsx-one-expression-per-line, react/jsx-fragments, react/button-has-type */
 import React, { Component, Fragment } from 'react';
 import { inject, observer } from 'mobx-react';
 import { Card } from '@material-ui/core';
@@ -10,6 +11,7 @@ export default class SellHistory extends Component {
     this.props.store.sellHistoryStore.skip = this.props.store.sellHistoryStore.skip + 10;
     await this.props.store.sellHistoryStore.getSellHistoryInfo();
   }
+
   handlePrevious = async () => {
     this.props.store.sellHistoryStore.skip = this.props.store.sellHistoryStore.skip - 10;
     await this.props.store.sellHistoryStore.getSellHistoryInfo();
@@ -48,4 +50,3 @@ const Trades = observer(({ sellHistoryStore: { sellHistoryInfo } }) => {
     sellHistory
   );
 });
-

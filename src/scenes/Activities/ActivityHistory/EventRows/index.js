@@ -1,3 +1,4 @@
+/* eslint-disable react/static-property-placement, react/state-in-constructor, react/destructuring-assignment, react/no-access-state-in-setstate, react/jsx-fragments, react/jsx-one-expression-per-line, react/jsx-props-no-spreading */
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';

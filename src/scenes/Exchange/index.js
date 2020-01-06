@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment, react/jsx-fragments */
 import React, { Component, Fragment } from 'react';
 import { inject, observer } from 'mobx-react';
 import { Grid } from '@material-ui/core';

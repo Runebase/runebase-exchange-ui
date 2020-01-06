@@ -1,3 +1,4 @@
+/* eslint-disable react/static-property-placement, react/jsx-one-expression-per-line */
 import React, { Component } from 'react';
 import { injectIntl } from 'react-intl';
 import { inject, observer } from 'mobx-react';

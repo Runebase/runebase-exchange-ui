@@ -1,4 +1,4 @@
-/* eslint-disable react/no-did-mount-set-state */
+/* eslint-disable react/no-did-mount-set-state, react/jsx-props-no-spreading, react/destructuring-assignment, camelcase */
 
 import React from 'react';
 import NProgress from 'nprogress';
@@ -18,7 +18,7 @@ export default function asyncComponent(importComponent, langHandler, lang) {
       };
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
       NProgress.start();
     }
 

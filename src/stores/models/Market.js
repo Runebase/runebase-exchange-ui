@@ -5,9 +5,13 @@
 */
 export default class Market {
   market = ''
+
   tokenName = ''
+
   price = ''
+
   change = ''
+
   volume = ''
 
   // for invalid option

@@ -1,3 +1,4 @@
+/* eslint-disable react/static-property-placement, react/destructuring-assignment, react/jsx-one-expression-per-line,  */
 import React, { PureComponent } from 'react';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
@@ -38,13 +39,16 @@ export default class OrderBook extends PureComponent {
     classes: PropTypes.object.isRequired,
     orderId: PropTypes.string,
   };
+
   constructor(props) {
     super(props);
     this.state = { openError: false };
   }
+
   static defaultProps = {
     orderId: undefined,
   };
+
   onCancelOrder = () => {
     if (this.props.store.wallet.currentAddressSelected === '') {
       this.setState({
@@ -123,9 +127,9 @@ export default class OrderBook extends PureComponent {
               </Grid>
             </Grid>
           </ExpansionPanelSummary>
-          <ExpansionPanelDetails className={classes.dashboardOrderBookWrapper} >
+          <ExpansionPanelDetails className={classes.dashboardOrderBookWrapper}>
 
-            <Grid container className='centerText' >
+            <Grid container className='centerText'>
               <Grid item xs={12}>
                 <Grid container justify="center">
                   <Grid item xs={3}>
@@ -178,7 +182,7 @@ export default class OrderBook extends PureComponent {
                 </Grid>
               </Grid>
 
-              <Grid item xs={12}className='spacingOrderBook'>
+              <Grid item xs={12} className='spacingOrderBook'>
                 <Typography variant='subheading' className=''>owner:</Typography>
                 <Typography className={classes.root}><a href={`https://explorer.runebase.io/address/${owner}`}>{owner}</a></Typography>
               </Grid>

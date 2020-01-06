@@ -1,3 +1,4 @@
+/* eslint-disable react/static-property-placement, react/state-in-constructor */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -64,7 +65,7 @@ export default class ChangePassphraseDialog extends Component {
         </DialogTitle>
         <DialogContent>
           <div>
-            <Typography variant="title" ></Typography>
+            <Typography variant="title"></Typography>
             <TextField
               autoFocus
               margin="normal"

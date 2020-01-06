@@ -1,3 +1,4 @@
+/* eslint-disable import/no-useless-path-segments */
 import gql from 'graphql-tag';
 import _ from 'lodash';
 

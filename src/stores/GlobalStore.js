@@ -20,11 +20,17 @@ let syncInfoInterval;
 
 export default class GlobalStore {
   @observable selectedOrderId = INIT_VALUES.selectedOrderId
+
   @observable selectedOrderInfo = INIT_VALUES.selectedOrderInfo
+
   @observable marketInfo = INIT_VALUES.marketInfo
+
   @observable syncPercent = INIT_VALUES.syncPercent
+
   @observable syncBlockNum = INIT_VALUES.syncBlockNum
+
   @observable syncBlockTime = INIT_VALUES.syncBlockTime
+
   @observable peerNodeCount = INIT_VALUES.peerNodeCount
 
   constructor(app) {

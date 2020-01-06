@@ -1,3 +1,4 @@
+/* eslint-disable react/state-in-constructor, react/destructuring-assignment, react/jsx-props-no-spreading, react/jsx-one-expression-per-line, react/jsx-wrap-multilines */
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import _ from 'lodash';
@@ -28,10 +29,12 @@ export default class NavBar extends Component {
   state = {
     dropdownDirection: 'down',
   }
+
   changeDropDownDirection() {
     if (this.state.dropdownDirection === 'down') this.setState({ dropdownDirection: 'up' });
     if (this.state.dropdownDirection === 'up') this.setState({ dropdownDirection: 'down' });
   }
+
   render() {
     const { classes } = this.props;
     this.changeDropDownDirection = this.changeDropDownDirection.bind(this);

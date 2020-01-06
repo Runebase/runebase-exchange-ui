@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
 import { Dialog, DialogTitle, DialogActions, Button } from '@material-ui/core';
 import { FormattedMessage, injectIntl } from 'react-intl';

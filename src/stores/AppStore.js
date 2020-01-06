@@ -25,27 +25,47 @@ import BaseCurrencyStore from './BaseCurrencyStore';
 
 class AppStore {
   @observable loading = true;
+
   @observable sortBy = 'ASC' // TODO: have each store have their own sortBy
 
   global = {}
+
   ui = {}
+
   wallet = {}
+
   globalSnackbar = {}
+
   walletUnlockDialog = {}
+
   pendingTxsSnackbar = {}
+
   refreshing = {}
+
   activities = {}
+
   marketStore = {}
+
   buyStore = {}
+
   sellStore = {}
+
   myTradeStore = {}
+
   sellHistoryStore = {}
+
   buyHistoryStore = {}
+
   activeOrderStore = {}
+
   fulfilledOrderStore = {}
+
   canceledOrderStore = {}
+
   priceChartStore = {}
+
   FundRedeemHistoryStore = {}
+
   baseCurrencyStore = {}
 
   constructor() {

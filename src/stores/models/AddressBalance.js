@@ -1,9 +1,13 @@
+/* eslint-disable no-self-assign */
 import _ from 'lodash';
 
 export default class AddressBalance {
   address = ''
+
   balance = ''
+
   Wallet = {}
+
   Exchange = {}
 
   constructor(addressBalance) {

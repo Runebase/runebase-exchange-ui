@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { Route } from 'react-router-dom';

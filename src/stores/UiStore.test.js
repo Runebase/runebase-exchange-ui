@@ -1,4 +1,4 @@
-import UiStore from '../../src/stores/UiStore';
+import UiStore from './UiStore';
 
 // setup mock
 const localStorageMock = {

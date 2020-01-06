@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import { Snackbar, IconButton } from '@material-ui/core';

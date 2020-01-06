@@ -84,31 +84,57 @@ const INIT_VALUE_DIALOG = {
 
 export default class {
   @observable hasEnoughGasCoverage = INIT_VALUE.hasEnoughGasCoverage;
+
   @observable txSentDialogOpen = INIT_VALUE.txSentDialogOpen;
+
   @observable exchangeAddress = INIT_VALUE.exchangeAddress;
+
   @observable currentAddressSelected = INIT_VALUE.currentAddressSelected;
+
   @observable currentAddressKey = INIT_VALUE.currentAddressKey;
+
   @observable addressesHasCoin = INIT_VALUE.addressesHasCoin;
+
   @observable addressList = INIT_VALUE.addressList;
+
   @observable tokenAmount = INIT_VALUE.tokenAmount;
+
   @observable addresses = INIT_VALUE.addresses;
+
   @observable lastUsedAddress = INIT_VALUE.lastUsedAddress;
+
   @observable walletEncrypted = INIT_VALUE.walletEncrypted;
+
   @observable encryptResult = INIT_VALUE.encryptResult;
+
   @observable passphrase = INIT_VALUE.passphrase;
+
   @observable walletUnlockedUntil = INIT_VALUE.walletUnlockedUntil;
+
   @observable unlockDialogOpen = INIT_VALUE.unlockDialogOpen;
+
   @observable selectedToken = INIT_VALUE_DIALOG.selectedToken;
+
   @observable changePassphraseResult = INIT_VALUE.changePassphraseResult;
+
   @observable txConfirmDialogOpen = INIT_VALUE.txConfirmDialogOpen;
+
   @observable buyOrderConfirmDialogOpen = INIT_VALUE.buyOrderConfirmDialogOpen;
+
   @observable sellOrderConfirmDialogOpen = INIT_VALUE.sellOrderConfirmDialogOpen;
+
   @observable redeemConfirmDialogOpen = INIT_VALUE.redeemConfirmDialogOpen;
+
   @observable fundConfirmDialogOpen = INIT_VALUE.fundConfirmDialogOpen;
+
   @observable cancelOrderConfirmDialogOpen = INIT_VALUE.cancelOrderConfirmDialogOpen;
+
   @observable executeOrderConfirmDialogOpen = INIT_VALUE.executeOrderConfirmDialogOpen;
+
   @observable withdrawDialogError = INIT_VALUE_DIALOG.withdrawDialogError;
+
   @observable withdrawAmount = INIT_VALUE_DIALOG.withdrawAmount;
+
   @observable toAddress = INIT_VALUE_DIALOG.toAddress;
 
   constructor(app) {
@@ -126,7 +152,6 @@ export default class {
   }
 
   @observable market = 'PRED'; // this.app.marketStore.marketInfo[0].market; Get this value from marketStore?
-
 
   @action
   closeTxDialog = async () => {

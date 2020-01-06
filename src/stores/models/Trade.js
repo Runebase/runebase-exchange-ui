@@ -5,18 +5,31 @@
 */
 export default class Trade {
   type = ''
+
   from = ''
+
   to = ''
+
   status = ''
+
   soldTokens = ''
+
   boughtTokens = ''
+
   tokenName = ''
+
   token = ''
+
   orderType = ''
+
   price = ''
+
   orderId = ''
+
   time = ''
+
   amount = ''
+
   blockNum = ''
 
   // for invalid option

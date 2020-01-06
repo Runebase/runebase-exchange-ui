@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading, react/button-has-type, react/jsx-curly-newline, react/destructuring-assignment, operator-assignment, operator-linebreak, react/jsx-wrap-multilines, react/jsx-fragments */
 import React, { Component, Fragment } from 'react';
 import { inject, observer } from 'mobx-react';
 import { Card, Tab, Tabs, AppBar, withStyles } from '@material-ui/core';
@@ -22,6 +23,7 @@ export default class MyOrderBook extends Component {
       value: 0,
     };
   }
+
   componentDidMount() {
     this.props.store.activeOrderStore.init();
     this.props.store.fulfilledOrderStore.init();

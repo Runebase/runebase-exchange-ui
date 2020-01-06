@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-one-expression-per-line, react/destructuring-assignment */
 import React, { PureComponent } from 'react';
 import 'semantic-ui-css/semantic.min.css';
 import { inject } from 'mobx-react';
@@ -25,6 +26,7 @@ class SellHistoryView extends PureComponent {
       return (<Typography className='sold fat'>Sell {totalToken2} {token} for {amountToken} {baseCurrency}</Typography>);
     }
   }
+
   render() {
     const { txid, from, to, boughtTokens, amount, price, token, orderType, date } = this.props.event;
     const { store: { baseCurrencyStore } } = this.props;

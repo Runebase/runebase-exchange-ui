@@ -1,3 +1,4 @@
+/* eslint-disable react/static-property-placement, react/destructuring-assignment, react/jsx-one-expression-per-line, react/button-has-type, react/button-has-type */
 import React, { PureComponent } from 'react';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
@@ -43,6 +44,7 @@ class OrderBook extends PureComponent {
   static defaultProps = {
     orderId: undefined,
   };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -298,7 +300,7 @@ class OrderBook extends PureComponent {
                     </Grid>
                   </Grid>
                 </Grid>
-                <Grid item xs={12}className='spacingOrderBook'>
+                <Grid item xs={12} className='spacingOrderBook'>
                   <div className="ui horizontal divider">
                     Owner
                   </div>

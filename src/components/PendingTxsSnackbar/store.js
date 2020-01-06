@@ -20,15 +20,23 @@ const INIT_VALUES = {
 
 export default class PendingTxsSnackbarStore {
   @observable isVisible = INIT_VALUES.isVisible
+
   @observable count = INIT_VALUES.count
 
   pendingTransfers = INIT_VALUES.pendingTransfers
+
   pendingBuyOrders = INIT_VALUES.pendingBuyOrders
+
   pendingSellOrders = INIT_VALUES.pendingSellOrders
+
   pendingCancelOrders = INIT_VALUES.pendingCancelOrders
+
   pendingExecuteOrders = INIT_VALUES.pendingExecuteOrders
+
   pendingWithdrawExchanges = INIT_VALUES.pendingWithdrawExchanges
+
   pendingDepositExchanges = INIT_VALUES.pendingDepositExchanges
+
   constructor(app) {
     this.app = app;
 

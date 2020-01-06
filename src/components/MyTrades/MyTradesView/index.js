@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-one-expression-per-line, react/destructuring-assignment, lines-between-class-members */
 import React, { PureComponent } from 'react';
 import 'semantic-ui-css/semantic.min.css';
 import { inject } from 'mobx-react';

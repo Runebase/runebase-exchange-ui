@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment, react/no-access-state-in-setstate, react/jsx-one-expression-per-line, react/state-in-constructor, react/jsx-fragments */
 import React, { Component, Fragment } from 'react';
 import { TableCell, TableRow, withStyles } from '@material-ui/core';
 import cx from 'classnames';

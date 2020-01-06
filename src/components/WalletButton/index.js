@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment, react/no-access-state-in-setstate */
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import { Divider } from 'semantic-ui-react';
@@ -27,8 +28,8 @@ export default class WalletButton extends Component {
   }
 
   handleBlur = (e) => {
-    if (e.nativeEvent.explicitOriginalTarget &&
-        e.nativeEvent.explicitOriginalTarget === e.nativeEvent.originalTarget) {
+    if (e.nativeEvent.explicitOriginalTarget
+        && e.nativeEvent.explicitOriginalTarget === e.nativeEvent.originalTarget) {
       return;
     }
 

@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment, operator-assignment, react/jsx-fragments, react/jsx-one-expression-per-line, react/button-has-type, react/jsx-props-no-spreading */
 import React, { Component, Fragment } from 'react';
 import { inject, observer } from 'mobx-react';
 import { withStyles, Card } from '@material-ui/core';
@@ -20,10 +21,12 @@ export default class SellBook extends Component {
   componentDidMount() {
     this.props.store.sellStore.getSellOrderInfo();
   }
+
   handleNext = async () => {
     this.props.store.sellStore.skip = this.props.store.sellStore.skip + 5;
     await this.props.store.sellStore.getSellOrderInfo();
   }
+
   handlePrevious = async () => {
     this.props.store.sellStore.skip = this.props.store.sellStore.skip - 5;
     await this.props.store.sellStore.getSellOrderInfo();
@@ -69,4 +72,3 @@ const Loading = withStyles()(() => <Row><_Loading text={messages.loadAllNewOrder
 const Row = withStyles()(({ ...props }) => (
   <div {...props} />
 ));
-

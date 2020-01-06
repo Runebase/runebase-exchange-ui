@@ -15,10 +15,15 @@ const INIT_VALUES = {
 
 export default class {
   @observable transactions = INIT_VALUES.transactions
+
   @observable order = INIT_VALUES.order
+
   @observable orderBy = INIT_VALUES.orderBy
+
   @observable perPage = INIT_VALUES.perPage
+
   @observable page = INIT_VALUES.page
+
   @observable limit = INIT_VALUES.limit
 
   constructor(app) {

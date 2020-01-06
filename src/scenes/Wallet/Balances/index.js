@@ -1,3 +1,4 @@
+/* eslint-disable react/static-property-placement, react/destructuring-assignment, react/jsx-wrap-multilines, react/jsx-curly-newline */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';

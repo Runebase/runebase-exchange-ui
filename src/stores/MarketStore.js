@@ -14,9 +14,13 @@ const INIT_VALUES = {
 
 export default class MarketStore {
   @observable marketInfo = INIT_VALUES.marketInfo
+
   @observable skip = INIT_VALUES.skip
+
   @observable limit = INIT_VALUES.limit
+
   @observable loading = INIT_VALUES.loading
+
   @observable marketImages = INIT_VALUES.marketImages
 
   constructor(app) {

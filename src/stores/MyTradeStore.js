@@ -18,17 +18,25 @@ const INIT_VALUES = {
 
 export default class {
   @observable loaded = INIT_VALUES.loaded
+
   @observable loadingMore = INIT_VALUES.loadingMore
+
   @observable hasMoreMyTrades = INIT_VALUES.hasMoreMyTrades
+
   @observable hasLessMyTrades = INIT_VALUES.hasLessMyTrades
+
   @observable myTradeInfo = INIT_VALUES.myTradeInfo
+
   @computed get hasMore() {
     return this.hasMoreMyTrades;
   }
+
   @computed get hasLess() {
     return this.hasLessMyTrades;
   }
+
   @observable skip = INIT_VALUES.skip
+
   limit = 10
 
   constructor(app) {

@@ -15,11 +15,17 @@ const INIT_VALUES = {
 
 export default class ExchangeStore {
   @observable loaded = INIT_VALUES.loaded
+
   @observable loadingMore = INIT_VALUES.loadingMore
+
   @observable list = INIT_VALUES.list
+
   @observable hasMore = INIT_VALUES.hasMore
+
   @observable skip = INIT_VALUES.skip
+
   @observable sortBy = INIT_VALUES.sortBy
+
   limit = INIT_VALUES.limit
 
   constructor(app) {

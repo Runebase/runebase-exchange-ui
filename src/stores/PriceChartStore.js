@@ -9,6 +9,7 @@ const INIT_VALUES = {
 
 export default class {
   @observable chartInfo = INIT_VALUES.chartInfo
+
   @computed get hasChartInfo() {
     return this.chartInfo;
   }

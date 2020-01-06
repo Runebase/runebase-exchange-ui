@@ -1,3 +1,4 @@
+/* eslint-disable react/static-property-placement, react/destructuring-assignment, react/no-access-state-in-setstate, react/jsx-props-no-spreading, react/jsx-one-expression-per-line, react/jsx-tag-spacing */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl } from 'react-intl';
@@ -23,6 +24,7 @@ export default class SellOrder extends Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
   };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -33,6 +35,7 @@ export default class SellOrder extends Component {
       hasError: false,
     };
   }
+
   changeAmount = (event, tokenAmount) => {
     const validateTotal = event.target.value * this.state.price;
     if (event.target.value === '' || /^\d+(\.\d{1,8})?$/.test(event.target.value)) {
@@ -56,6 +59,7 @@ export default class SellOrder extends Component {
       });
     }
   }
+
   changePrice = (event, tokenAmount) => {
     const validateTotal = event.target.value * this.state.amount;
     if (event.target.value === '' || /^\d+(\.\d{1,8})?$/.test(event.target.value)) {
@@ -79,6 +83,7 @@ export default class SellOrder extends Component {
       });
     }
   }
+
   total = () => this.amount * this.price;
 
 

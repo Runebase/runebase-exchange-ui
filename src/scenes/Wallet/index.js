@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment, camelcase */
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import { Routes } from 'constants';
@@ -9,7 +10,7 @@ import History from './History';
 @inject('store')
 @observer
 export default class MyWallet extends Component {
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.props.store.ui.location = Routes.WALLET;
   }
 

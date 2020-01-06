@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment, operator-assignment, react/jsx-one-expression-per-line, react/jsx-fragments, react/button-has-type */
 import React, { Component, Fragment } from 'react';
 import { inject, observer } from 'mobx-react';
 import { Card } from '@material-ui/core';
@@ -10,6 +11,7 @@ export default class BuyHistory extends Component {
     this.props.store.buyHistoryStore.skip = this.props.store.buyHistoryStore.skip + 10;
     await this.props.store.buyHistoryStore.getBuyHistoryInfo();
   }
+
   handlePrevious = async () => {
     this.props.store.buyHistoryStore.skip = this.props.store.buyHistoryStore.skip - 10;
     await this.props.store.buyHistoryStore.getBuyHistoryInfo();
@@ -17,10 +19,11 @@ export default class BuyHistory extends Component {
 
   render() {
     const { buyHistoryStore, wallet } = this.props.store;
+    const { currentMarket } = wallet;
     return (
       <Fragment>
         <Card className='dashboardOrderBookTitle'>
-          <p>Buy History ({ wallet.currentMarket })</p>
+          <p>Buy History ({ currentMarket })</p>
         </Card>
         <Trades buyHistoryStore={buyHistoryStore} />
         <div className='centerText'>
@@ -48,4 +51,3 @@ const Trades = observer(({ buyHistoryStore: { buyHistoryInfo } }) => {
     buyHistory
   );
 });
-

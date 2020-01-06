@@ -5,14 +5,23 @@
 */
 export default class FundRedeem {
   txid = ''
+
   type = ''
+
   token = ''
+
   tokenName = ''
+
   status = ''
+
   owner = ''
+
   time = ''
+
   date = ''
+
   amount = ''
+
   blockNum = ''
 
   // for invalid option

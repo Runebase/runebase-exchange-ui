@@ -6,7 +6,9 @@ import locales from '../languageProvider';
 
 export default class UiStore {
   @observable location = Routes.EXCHANGE
+
   @observable locale = localStorage.getItem('lang') || this.defaultLocale
+
   @observable error = null
 
   get localeMessages() {

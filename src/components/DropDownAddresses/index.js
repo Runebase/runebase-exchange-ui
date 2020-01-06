@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment, react/no-access-state-in-setstate, react/jsx-one-expression-per-line, operator-linebreak */
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import { Divider } from 'semantic-ui-react';

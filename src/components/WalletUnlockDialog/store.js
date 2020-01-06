@@ -8,6 +8,7 @@ export default class WalletUnlockDialogStore {
   @observable isVisible = false
 
   passphrase = ''
+
   unlockMinutes = Config.defaults.unlockWalletMins
 
   constructor(app) {

@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file, react/static-property-placement */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Done, DoneAll, Clear } from '@material-ui/icons';
@@ -18,9 +19,11 @@ export class OrderTypeIcon extends PureComponent {
       <div>{getOrderTypeIcon()}</div>
     );
   }
+
   static propTypes = {
     orderType: PropTypes.string,
   };
+
   static defaultProps = {
     orderType: '',
   };
@@ -44,9 +47,11 @@ export class StatusIcon extends PureComponent {
       <div>{getStatusIcon()}</div>
     );
   }
+
   static propTypes = {
     status: PropTypes.string,
   };
+
   static defaultProps = {
     status: '',
   };

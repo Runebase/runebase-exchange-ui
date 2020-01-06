@@ -10,9 +10,13 @@ import { satoshiToDecimal } from '../../helpers/utility';
 @observer
 export default class TransactionCost {
   type
+
   token
+
   amount
+
   gasLimit
+
   gasCost
 
   constructor(txCost) {

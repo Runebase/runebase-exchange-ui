@@ -5,7 +5,9 @@
 */
 export default class BaseCurrency {
   pair = ''
+
   name = ''
+
   address = ''
 
   // for invalid option

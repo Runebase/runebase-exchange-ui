@@ -6,9 +6,13 @@ import { SortBy } from '../../constants';
 
 export default class SyncInfo {
   percent = 0
+
   blockNum = 0
+
   blockTime = ''
+
   balances = []
+
   peerNodeCount = 0
 
   constructor(syncInfo) {

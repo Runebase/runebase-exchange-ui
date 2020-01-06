@@ -19,12 +19,19 @@ const INIT_VALUES = {
 
 export default class {
   @observable fullList = INIT_VALUES.fullList
+
   @observable list = INIT_VALUES.list
+
   @observable orderBy = INIT_VALUES.orderBy
+
   @observable direction = INIT_VALUES.direction
+
   @observable limit = INIT_VALUES.limit
+
   @observable skip = INIT_VALUES.skip
+
   @observable perPage = INIT_VALUES.perPage
+
   @observable page = INIT_VALUES.page
 
   constructor() {
