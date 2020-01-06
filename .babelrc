@@ -1,0 +1,16 @@
+{
+  "presets": ["es2015", "react-app"],
+  "plugins": [
+    "transform-decorators-legacy",
+    [ "react-intl", {
+        "messagesDir": "build/messages"
+    }],
+    "babel-plugin-styled-components",
+    ["module-resolver", {
+      "root": ["./src"],
+      "alias": {
+        "constants":"./src/constants"
+      }
+    }]
+  ]
+}
