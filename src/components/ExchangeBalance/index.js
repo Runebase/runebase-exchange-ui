@@ -6,19 +6,14 @@ import PropTypes from 'prop-types';
 import {
   Typography,
   Card,
-  Grid,
-  withStyles,
-} from '@material-ui/core';
+  Grid } from '@material-ui/core';
 
 @injectIntl
 @inject('store')
 @observer
 export default class ExchangeBalance extends Component {
-  static propTypes = {
-    classes: PropTypes.object.isRequired,
-  };
   render() {
-    const { classes, store: { wallet } } = this.props;
+    const { store: { wallet } } = this.props;
     const rows = [];
     if (wallet.currentAddressKey !== '') {
       Object.keys(wallet.addresses[wallet.currentAddressKey].Exchange).forEach((key) => {

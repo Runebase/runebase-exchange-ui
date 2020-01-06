@@ -7,7 +7,7 @@ import { Provider as MobxProvider, observer } from 'mobx-react';
 import { ThemeProvider } from 'styled-components';
 import MuiPickersUtilsProvider from 'material-ui-pickers/utils/MuiPickersUtilsProvider';
 import MomentUtils from 'material-ui-pickers/utils/moment-utils';
-import createBrowserHistory from 'history/createBrowserHistory';
+import { createBrowserHistory } from 'history';
 import { syncHistoryWithStore } from 'mobx-react-router';
 
 import App from './scenes/App';

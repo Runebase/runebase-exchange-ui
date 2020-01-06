@@ -5,8 +5,7 @@ import { injectIntl } from 'react-intl';
 import {
   withMobileDialog,
   Grid,
-  Typography,
-  withStyles } from '@material-ui/core';
+  Typography } from '@material-ui/core';
 
 @injectIntl
 @inject('store')

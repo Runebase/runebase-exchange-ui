@@ -20,8 +20,6 @@ import NavLink from './components/NavLink';
 import { faqUrls } from '../../config/app';
 import styles from './styles';
 import Tracking from '../../helpers/mixpanelUtil';
-import WithdrawExchangeButton from '../WithdrawExchangeButton';
-import DepositExchangeButton from '../DepositExchangeButton';
 
 @withStyles(styles, { withTheme: true })
 @injectIntl
@@ -203,7 +201,7 @@ const Exchange = observer(({ store: { ui } }) => (
   </NavLink>
 ));
 
-const WalletLink = observer(({ store: { ui, wallet } }) => (
+const WalletLink = observer(({ store: { ui } }) => (
   <NavLink to={Routes.WALLET}>
     <Button
       className={cx(
