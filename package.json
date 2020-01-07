@@ -47,7 +47,6 @@
     "react-copy-to-clipboard": "^5.0.2",
     "react-country-flag": "^2.0.1",
     "react-dom": "^16.12.0",
-    "react-hot-loader": "^4.12.18",
     "react-intl": "^2.3.0",
     "react-moment": "^0.9.7",
     "react-placeholder": "^3.0.2",
@@ -55,15 +54,11 @@
     "react-router-dom": "^5.1.2",
     "react-stockcharts": "^0.7.8",
     "react-swipeable-views": "^0.13.3",
-    "react-tap-event-plugin": "^3.0.3",
     "regenerator-runtime": "^0.13.3",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.88.2",
     "styled-components": "^4.4.1",
-    "styled-theme": "^0.3.3",
     "subscriptions-transport-ws": "^0.9.16",
-    "typeface-lato": "0.0.75",
-    "validator": "^12.1.0",
     "web3-utils": "^1.2.4"
   },
   "devDependencies": {
