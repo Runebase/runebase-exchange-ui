@@ -17,10 +17,14 @@ export default class UiStore {
 
   get defaultLocale() {
     let locale = navigator.language || navigator.userLanguage || '';
-    if (locale.startsWith('ko')) {
-      locale = 'ko-KR';
-    } else if (locale.startsWith('zh')) {
-      locale = 'zh-Hans-CN';
+    if (locale.startsWith('nl')) {
+      locale = 'nl-BE';
+    } else if (locale.startsWith('be')) {
+      locale = 'nl-BE';
+    } else if (locale.startsWith('pt')) {
+      locale = 'pt-BR';
+    } else if (locale.startsWith('br')) {
+      locale = 'pt-BR';
     } else { // Location Other than ko and zh will now return en-US
       locale = 'en-US';
     }

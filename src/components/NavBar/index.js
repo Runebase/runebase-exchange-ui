@@ -55,7 +55,6 @@ export default @withStyles(styles, { withTheme: true }) @injectIntl @inject('sto
     );
   }
 }
-
 const LanguageSelector = inject('store')(observer(({ store: { ui } }) => (
   <NavBarRightButtonContainer>
     <NavBarRightButton>
@@ -65,9 +64,9 @@ const LanguageSelector = inject('store')(observer(({ store: { ui } }) => (
         name="lang"
         disableUnderline
       >
-        <MenuItem value="en-US"><ReactCountryFlag code="us" svg />English</MenuItem>
-        <MenuItem value="zh-Hans-CN">中文</MenuItem>
-        <MenuItem value="ko-KR">한국어</MenuItem>
+        <MenuItem value="en-US"><ReactCountryFlag title="US" countryCode="US" svg style={{ width: '2em', height: '2em', paddingRight: '0.5em' }} /><FormattedMessage id="language.english" defaultMessage="English" /></MenuItem>
+        <MenuItem value="pt-BR"><ReactCountryFlag title="BR" countryCode="BR" svg style={{ width: '2em', height: '2em', paddingRight: '0.5em' }} /><FormattedMessage id="language.portuguese" defaultMessage="Portuguese" /></MenuItem>
+        <MenuItem value="nl-BE"><ReactCountryFlag title="NL" countryCode="NL" svg style={{ width: '2em', height: '2em', paddingRight: '0.5em' }} /><FormattedMessage id="language.dutch" defaultMessage="Dutch" /></MenuItem>
       </Select>
     </NavBarRightButton>
   </NavBarRightButtonContainer>
