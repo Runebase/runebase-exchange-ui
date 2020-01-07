@@ -63,8 +63,6 @@ const SellOrders = observer(({ sellStore: { sellOrderInfo, loading } }) => {
   );
 });
 
-const Loading = withStyles()(() => <Row><_Loading text={messages.loadAllNewOrdersMsg} /></Row>);
+const Loading = () => <Row><_Loading text={messages.loadAllNewOrdersMsg} /></Row>;
 
-const Row = withStyles()(({ ...props }) => (
-  <div {...props} />
-));
+const Row = ({ ...props }) => <div {...props} />;

@@ -1,4 +1,4 @@
-/* eslint-disable react/state-in-constructor, react/destructuring-assignment, react/jsx-props-no-spreading, react/jsx-one-expression-per-line, react/jsx-wrap-multilines */
+/* eslint-disable no-lone-blocks, react/state-in-constructor, react/destructuring-assignment, react/jsx-props-no-spreading, react/jsx-one-expression-per-line, react/jsx-wrap-multilines */
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import _ from 'lodash';
@@ -103,6 +103,7 @@ const NavBarRightButton = styled.div`
   line-height: 30px;
 `;
 
+{ /*
 const MyActivities = observer(({ store: { global } }) => (
   <NavLink to={Routes.ACTIVITY_HISTORY}>
     <NavBarRightButtonContainer>
@@ -112,6 +113,7 @@ const MyActivities = observer(({ store: { global } }) => (
     </NavBarRightButtonContainer>
   </NavLink>
 ));
+*/ }
 
 const Wallet = styled(({ store: { wallet } }) => {
   const sums = {};

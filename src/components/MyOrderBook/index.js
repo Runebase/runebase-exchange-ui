@@ -175,8 +175,6 @@ const OrdersCanceled = observer(({ canceledOrderStore: { canceledOrderInfo, load
   );
 });
 
-const Loading = withStyles()(() => <Row><_Loading text={messages.loadAllOrdersMsg} /></Row>);
+const Loading = () => <Row><_Loading text={messages.loadAllOrdersMsg} /></Row>;
 
-const Row = withStyles()(({ ...props }) => (
-  <div {...props} />
-));
+const Row = ({ ...props }) => <div {...props} />;
