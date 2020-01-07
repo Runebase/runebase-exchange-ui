@@ -5,16 +5,11 @@ import { inject, observer } from 'mobx-react';
 import { withStyles, Typography, Grid, LinearProgress } from '@material-ui/core';
 import { FormattedMessage } from 'react-intl';
 import _ from 'lodash';
-
 import AppConfig from '../../../../config/app';
 import styles from './styles';
 import { getShortLocalDateTimeString } from '../../../../helpers';
 
-
-@withStyles(styles)
-@inject('store')
-@observer
-export default class Loader extends Component {
+export default @withStyles(styles) @inject('store') @observer class Loader extends Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
   };

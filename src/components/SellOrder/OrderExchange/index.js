@@ -20,10 +20,7 @@ const messages = defineMessages({
   },
 });
 
-@injectIntl
-@inject('store')
-@observer
-export default class OrderExchange extends Component {
+export default @injectIntl @inject('store') @observer class OrderExchange extends Component {
   constructor(props) {
     super(props);
     this.state = { openError: false };

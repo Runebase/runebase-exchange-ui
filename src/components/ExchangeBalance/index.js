@@ -2,16 +2,12 @@ import React, { Component } from 'react';
 import { injectIntl } from 'react-intl';
 import { inject, observer } from 'mobx-react';
 import PropTypes from 'prop-types';
-
 import {
   Typography,
   Card,
   Grid } from '@material-ui/core';
 
-@injectIntl
-@inject('store')
-@observer
-export default class ExchangeBalance extends Component {
+export default @injectIntl @inject('store') @observer class ExchangeBalance extends Component {
   render() {
     const { store: { wallet } } = this.props;
     const rows = [];

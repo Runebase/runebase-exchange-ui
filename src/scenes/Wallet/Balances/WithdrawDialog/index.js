@@ -41,11 +41,7 @@ const messages = defineMessages({
   },
 });
 
-@injectIntl
-@withStyles(styles, { withTheme: true })
-@inject('store')
-@observer
-export default class WithdrawDialog extends Component {
+export default @injectIntl @withStyles(styles, { withTheme: true }) @inject('store') @observer class WithdrawDialog extends Component {
   static propTypes = {
     intl: intlShape.isRequired, // eslint-disable-line react/no-typos
     classes: PropTypes.object.isRequired,

@@ -31,12 +31,7 @@ const messages = defineMessages({
   },
 });
 
-
-@injectIntl
-@withStyles(styles, { withTheme: true })
-@inject('store')
-@observer
-export default class Activities extends Component {
+export default @injectIntl @withStyles(styles, { withTheme: true }) @inject('store') @observer class Activities extends Component {
   static propTypes = {
     intl: intlShape.isRequired, // eslint-disable-line react/no-typos
     match: PropTypes.object.isRequired,

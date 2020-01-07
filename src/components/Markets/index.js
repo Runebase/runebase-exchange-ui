@@ -13,10 +13,7 @@ const messages = defineMessages({
   },
 });
 
-@injectIntl
-@observer
-@inject('store')
-export default class Markets extends Component {
+export default @injectIntl @observer @inject('store') class Markets extends Component {
   render() {
     const { marketStore } = this.props.store;
 

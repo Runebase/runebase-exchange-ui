@@ -3,14 +3,9 @@ import React, { Component } from 'react';
 import { Dialog, DialogTitle, DialogActions, Button } from '@material-ui/core';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import _ from 'lodash';
-
 import { inject, observer } from 'mobx-react';
 
-
-@injectIntl
-@inject('store')
-@observer
-export default class ChangePassphraseStatusDialog extends Component {
+export default @injectIntl @inject('store') @observer class ChangePassphraseStatusDialog extends Component {
   render() {
     const { changePassphraseResult } = this.props.store.wallet;
     const isSuccessful = !_.isUndefined(changePassphraseResult) && _.has(changePassphraseResult, 'status');

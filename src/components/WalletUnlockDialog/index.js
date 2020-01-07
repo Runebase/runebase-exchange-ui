@@ -13,7 +13,6 @@ import {
   DialogTitle,
 } from '@material-ui/core';
 import { FormattedMessage, injectIntl, intlShape, defineMessages } from 'react-intl';
-
 import styles from './styles';
 
 const messages = defineMessages({
@@ -23,12 +22,7 @@ const messages = defineMessages({
   },
 });
 
-
-@injectIntl
-@withStyles(styles, { withTheme: true })
-@inject('store')
-@observer
-export default class WalletUnlockDialog extends Component {
+export default @injectIntl @withStyles(styles, { withTheme: true }) @inject('store') @observer class WalletUnlockDialog extends Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     intl: intlShape.isRequired, // eslint-disable-line react/no-typos

@@ -24,11 +24,7 @@ import styles from './styles';
 import HistoryItem from './HistoryItem';
 import Config from '../../../config/app';
 
-@injectIntl
-@withStyles(styles, { withTheme: true })
-@inject('store')
-@observer
-export default class WalletHistory extends Component {
+export default @injectIntl @withStyles(styles, { withTheme: true }) @inject('store') @observer class WalletHistory extends Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
   };

@@ -4,9 +4,7 @@ import { inject, observer } from 'mobx-react';
 import { Card } from '@material-ui/core';
 import MyTradesView from './MyTradesView';
 
-@inject('store')
-@observer
-export default class MyTrades extends Component {
+export default @inject('store') @observer class MyTrades extends Component {
   handleNext = async () => {
     this.props.store.myTradeStore.skip = this.props.store.myTradeStore.skip + 10;
     await this.props.store.myTradeStore.getMyTradeInfo();

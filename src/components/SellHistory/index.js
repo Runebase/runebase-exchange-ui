@@ -4,9 +4,8 @@ import { inject, observer } from 'mobx-react';
 import { Card } from '@material-ui/core';
 import SellHistoryView from './SellHistoryView';
 
-@inject('store')
-@observer
-export default class SellHistory extends Component {
+
+export default @inject('store') @observer class SellHistory extends Component {
   handleNext = async () => {
     this.props.store.sellHistoryStore.skip = this.props.store.sellHistoryStore.skip + 10;
     await this.props.store.sellHistoryStore.getSellHistoryInfo();

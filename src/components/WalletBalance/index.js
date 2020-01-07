@@ -12,11 +12,7 @@ import {
 import 'semantic-ui-css/semantic.min.css';
 import styles from './styles';
 
-@injectIntl
-@withStyles(styles, { withTheme: true })
-@inject('store')
-@observer
-export default class WalletBalance extends Component {
+export default @injectIntl @withStyles(styles, { withTheme: true }) @inject('store') @observer class WalletBalance extends Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
   };

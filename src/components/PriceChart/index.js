@@ -3,9 +3,7 @@ import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import Chart from './Chart';
 
-@inject('store')
-@observer
-export default class ChartComponent extends Component {
+export default @inject('store') @observer class ChartComponent extends Component {
   componentDidMount() {
     this.props.store.priceChartStore.getChartInfo();
   }

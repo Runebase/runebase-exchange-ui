@@ -14,9 +14,7 @@ const messages = defineMessages({
   },
 });
 
-@inject('store')
-@observer
-export default class MyOrderBook extends Component {
+export default @inject('store') @observer class MyOrderBook extends Component {
   constructor(props) {
     super(props);
     this.state = {

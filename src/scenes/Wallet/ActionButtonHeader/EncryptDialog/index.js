@@ -19,10 +19,8 @@ const messages = defineMessages({
     defaultMessage: 'Passphrse',
   },
 });
-@injectIntl
-@inject('store')
-@observer
-export default class EncryptDialog extends Component {
+
+export default @injectIntl @inject('store') @observer class EncryptDialog extends Component {
   static propTypes = {
     intl: intlShape.isRequired, // eslint-disable-line react/no-typos
     dialogVisible: PropTypes.bool.isRequired,

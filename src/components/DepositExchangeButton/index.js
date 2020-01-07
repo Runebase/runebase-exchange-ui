@@ -22,10 +22,7 @@ const messages = defineMessages({
   },
 });
 
-@injectIntl
-@inject('store')
-@observer
-export default class DepositExchangeButton extends Component {
+export default @injectIntl @inject('store') @observer class DepositExchangeButton extends Component {
   constructor(props) {
     super(props);
     this.hasWallet = [];

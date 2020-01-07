@@ -21,12 +21,7 @@ import styles from './styles';
 import Config from '../../../config/app';
 import EventRows from './EventRows';
 
-
-@injectIntl
-@withStyles(styles, { withTheme: true })
-@inject('store')
-@observer
-export default class ActivityHistory extends Component {
+export default @injectIntl @withStyles(styles, { withTheme: true }) @inject('store') @observer class ActivityHistory extends Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
   };

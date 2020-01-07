@@ -3,10 +3,8 @@ import React, { Component, Fragment } from 'react';
 import { inject, observer } from 'mobx-react';
 import { withStyles, Card } from '@material-ui/core';
 import { defineMessages } from 'react-intl';
-
 import OrderBook from './OrderBook';
 import _Loading from '../Loading';
-
 
 const messages = defineMessages({
   loadAllEventsMsg: {
@@ -15,9 +13,7 @@ const messages = defineMessages({
   },
 });
 
-@inject('store')
-@observer
-export default class BuyBook extends Component {
+export default @inject('store') @observer class BuyBook extends Component {
   componentDidMount() {
     this.props.store.buyStore.getBuyOrderInfo();
   }

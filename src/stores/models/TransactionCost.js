@@ -6,9 +6,8 @@ import { satoshiToDecimal } from '../../helpers/utility';
 * Model for TransactionCost.
 * Represents the cost for a transaction. This is fetched before the user executes a transaction.
 */
-@inject('store')
-@observer
-export default class TransactionCost {
+
+export default @inject('store') @observer class TransactionCost {
   type
 
   token

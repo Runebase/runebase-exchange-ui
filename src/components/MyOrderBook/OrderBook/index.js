@@ -31,10 +31,7 @@ const messages = defineMessages({
   },
 });
 
-@injectIntl
-@inject('store')
-@withStyles(styles, { withTheme: true })
-export default class OrderBook extends PureComponent {
+export default @injectIntl @inject('store') @withStyles(styles, { withTheme: true }) class OrderBook extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     orderId: PropTypes.string,

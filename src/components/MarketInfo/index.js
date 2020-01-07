@@ -10,11 +10,7 @@ import {
 import 'semantic-ui-css/semantic.min.css';
 import styles from './styles';
 
-@injectIntl
-@withStyles(styles, { withTheme: true })
-@inject('store')
-@observer
-export default class MarketInfo extends Component {
+export default @injectIntl @withStyles(styles, { withTheme: true }) @inject('store') @observer class MarketInfo extends Component {
   render() {
     const { store: { wallet, marketStore, baseCurrencyStore } } = this.props;
     const findContractAddress = _.find(marketStore.marketInfo, { market: `${wallet.market}` });

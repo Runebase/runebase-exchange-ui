@@ -12,14 +12,9 @@ import {
   DialogActions,
 } from '@material-ui/core';
 import { FormattedMessage, injectIntl } from 'react-intl';
-
 import styles from './styles';
 
-@injectIntl
-@withStyles(styles, { withTheme: true })
-@inject('store')
-@observer
-export default class ErrorDialog extends Component {
+export default @injectIntl @withStyles(styles, { withTheme: true }) @inject('store') @observer class ErrorDialog extends Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     error: PropTypes.object,

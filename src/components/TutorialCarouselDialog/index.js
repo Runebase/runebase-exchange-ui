@@ -38,12 +38,7 @@ const messages = defineMessages({
   },
 });
 
-
-@injectIntl
-@withStyles(styles, { withTheme: true })
-@inject('store')
-@observer
-export default class TutorialCarouselDialog extends Component {
+export default @injectIntl @withStyles(styles, { withTheme: true }) @inject('store') @observer class TutorialCarouselDialog extends Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     intl: intlShape.isRequired, // eslint-disable-line

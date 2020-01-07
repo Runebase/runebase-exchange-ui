@@ -4,10 +4,7 @@ import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import { injectIntl, intlShape } from 'react-intl';
 
-@injectIntl
-@inject('store')
-@observer
-export default class ImageLocaleWrapper extends Component {
+export default @injectIntl @inject('store') @observer class ImageLocaleWrapper extends Component {
   static propTypes = {
     intl: intlShape.isRequired, // eslint-disable-line react/no-typos
     appliedLanguages: PropTypes.array,

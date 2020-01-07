@@ -5,15 +5,9 @@ import { inject, observer } from 'mobx-react';
 import { withStyles, Snackbar, Typography, Grid } from '@material-ui/core';
 import cx from 'classnames';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
-
 import styles from './styles';
 
-
-@injectIntl
-@withStyles(styles, { withTheme: true })
-@inject('store')
-@observer
-export default class PendingTxsSnackbar extends Component {
+export default @injectIntl @withStyles(styles, { withTheme: true }) @inject('store') @observer class PendingTxsSnackbar extends Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     intl: intlShape.isRequired, // eslint-disable-line react/no-typos

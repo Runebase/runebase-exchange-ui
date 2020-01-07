@@ -40,11 +40,7 @@ const messages = defineMessages({
   },
 });
 
-@injectIntl
-@withStyles(styles, { withTheme: true })
-@inject('store')
-@observer
-export default class ActionButtonHeader extends Component {
+export default @injectIntl @withStyles(styles, { withTheme: true }) @inject('store') @observer class ActionButtonHeader extends Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
   }

@@ -52,11 +52,8 @@ const messages = defineMessages({
  * - event page
  * - create event
  */
-@injectIntl
-@withStyles(styles, { withTheme: true })
-@inject('store')
-@observer
-export default class TxConfirmDialog extends Component {
+
+export default @injectIntl @withStyles(styles, { withTheme: true }) @inject('store') @observer class TxConfirmDialog extends Component {
   render() {
     const { open, txFees, onConfirm, onClose, txAmount, txToken, txDesc } = this.props;
     const { classes, intl: { formatMessage } } = this.props;

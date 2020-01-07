@@ -16,11 +16,7 @@ import Input from 'muicss/lib/react/input';
 import styles from './styles';
 import OrderExchange from './OrderExchange';
 
-@injectIntl
-@withStyles(styles, { withTheme: true })
-@inject('store')
-@observer
-export default class SellOrder extends Component {
+export default @injectIntl @withStyles(styles, { withTheme: true }) @inject('store') @observer class SellOrder extends Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
   };

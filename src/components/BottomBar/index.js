@@ -6,16 +6,10 @@ import { CheckCircle as CheckCircleIcon, RemoveCircle as RemoveCircleIcon } from
 import { FormattedMessage, injectIntl } from 'react-intl';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-
 import styles from './styles';
 import { getShortLocalDateTimeString } from '../../helpers/utility';
 
-
-@injectIntl
-@withStyles(styles, { withTheme: true })
-@inject('store')
-@observer
-export default class BottomBar extends Component {
+export default @injectIntl @withStyles(styles, { withTheme: true }) @inject('store') @observer class BottomBar extends Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
   }

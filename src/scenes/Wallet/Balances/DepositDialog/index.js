@@ -12,13 +12,9 @@ import {
 } from '@material-ui/core';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-
 import styles from './styles';
 
-
-@withStyles(styles, { withTheme: true })
-@injectIntl
-export default class DepositDialog extends Component {
+export default @withStyles(styles, { withTheme: true }) @injectIntl class DepositDialog extends Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     dialogVisible: PropTypes.bool.isRequired,

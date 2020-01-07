@@ -39,11 +39,7 @@ const messages = defineMessages({
   },
 });
 
-@injectIntl
-@withStyles(styles, { withTheme: true })
-@inject('store')
-@observer
-export default class MyBalances extends Component {
+export default @injectIntl @withStyles(styles, { withTheme: true }) @inject('store') @observer class MyBalances extends Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
   }

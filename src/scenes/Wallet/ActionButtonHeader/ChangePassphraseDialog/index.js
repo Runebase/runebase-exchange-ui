@@ -26,12 +26,7 @@ const messages = defineMessages({
   },
 });
 
-
-@injectIntl
-@withStyles(null, { withTheme: true })
-@inject('store')
-@observer
-export default class ChangePassphraseDialog extends Component {
+export default @injectIntl @withStyles(null, { withTheme: true }) @inject('store') @observer class ChangePassphraseDialog extends Component {
   static propTypes = {
     intl: intlShape.isRequired, // eslint-disable-line react/no-typos
     dialogVisible: PropTypes.bool.isRequired,

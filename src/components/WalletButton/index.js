@@ -7,9 +7,7 @@ import {
 } from '@material-ui/core';
 import { AccountBalanceWallet } from '@material-ui/icons';
 
-@inject('store')
-@observer
-export default class WalletButton extends Component {
+export default @inject('store') @observer class WalletButton extends Component {
   constructor(props) {
     super(props);
     this.state = {

@@ -6,9 +6,7 @@ import { injectIntl } from 'react-intl';
 import { Card, Grid, Typography } from '@material-ui/core';
 import classNames from 'classnames/bind';
 
-@injectIntl
-@inject('store')
-export default class MarketView extends PureComponent {
+export default @injectIntl @inject('store') class MarketView extends PureComponent {
   render() {
     const { market, tokenName, price, change, volume } = this.props.event;
     const { store: { wallet, marketStore, baseCurrencyStore } } = this.props;

@@ -12,10 +12,7 @@ import {
 import { FormattedMessage, injectIntl } from 'react-intl';
 import _ from 'lodash';
 
-@injectIntl
-@inject('store')
-@observer
-export default class EncryptStatusDialog extends Component {
+export default @injectIntl @inject('store') @observer class EncryptStatusDialog extends Component {
   static propTypes = {
     encryptResult: PropTypes.oneOfType([
       PropTypes.string,

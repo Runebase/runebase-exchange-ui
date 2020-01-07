@@ -22,10 +22,7 @@ import { faqUrls } from '../../config/app';
 import styles from './styles';
 import Tracking from '../../helpers/mixpanelUtil';
 
-@withStyles(styles, { withTheme: true })
-@injectIntl
-@inject('store')
-export default class NavBar extends Component {
+export default @withStyles(styles, { withTheme: true }) @injectIntl @inject('store') class NavBar extends Component {
   state = {
     dropdownDirection: 'down',
   }

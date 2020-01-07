@@ -24,9 +24,7 @@ import {
 import Loading from '../../components/EventListLoading';
 import '../../style/style.css';
 
-@inject('store')
-@observer
-export default class Exchange extends Component {
+export default @inject('store') @observer class Exchange extends Component {
   render() {
     const { loading } = this.props.store.global;
     if (loading) return <Loading />;

@@ -7,9 +7,7 @@ import {
   Grid,
 } from '@material-ui/core';
 
-@inject('store')
-@observer
-export default class DropDownAddresses extends Component {
+export default @inject('store') @observer class DropDownAddresses extends Component {
   constructor(props) {
     super(props);
     this.state = {
