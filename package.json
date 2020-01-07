@@ -53,15 +53,9 @@
     "react-placeholder": "^3.0.2",
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
-    "react-select": "^3.0.8",
-    "react-sidebar": "^3.0.2",
     "react-stockcharts": "^0.7.8",
     "react-swipeable-views": "^0.13.3",
-    "react-table": "^6.11.5",
     "react-tap-event-plugin": "^3.0.3",
-    "react-throttle": "^0.3.0",
-    "react-validation-framework": "^5.1.0",
-    "react-window-resize-listener": "^1.1.0",
     "regenerator-runtime": "^0.13.3",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.88.2",
@@ -70,8 +64,7 @@
     "subscriptions-transport-ws": "^0.9.16",
     "typeface-lato": "0.0.75",
     "validator": "^12.1.0",
-    "web3-utils": "^1.2.4",
-    "yarn": "^1.21.1"
+    "web3-utils": "^1.2.4"
   },
   "devDependencies": {
     "@babel/plugin-proposal-decorators": "^7.7.4",
