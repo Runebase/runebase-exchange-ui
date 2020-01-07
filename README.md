@@ -18,25 +18,22 @@ ReactJS frontend that interacts with the RunebaseExchange backend services
 
 ### Requirements
 
-- [Node](https://nodejs.org/en/) version greater than 10
-- [Yarn](https://yarnpkg.com/lang/en/) or [npm](https://www.npmjs.com/) version greater than 6.0.0
+- [Node](https://nodejs.org/en/) version greater than 12
 
 ### download
 ```bash
 $ git clone https://github.com/runebase/runebase-Exchange-ui.git
 $ cd runebase-Exchange-ui
-$ yarn
-$ yarn upgrade    // this is important
 $ npm install
 ```
 
 ### to use
 
 1. Start the app
-  `yarn start`
+  `npm run start`
   After the compiled process completed successfully, it will show success commands & redirect to the http://localhost:3000/ of browser where you will find the login screen of the app.
 2. To create an Optimized Product Build of the app, you need to run a build command in you terminal at app root.
-  `yarn build`
+  `npm run build`
 
 ## Development
 
