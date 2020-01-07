@@ -100,7 +100,7 @@
     "@babel/plugin-proposal-decorators": "^7.7.4",
     "@babel/preset-react": "^7.7.4",
     "@babel/runtime": "^7.7.7",
-    "autoprefixer": "^7.2.6",
+    "autoprefixer": "^9.7.3",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-eslint": "^10.0.3",
@@ -182,5 +182,11 @@
       "pre-commit": "lint-staged",
       "pre-push": "npm run lint:fix"
     }
-  }
+  },
+  "browserslist": [
+    ">1%",
+    "last 4 versions",
+    "Firefox ESR",
+    "not ie < 9"
+  ]
 }
