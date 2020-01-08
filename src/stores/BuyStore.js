@@ -53,17 +53,26 @@ export default class {
         }
       }
     );
+
+    reaction(
+      () => this.app.sortBy + this.app.wallet.addresses + this.app.refreshing + this.app.global.syncBlockNum,
+      () => {
+        if (this.app.ui.location === Routes.EXCHANGE) {
+          this.getBuyOrderInfo();
+        }
+      }
+    );
     // Call BuyOrders once to init the wallet addresses used by other stores
-    this.getBuyOrderInfo();
+    // this.getBuyOrderInfo();
     this.subscribeBuyOrderInfo();
-    setInterval(this.getBuyOrderInfo, AppConfig.intervals.buyOrderInfo);
+    // setInterval(this.getBuyOrderInfo, AppConfig.intervals.buyOrderInfo);
   }
 
   @action
   init = async (limit = this.limit) => {
     Object.assign(this, INIT_VALUES); // reset all properties
     this.app.ui.location = Routes.EXCHANGE;
-    this.buyOrderInfo = await this.getBuyOrderInfo(limit);
+    // his.buyOrderInfo = await this.getBuyOrderInfo(limit);
     runInAction(() => {
       this.loading = false;
     });
@@ -102,6 +111,7 @@ export default class {
         if (errors && errors.length > 0) {
           self.onBuyOrderInfo({ error: errors[0] });
         } else {
+          console.log(data.onBuyOrderInfo);
           self.onBuyOrderInfo(data.onBuyOrderInfo);
         }
       },

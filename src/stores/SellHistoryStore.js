@@ -52,17 +52,27 @@ export default class {
         }
       }
     );
+
+    reaction(
+      () => this.app.sortBy + this.app.wallet.addresses + this.app.refreshing + this.app.global.syncBlockNum,
+      () => {
+        if (this.app.ui.location === Routes.EXCHANGE) {
+          this.getSellHistoryInfo();
+        }
+      }
+    );
+
     // Call mytrades once to init the wallet addresses used by other stores
-    this.getSellHistoryInfo();
+    // this.getSellHistoryInfo();
     this.subscribeSellHistoryInfo();
-    setInterval(this.getSellHistoryInfo, AppConfig.intervals.sellHistoryInfo);
+    // setInterval(this.getSellHistoryInfo, AppConfig.intervals.sellHistoryInfo);
   }
 
   @action
   init = async (limit = this.limit) => {
     Object.assign(this, INIT_VALUES); // reset all properties
     this.app.ui.location = Routes.EXCHANGE;
-    this.sellHistoryInfo = await this.getSellHistoryInfo(limit);
+    // this.sellHistoryInfo = await this.getSellHistoryInfo(limit);
     runInAction(() => {
       this.loading = false;
     });
@@ -106,6 +116,8 @@ export default class {
         if (errors && errors.length > 0) {
           self.onSellHistoryInfo({ error: errors[0] });
         } else {
+          console.log('subscription-sellhistory');
+          console.log(data.onSellHistoryInfo);
           self.onSellHistoryInfo(data.onSellHistoryInfo);
         }
       },

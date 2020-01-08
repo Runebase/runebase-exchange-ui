@@ -106,6 +106,8 @@ export default class {
         if (errors && errors.length > 0) {
           self.onMyTradeInfo({ error: errors[0] });
         } else {
+          console.log('subscribeMyTradeInfo');
+          console.log(data.onMyTradeInfo);
           self.onMyTradeInfo(data.onMyTradeInfo);
         }
       },

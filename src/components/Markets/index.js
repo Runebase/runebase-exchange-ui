@@ -4,7 +4,7 @@ import { inject, observer } from 'mobx-react';
 import { injectIntl, defineMessages } from 'react-intl';
 import { withStyles } from '@material-ui/core';
 import MarketView from './MarketView';
-import _Loading from '../Loading';
+import LoadingElement from '../Loading';
 
 const messages = defineMessages({
   loadAllMarketsMsg: {
@@ -33,8 +33,6 @@ const Events = observer(({ marketStore: { marketInfo, loading } }) => {
   );
 });
 
-const Loading = withStyles(({ classes }) => <Row><_Loading className={classes.loading} text={messages.loadAllMarketsMsg} /></Row>);
+const Loading = () => <Row><LoadingElement text={messages.loadAllMarketsMsg} /></Row>;
 
-const Row = withStyles(({ classes, ...props }) => (
-  <div className={classes.row} {...props} />
-));
+const Row = ({ ...props }) => <div {...props} />;

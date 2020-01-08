@@ -52,17 +52,29 @@ export default class {
         }
       }
     );
+
+    reaction(
+      () => this.app.sortBy + this.app.wallet.addresses + this.app.refreshing + this.app.global.syncBlockNum,
+      () => {
+        if (this.app.ui.location === Routes.EXCHANGE) {
+          this.getSellOrderInfo();
+        }
+      }
+    );
+
     // Call BuyOrders once to init the wallet addresses used by other stores
-    this.getSellOrderInfo();
-    this.subscribeSellOrderInfo();
-    setInterval(this.getSellOrderInfo, AppConfig.intervals.sellOrderInfo);
+    // this.getSellOrderInfo();
+    // this.subscribeSellOrderInfo();
+    // setInterval(this.getSellOrderInfo, AppConfig.intervals.sellOrderInfo);
+    // this.getSellOrderInfo();
   }
+
 
   @action
   init = async (limit = this.limit) => {
     Object.assign(this, INIT_VALUES); // reset all properties
     this.app.ui.location = Routes.EXCHANGE;
-    this.sellOrderInfo = await this.getSellOrderInfo(limit);
+    // this.sellOrderInfo = await this.getSellOrderInfo(limit);
     runInAction(() => {
       this.loading = false;
     });
@@ -91,6 +103,7 @@ export default class {
     } else {
       const result = _.uniqBy(sellOrderInfo, 'orderId').map((newOrder) => new NewOrder(newOrder, this.app));
       const resultOrder = _.orderBy(result, ['price'], 'asc');
+      console.log(resultOrder);
       this.sellOrderInfo = resultOrder;
     }
   }

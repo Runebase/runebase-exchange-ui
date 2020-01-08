@@ -1,5 +1,5 @@
 /* eslint-disable react/destructuring-assignment, operator-assignment, react/jsx-fragments, react/jsx-one-expression-per-line, react/button-has-type, react/jsx-props-no-spreading */
-import React, { Component, Fragment } from 'react';
+import React, { Component, Fragment, reaction } from 'react';
 import { inject, observer } from 'mobx-react';
 import { Card } from '@material-ui/core';
 import { defineMessages } from 'react-intl';
@@ -14,10 +14,6 @@ const messages = defineMessages({
 });
 
 export default @inject('store') @observer class SellBook extends Component {
-  componentDidMount() {
-    this.props.store.sellStore.getSellOrderInfo();
-  }
-
   handleNext = async () => {
     this.props.store.sellStore.loading = true;
     this.props.store.sellStore.skip = this.props.store.sellStore.skip + 5;
@@ -34,6 +30,7 @@ export default @inject('store') @observer class SellBook extends Component {
 
   render() {
     const { sellStore, wallet } = this.props.store;
+    console.log(sellStore.sellOrderInfo);
     return (
       <Fragment>
         <Card className='dashboardOrderBookTitle'>

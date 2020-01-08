@@ -47,6 +47,7 @@ const messages = defineMessages({
 });
 
 const INIT_VALUE = {
+  market: 'PRED',
   txSentDialogOpen: false,
   exchangeAddress: 'RNLAUEZ7qmCVLYDbKYRhhj77KMoPUTgyGz', // Dummy Value
   accountData: [],
@@ -137,6 +138,8 @@ export default class {
 
   @observable toAddress = INIT_VALUE_DIALOG.toAddress;
 
+  @observable market = INIT_VALUE.market; // this.app.marketStore.marketInfo[0].market; Get this value from marketStore?
+
   constructor(app) {
     this.app = app;
     //
@@ -150,8 +153,6 @@ export default class {
       }
     );
   }
-
-  @observable market = 'PRED'; // this.app.marketStore.marketInfo[0].market; Get this value from marketStore?
 
   @action
   closeTxDialog = async () => {
@@ -237,6 +238,8 @@ export default class {
         this.app.priceChartStore.getChartInfo();
         this.app.buyStore.getBuyOrderInfo();
         this.app.sellStore.getSellOrderInfo();
+        this.app.buyHistoryStore.getBuyHistoryInfo();
+        this.app.sellHistoryStore.getSellHistoryInfo();
         this.app.marketStore.getMarketInfo();
       });
     } catch (error) {
@@ -260,6 +263,8 @@ export default class {
         this.app.canceledOrderStore.getCanceledOrderInfo();
         this.app.myTradeStore.getMyTradeInfo();
         this.app.marketStore.getMarketInfo();
+        this.app.buyHistoryStore.getBuyHistoryInfo();
+        this.app.sellHistoryStore.getSellHistoryInfo();
       });
     } catch (error) {
       runInAction(() => {

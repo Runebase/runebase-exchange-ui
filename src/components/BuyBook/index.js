@@ -14,10 +14,6 @@ const messages = defineMessages({
 });
 
 export default @inject('store') @observer class BuyBook extends Component {
-  componentDidMount() {
-    this.props.store.buyStore.getBuyOrderInfo();
-  }
-
   handleNext = async () => {
     this.props.store.buyStore.loading = true;
     this.props.store.buyStore.skip = this.props.store.buyStore.skip + 5;
