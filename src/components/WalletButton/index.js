@@ -1,10 +1,6 @@
 /* eslint-disable react/destructuring-assignment, react/no-access-state-in-setstate */
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
-import { Divider } from 'semantic-ui-react';
-import {
-  Grid,
-} from '@material-ui/core';
 import { AccountBalanceWallet } from '@material-ui/icons';
 
 export default @inject('store') @observer class WalletButton extends Component {
@@ -40,7 +36,7 @@ export default @inject('store') @observer class WalletButton extends Component {
 
   render() {
     const { store: { wallet } } = this.props;
-    const { show, handleToggle, handleBlur, handleSelectChange } = this;
+    // const { show, handleToggle, handleBlur, handleSelectChange } = this;
     const addressSelectBoolean = wallet.currentAddressSelected === '';
     return (
       <div>

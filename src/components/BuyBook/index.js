@@ -1,14 +1,14 @@
 /* eslint-disable react/destructuring-assignment, operator-assignment, react/jsx-fragments, react/jsx-one-expression-per-line, react/button-has-type, react/jsx-props-no-spreading */
 import React, { Component, Fragment } from 'react';
 import { inject, observer } from 'mobx-react';
-import { withStyles, Card } from '@material-ui/core';
+import { Card } from '@material-ui/core';
 import { defineMessages } from 'react-intl';
 import OrderBook from './OrderBook';
-import _Loading from '../Loading';
+import LoadingElement from '../Loading';
 
 const messages = defineMessages({
-  loadAllEventsMsg: {
-    id: 'load.allEvents',
+  loadBuyBookMsg: {
+    id: 'load.buyBook',
     defaultMessage: 'loading',
   },
 });
@@ -19,13 +19,17 @@ export default @inject('store') @observer class BuyBook extends Component {
   }
 
   handleNext = async () => {
+    this.props.store.buyStore.loading = true;
     this.props.store.buyStore.skip = this.props.store.buyStore.skip + 5;
     await this.props.store.buyStore.getBuyOrderInfo();
+    this.props.store.buyStore.loading = false;
   }
 
   handlePrevious = async () => {
+    this.props.store.buyStore.loading = true;
     this.props.store.buyStore.skip = this.props.store.buyStore.skip - 5;
     await this.props.store.buyStore.getBuyOrderInfo();
+    this.props.store.buyStore.loading = false;
   }
 
   render() {
@@ -38,14 +42,14 @@ export default @inject('store') @observer class BuyBook extends Component {
         <Events buyStore={buyStore} />
         <div className='centerText'>
           <button
-            disabled={!buyStore.hasLess}
+            disabled={!buyStore.hasLess || buyStore.loading}
             onClick={this.handlePrevious}
           >
             Previous Page
           </button>
           <button
             onClick={this.handleNext}
-            disabled={!buyStore.hasMore}
+            disabled={!buyStore.hasMore || buyStore.loading}
           >
             Next Page
           </button>
@@ -63,6 +67,6 @@ const Events = observer(({ buyStore: { buyOrderInfo, loading } }) => {
   );
 });
 
-const Loading = () => <Row><_Loading text={messages.loadAllEventsMsg} /></Row>;
+const Loading = () => <Row><LoadingElement text={messages.loadBuyBookMsg} /></Row>;
 
 const Row = ({ ...props }) => <div {...props} />;

@@ -1,14 +1,14 @@
 /* eslint-disable react/destructuring-assignment, operator-assignment, react/jsx-fragments, react/jsx-one-expression-per-line, react/button-has-type, react/jsx-props-no-spreading */
 import React, { Component, Fragment } from 'react';
 import { inject, observer } from 'mobx-react';
-import { withStyles, Card } from '@material-ui/core';
+import { Card } from '@material-ui/core';
 import { defineMessages } from 'react-intl';
 import OrderBook from './OrderBook';
-import _Loading from '../Loading';
+import LoadingElement from '../Loading';
 
 const messages = defineMessages({
-  loadAllNewOrdersMsg: {
-    id: 'load.allNewOrders',
+  loadSellBookMsg: {
+    id: 'load.sellBook',
     defaultMessage: 'loading',
   },
 });
@@ -19,13 +19,17 @@ export default @inject('store') @observer class SellBook extends Component {
   }
 
   handleNext = async () => {
+    this.props.store.sellStore.loading = true;
     this.props.store.sellStore.skip = this.props.store.sellStore.skip + 5;
     await this.props.store.sellStore.getSellOrderInfo();
+    this.props.store.sellStore.loading = false;
   }
 
   handlePrevious = async () => {
+    this.props.store.sellStore.loading = true;
     this.props.store.sellStore.skip = this.props.store.sellStore.skip - 5;
     await this.props.store.sellStore.getSellOrderInfo();
+    this.props.store.sellStore.loading = false;
   }
 
   render() {
@@ -38,14 +42,14 @@ export default @inject('store') @observer class SellBook extends Component {
         <SellOrders sellStore={sellStore} />
         <div className='centerText'>
           <button
-            disabled={!sellStore.hasLess}
+            disabled={!sellStore.hasLess || sellStore.loading}
             onClick={this.handlePrevious}
           >
             Previous Page
           </button>
           <button
             onClick={this.handleNext}
-            disabled={!sellStore.hasMore}
+            disabled={!sellStore.hasMore || sellStore.loading}
           >
             Next Page
           </button>
@@ -63,6 +67,6 @@ const SellOrders = observer(({ sellStore: { sellOrderInfo, loading } }) => {
   );
 });
 
-const Loading = () => <Row><_Loading text={messages.loadAllNewOrdersMsg} /></Row>;
+const Loading = () => <Row><LoadingElement text={messages.loadSellBookMsg} /></Row>;
 
 const Row = ({ ...props }) => <div {...props} />;

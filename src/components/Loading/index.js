@@ -3,7 +3,7 @@ import React from 'react';
 import { injectIntl } from 'react-intl';
 import styled, { keyframes } from 'styled-components';
 
-export const Loading = injectIntl(({ text, intl, ...props }) => (
+const LoadingElement = injectIntl(({ text, intl, ...props }) => (
   <Col {...props}>
     <Animation className='animation' />
     {text && intl.formatMessage({ id: text.id, defaultMessage: text.defaultMessage })}
@@ -44,3 +44,5 @@ const Col = styled.div`
   color: gray;
   align-items: center;
 `;
+
+export default LoadingElement;

@@ -8,6 +8,7 @@ import apolloClient from '../network/graphql';
 import getSubscription, { channels } from '../network/graphql/subscriptions';
 
 const INIT_VALUES = {
+  loading: true,
   loaded: true, // INIT_VALUESial loaded state
   loadingMore: false, // for scroll laoding animation
   fundRedeemInfo: '',
@@ -17,6 +18,8 @@ const INIT_VALUES = {
 };
 
 export default class {
+  @observable loading = INIT_VALUES.loading
+
   @observable loaded = INIT_VALUES.loaded
 
   @observable loadingMore = INIT_VALUES.loadingMore
