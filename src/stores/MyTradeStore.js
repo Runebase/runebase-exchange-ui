@@ -5,13 +5,13 @@ import { queryAllTrades } from '../network/graphql/queries';
 import Trade from './models/Trade';
 import AppConfig from '../config/app';
 import apolloClient from '../network/graphql';
-import getSubscription, { channels } from '../network/graphql/subscriptions';
+import { getOnMyTradeInfoSubscription } from '../network/graphql/subscriptions';
 
 const INIT_VALUES = {
   loading: true,
   loaded: true, // INIT_VALUESial loaded state
   loadingMore: false, // for scroll laoding animation
-  myTradeInfo: '',
+  myTradeInfo: [],
   hasMoreMyTrades: false, // has more buyOrders to fetch?
   hasLessMyTrades: false, // has more buyOrders to fetch?
   skip: 0, // skip
@@ -52,23 +52,27 @@ export default class {
         }
       }
     );
-    // Call mytrades once to init the wallet addresses used by other stores
-    this.getMyTradeInfo();
     this.subscribeMyTradeInfo();
-    setInterval(this.getMyTradeInfo, AppConfig.intervals.myTradeInfo);
   }
 
   @action
-  init = async (limit = this.limit) => {
+  init = async () => {
     Object.assign(this, INIT_VALUES); // reset all properties
     this.app.ui.location = Routes.EXCHANGE;
-    this.myTradeInfo = await this.getMyTradeInfo(limit);
     runInAction(() => {
       this.loading = false;
     });
   }
 
   getMyTradeInfo = async (limit = this.limit, skip = this.skip) => {
+    console.log(this.subscription);
+    console.log(this.subscription.unsubscribe());
+    if (this.subscription) {
+      console.log('unsub');
+      this.subscription.unsubscribe();
+    } else {
+      console.log('subbing');
+    }
     try {
       if (this.app.wallet.currentAddressKey !== '') {
         const orderBy = { field: 'time', direction: 'DESC' };
@@ -80,6 +84,7 @@ export default class {
         if (this.skip === 0) this.hasLessMyTrades = false;
         if (this.skip > 0) this.hasLessMyTrades = true;
         this.onMyTradeInfo(myTradeInfo);
+        this.subscribeMyTradeInfo();
       }
     } catch (error) {
       this.onMyTradeInfo({ error });
@@ -97,22 +102,53 @@ export default class {
     }
   }
 
+  @action
+  onMyTradeInfoSub = (myTradeInfo) => {
+    console.log(myTradeInfo);
+    if (myTradeInfo.error) {
+      console.error(myTradeInfo.error.message); // eslint-disable-line no-console
+    } else {
+      if (this.myTradeInfo === undefined) {
+        this.myTradeInfo = [];
+      }
+      const result = _.uniqBy(myTradeInfo, 'txid').map((trade) => new Trade(trade, this.app));
+      result.forEach((trade) => {
+        const index = _.findIndex(this.myTradeInfo, { txid: trade.txid });
+        if (index === -1) {
+          this.myTradeInfo.push(trade);
+        } else {
+          this.myTradeInfo[index] = trade;
+        }
+      });
+      this.myTradeInfo = _.orderBy(this.myTradeInfo, ['time'], 'desc');
+      this.myTradeInfo = this.myTradeInfo.slice(0, this.limit);
+      console.log(this.myTradeInfo);
+    }
+  }
+
   subscribeMyTradeInfo = () => {
+    console.log('subbing');
     const self = this;
-    apolloClient.subscribe({
-      query: getSubscription(channels.ON_MYTRADE_INFO),
+    let Address;
+    if (this.app.wallet.currentAddressKey !== '') {
+      Address = this.app.wallet.addresses[this.app.wallet.currentAddressKey].address;
+    } else {
+      Address = '';
+    }
+    this.subscription = apolloClient.subscribe({
+      query: getOnMyTradeInfoSubscription(Address),
     }).subscribe({
       next({ data, errors }) {
         if (errors && errors.length > 0) {
-          self.onMyTradeInfo({ error: errors[0] });
+          self.onMyTradeInfoSub({ error: errors[0] });
         } else {
-          console.log('subscribeMyTradeInfo');
-          console.log(data.onMyTradeInfo);
-          self.onMyTradeInfo(data.onMyTradeInfo);
+          const response = [];
+          response.push(data.onMyTradeInfo);
+          self.onMyTradeInfoSub(response);
         }
       },
       error(err) {
-        self.onMyTradeInfo({ error: err.message });
+        self.onMyTradeInfoSub({ error: err.message });
       },
     });
   }

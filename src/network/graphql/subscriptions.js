@@ -82,11 +82,20 @@ const subscriptions = {
   `,
 };
 
-function getSubscription(name) {
+export function getSubscription(name) {
   return gql`${subscriptions[name]}`;
 }
 
-export default getSubscription;
+export function getOnMyTradeInfoSubscription(Address) {
+  return gql`
+    subscription OnMyTradeInfo {
+      onMyTradeInfo (from: "${Address}", to: "${Address}"){
+        ${getTypeDef('Trade')}
+      }
+    }
+  `;
+}
+
 export const channels = {
   ON_SYNC_INFO: 'onSyncInfo',
   ON_FUNDREDEEM_INFO: 'onFundRedeemInfo',
@@ -94,7 +103,6 @@ export const channels = {
   ON_ACTIVEORDER_INFO: 'onActiveOrderInfo',
   ON_FULFILLEDORDER_INFO: 'onFulfilledOrderInfo',
   ON_CANCELEDORDER_INFO: 'onCanceledOrderInfo',
-  ON_MYTRADE_INFO: 'onMyTradeInfo',
   ON_SELLHISTORY_INFO: 'onSellHistoryInfo',
   ON_BUYHISTORY_INFO: 'onBuyHistoryInfo',
   ON_BUYORDER_INFO: 'onBuyOrderInfo',

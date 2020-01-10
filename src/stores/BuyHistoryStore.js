@@ -5,7 +5,7 @@ import { queryAllTrades } from '../network/graphql/queries';
 import Trade from './models/Trade';
 import AppConfig from '../config/app';
 import apolloClient from '../network/graphql';
-import getSubscription, { channels } from '../network/graphql/subscriptions';
+import { getSubscription, channels } from '../network/graphql/subscriptions';
 
 const INIT_VALUES = {
   loading: true,
