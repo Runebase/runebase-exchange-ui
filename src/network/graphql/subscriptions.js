@@ -31,20 +31,6 @@ const subscriptions = {
       }
     }
   `,
-  onBuyOrderInfo: `
-    subscription OnBuyOrderInfo {
-      onBuyOrderInfo {
-        ${getTypeDef('NewOrder')}
-      }
-    }
-  `,
-  onSellOrderInfo: `
-    subscription OnSellOrderInfo {
-      onSellOrderInfo {
-        ${getTypeDef('NewOrder')}
-      }
-    }
-  `,
   onSelectedOrderInfo: `
     subscription OnSelectedOrderInfo {
       onSelectedOrderInfo {
@@ -56,6 +42,26 @@ const subscriptions = {
 
 export function getSubscription(name) {
   return gql`${subscriptions[name]}`;
+}
+
+export function getonSellOrderInfoSubscription(token, orderType, status) {
+  return gql`
+    subscription OnSellOrderInfo {
+      onSellOrderInfo (orderType: "${orderType}", token: "${token}", status: "${status}"){
+        ${getTypeDef('NewOrder')}
+      }
+    }
+  `;
+}
+
+export function getonBuyOrderInfoSubscription(orderType, token, status) {
+  return gql`
+    subscription OnBuyOrderInfo {
+      onBuyOrderInfo (orderType: "${orderType}", token: "${token}", status: "${status}"){
+        ${getTypeDef('NewOrder')}
+      }
+    }
+  `;
 }
 
 export function getOnBuyHistoryInfoSubscription(token, orderType) {
@@ -104,7 +110,5 @@ export const channels = {
   ON_ACTIVEORDER_INFO: 'onActiveOrderInfo',
   ON_FULFILLEDORDER_INFO: 'onFulfilledOrderInfo',
   ON_CANCELEDORDER_INFO: 'onCanceledOrderInfo',
-  ON_BUYORDER_INFO: 'onBuyOrderInfo',
-  ON_SELLORDER_INFO: 'onSellOrderInfo',
   ON_SELECTEDORDER_INFO: 'onSelectedOrderInfo',
 };

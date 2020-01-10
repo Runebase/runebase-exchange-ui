@@ -3,9 +3,8 @@ import _ from 'lodash';
 import { Routes } from 'constants';
 import { queryAllNewOrders } from '../network/graphql/queries';
 import NewOrder from './models/NewOrder';
-import AppConfig from '../config/app';
 import apolloClient from '../network/graphql';
-import { getSubscription, channels } from '../network/graphql/subscriptions';
+import { getonSellOrderInfoSubscription } from '../network/graphql/subscriptions';
 
 const INIT_VALUES = {
   loading: true,
@@ -49,32 +48,15 @@ export default class {
       () => {
         if (this.app.ui.location === Routes.EXCHANGE) {
           this.init();
-        }
-      }
-    );
-
-    reaction(
-      () => this.app.sortBy + this.app.wallet.addresses + this.app.refreshing + this.app.global.syncBlockNum,
-      () => {
-        if (this.app.ui.location === Routes.EXCHANGE) {
           this.getSellOrderInfo();
         }
       }
     );
-
-    // Call BuyOrders once to init the wallet addresses used by other stores
-    // this.getSellOrderInfo();
-    // this.subscribeSellOrderInfo();
-    // setInterval(this.getSellOrderInfo, AppConfig.intervals.sellOrderInfo);
-    // this.getSellOrderInfo();
   }
 
-
   @action
-  init = async (limit = this.limit) => {
+  init = async () => {
     Object.assign(this, INIT_VALUES); // reset all properties
-    this.app.ui.location = Routes.EXCHANGE;
-    // this.sellOrderInfo = await this.getSellOrderInfo(limit);
     runInAction(() => {
       this.loading = false;
     });
@@ -82,12 +64,16 @@ export default class {
 
   @action
   getSellOrderInfo = async (limit = this.limit, skip = this.skip) => {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
     this.skip = skip;
     const orderBy = { field: 'price', direction: 'ASC' };
     let sellOrders = [];
     const filters = [{ orderType: 'SELLORDER', token: this.app.wallet.market, status: 'ACTIVE' }];
     sellOrders = await queryAllNewOrders(filters, orderBy, limit, skip);
     this.onSellOrderInfo(sellOrders);
+    this.subscribeSellOrderInfo();
     runInAction(() => {
       if (sellOrders.length < limit) this.hasMoreSellOrders = false;
       if (sellOrders.length === limit) this.hasMoreSellOrders = true;
@@ -108,20 +94,51 @@ export default class {
     }
   }
 
+  @action
+  onSellOrderInfoSub = (sellOrderInfo) => {
+    console.log('onSellOrderInfoInfoSub');
+    console.log(sellOrderInfo);
+    console.log(this.skip);
+    if (sellOrderInfo.error) {
+      console.error(sellOrderInfo.error.message); // eslint-disable-line no-console
+    } else if (this.skip === 0) {
+      if (this.sellOrderInfo === undefined) {
+        this.sellOrderInfo = [];
+      }
+      const result = _.uniqBy(sellOrderInfo, 'orderId').map((newOrder) => new NewOrder(newOrder, this.app));
+      result.forEach((order) => {
+        const index = _.findIndex(this.sellOrderInfo, { txid: order.orderId });
+        if (index === -1) {
+          this.sellOrderInfo.push(order);
+        } else {
+          this.sellOrderInfo[index] = order;
+        }
+      });
+      this.sellOrderInfo = _.orderBy(this.sellOrderInfo, ['price'], 'desc');
+      this.sellOrderInfo = this.sellOrderInfo.slice(0, this.limit);
+    }
+  }
+
   subscribeSellOrderInfo = () => {
     const self = this;
-    apolloClient.subscribe({
-      query: getSubscription(channels.ON_SELLORDER_INFO),
+    console.log('subscribeSellOrderInfo');
+    this.subscription = apolloClient.subscribe({
+      query: getonSellOrderInfoSubscription('SELLORDER', this.app.wallet.market, 'ACTIVE'),
     }).subscribe({
       next({ data, errors }) {
+        console.log(data);
         if (errors && errors.length > 0) {
-          self.onSellOrderInfo({ error: errors[0] });
+          console.log(errors);
+          self.onSellOrderInfoSub({ error: errors[0] });
         } else {
-          self.onSellOrderInfo(data.onSellOrderInfo);
+          const response = [];
+          response.push(data.onSellOrderInfo);
+          self.onSellOrderInfoSub(response);
         }
       },
       error(err) {
-        self.onSellOrderInfo({ error: err.message });
+        console.log(err);
+        self.onSellOrderInfoSub({ error: err.message });
       },
     });
   }

@@ -3,7 +3,6 @@ import _ from 'lodash';
 import { Routes } from 'constants';
 import { queryAllFundRedeems } from '../network/graphql/queries';
 import FundRedeem from './models/FundRedeem';
-import AppConfig from '../config/app';
 import apolloClient from '../network/graphql';
 import { getOnFundRedeemInfoSubscription } from '../network/graphql/subscriptions';
 
@@ -52,17 +51,12 @@ export default class {
         }
       }
     );
-    // Call mytrades once to init the wallet addresses used by other stores
-    // this.getFundRedeemInfo();
-    this.subscribeFundRedeemInfo();
-    // setInterval(this.getFundRedeemInfo, AppConfig.intervals.fundRedeemInfo);
   }
 
   @action
-  init = async (limit = this.limit) => {
+  init = async () => {
     Object.assign(this, INIT_VALUES); // reset all properties
     this.app.ui.location = Routes.EXCHANGE;
-    // this.fundRedeemInfo = await this.getFundRedeemInfo(limit);
     runInAction(() => {
       this.loading = false;
     });

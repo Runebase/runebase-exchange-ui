@@ -3,7 +3,6 @@ import _ from 'lodash';
 import { Routes } from 'constants';
 import { queryAllTrades } from '../network/graphql/queries';
 import Trade from './models/Trade';
-import AppConfig from '../config/app';
 import apolloClient from '../network/graphql';
 import { getOnBuyHistoryInfoSubscription } from '../network/graphql/subscriptions';
 
@@ -49,30 +48,15 @@ export default class {
       () => {
         if (this.app.ui.location === Routes.EXCHANGE) {
           this.init();
-        }
-      }
-    );
-
-    reaction(
-      () => this.app.sortBy + this.app.wallet.addresses + this.app.refreshing + this.app.global.syncBlockNum,
-      () => {
-        if (this.app.ui.location === Routes.EXCHANGE) {
           this.getBuyHistoryInfo();
         }
       }
     );
-
-    // Call mytrades once to init the wallet addresses used by other stores
-    // this.getBuyHistoryInfo();
-    this.subscribeBuyHistoryInfo();
-    // setInterval(this.getBuyHistoryInfo, AppConfig.intervals.buyHistoryInfo);
   }
 
   @action
-  init = async (limit = this.limit) => {
+  init = async () => {
     Object.assign(this, INIT_VALUES); // reset all properties
-    this.app.ui.location = Routes.EXCHANGE;
-    // this.buyHistoryInfo = await this.getBuyHistoryInfo(limit);
     runInAction(() => {
       this.loading = false;
     });
@@ -117,7 +101,7 @@ export default class {
     console.log(this.skip);
     if (buyHistoryInfo.error) {
       console.error(buyHistoryInfo.error.message); // eslint-disable-line no-console
-    } else {
+    } else if (this.skip === 0) {
       if (this.buyHistoryInfo === undefined) {
         this.buyHistoryInfo = [];
       }

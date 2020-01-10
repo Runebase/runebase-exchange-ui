@@ -3,9 +3,8 @@ import _ from 'lodash';
 import { Routes } from 'constants';
 import { queryAllNewOrders } from '../network/graphql/queries';
 import NewOrder from './models/NewOrder';
-import AppConfig from '../config/app';
 import apolloClient from '../network/graphql';
-import { getSubscription, channels } from '../network/graphql/subscriptions';
+import { getonBuyOrderInfoSubscription } from '../network/graphql/subscriptions';
 
 const INIT_VALUES = {
   loading: true,
@@ -50,29 +49,15 @@ export default class {
       () => {
         if (this.app.ui.location === Routes.EXCHANGE) {
           this.init();
-        }
-      }
-    );
-
-    reaction(
-      () => this.app.sortBy + this.app.wallet.addresses + this.app.refreshing + this.app.global.syncBlockNum,
-      () => {
-        if (this.app.ui.location === Routes.EXCHANGE) {
           this.getBuyOrderInfo();
         }
       }
     );
-    // Call BuyOrders once to init the wallet addresses used by other stores
-    // this.getBuyOrderInfo();
-    this.subscribeBuyOrderInfo();
-    // setInterval(this.getBuyOrderInfo, AppConfig.intervals.buyOrderInfo);
   }
 
   @action
-  init = async (limit = this.limit) => {
+  init = async () => {
     Object.assign(this, INIT_VALUES); // reset all properties
-    this.app.ui.location = Routes.EXCHANGE;
-    // his.buyOrderInfo = await this.getBuyOrderInfo(limit);
     runInAction(() => {
       this.loading = false;
     });
@@ -80,6 +65,9 @@ export default class {
 
 
   getBuyOrderInfo = async (limit = this.limit, skip = this.skip) => {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
     const orderBy = { field: 'price', direction: 'DESC' };
     let buyOrders = [];
     const filters = [{ orderType: 'BUYORDER', token: this.app.wallet.market, status: 'ACTIVE' }];
@@ -89,6 +77,7 @@ export default class {
     if (this.skip === 0) this.hasLessBuyOrders = false;
     if (this.skip > 0) this.hasLessBuyOrders = true;
     this.onBuyOrderInfo(buyOrders);
+    this.subscribeBuyOrderInfo();
   }
 
   @action
@@ -102,21 +91,51 @@ export default class {
     }
   }
 
+  @action
+  onBuyOrderInfoSub = (buyOrderInfo) => {
+    console.log('onbuyOrderInfoInfoSub');
+    console.log(buyOrderInfo);
+    console.log(this.skip);
+    if (buyOrderInfo.error) {
+      console.error(buyOrderInfo.error.message); // eslint-disable-line no-console
+    } else {
+      if (this.buyOrderInfo === undefined) {
+        this.buyOrderInfo = [];
+      }
+      const result = _.uniqBy(buyOrderInfo, 'orderId').map((newOrder) => new NewOrder(newOrder, this.app));
+      result.forEach((trade) => {
+        const index = _.findIndex(this.buyOrderInfo, { txid: trade.txid });
+        if (index === -1) {
+          this.buyOrderInfo.push(trade);
+        } else {
+          this.buyOrderInfo[index] = trade;
+        }
+      });
+      this.buyOrderInfo = _.orderBy(this.buyOrderInfo, ['price'], 'desc');
+      this.buyOrderInfo = this.buyOrderInfo.slice(0, this.limit);
+    }
+  }
+
   subscribeBuyOrderInfo = () => {
     const self = this;
-    apolloClient.subscribe({
-      query: getSubscription(channels.ON_BUYORDER_INFO),
+    console.log('subscribeBuyOrderInfo');
+    this.subscription = apolloClient.subscribe({
+      query: getonBuyOrderInfoSubscription('BUYORDER', this.app.wallet.market, 'ACTIVE'),
     }).subscribe({
       next({ data, errors }) {
+        console.log(data);
         if (errors && errors.length > 0) {
-          self.onBuyOrderInfo({ error: errors[0] });
+          console.log(errors);
+          self.onBuyOrderInfoSub({ error: errors[0] });
         } else {
-          console.log(data.onBuyOrderInfo);
-          self.onBuyOrderInfo(data.onBuyOrderInfo);
+          const response = [];
+          response.push(data.onBuyOrderInfo);
+          self.onBuyOrderInfoSub(response);
         }
       },
       error(err) {
-        self.onBuyOrderInfo({ error: err.message });
+        console.log(err);
+        self.onBuyOrderInfoSub({ error: err.message });
       },
     });
   }
