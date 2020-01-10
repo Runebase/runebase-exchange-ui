@@ -3,7 +3,6 @@ import _ from 'lodash';
 import { Routes } from 'constants';
 import { queryAllTrades } from '../network/graphql/queries';
 import Trade from './models/Trade';
-import AppConfig from '../config/app';
 import apolloClient from '../network/graphql';
 import { getOnMyTradeInfoSubscription } from '../network/graphql/subscriptions';
 
@@ -65,13 +64,8 @@ export default class {
   }
 
   getMyTradeInfo = async (limit = this.limit, skip = this.skip) => {
-    console.log(this.subscription);
-    console.log(this.subscription.unsubscribe());
     if (this.subscription) {
-      console.log('unsub');
       this.subscription.unsubscribe();
-    } else {
-      console.log('subbing');
     }
     try {
       if (this.app.wallet.currentAddressKey !== '') {
@@ -84,6 +78,7 @@ export default class {
         if (this.skip === 0) this.hasLessMyTrades = false;
         if (this.skip > 0) this.hasLessMyTrades = true;
         this.onMyTradeInfo(myTradeInfo);
+
         this.subscribeMyTradeInfo();
       }
     } catch (error) {
@@ -105,6 +100,7 @@ export default class {
   @action
   onMyTradeInfoSub = (myTradeInfo) => {
     console.log(myTradeInfo);
+    console.log(this.skip);
     if (myTradeInfo.error) {
       console.error(myTradeInfo.error.message); // eslint-disable-line no-console
     } else {
@@ -122,34 +118,30 @@ export default class {
       });
       this.myTradeInfo = _.orderBy(this.myTradeInfo, ['time'], 'desc');
       this.myTradeInfo = this.myTradeInfo.slice(0, this.limit);
-      console.log(this.myTradeInfo);
     }
   }
 
   subscribeMyTradeInfo = () => {
     console.log('subbing');
     const self = this;
-    let Address;
     if (this.app.wallet.currentAddressKey !== '') {
-      Address = this.app.wallet.addresses[this.app.wallet.currentAddressKey].address;
-    } else {
-      Address = '';
+      this.subscription = apolloClient.subscribe({
+        query: getOnMyTradeInfoSubscription(this.app.wallet.addresses[this.app.wallet.currentAddressKey].address),
+      }).subscribe({
+        next({ data, errors }) {
+          console.log(data);
+          if (errors && errors.length > 0) {
+            self.onMyTradeInfoSub({ error: errors[0] });
+          } else {
+            const response = [];
+            response.push(data.onMyTradeInfo);
+            self.onMyTradeInfoSub(response);
+          }
+        },
+        error(err) {
+          self.onMyTradeInfoSub({ error: err.message });
+        },
+      });
     }
-    this.subscription = apolloClient.subscribe({
-      query: getOnMyTradeInfoSubscription(Address),
-    }).subscribe({
-      next({ data, errors }) {
-        if (errors && errors.length > 0) {
-          self.onMyTradeInfoSub({ error: errors[0] });
-        } else {
-          const response = [];
-          response.push(data.onMyTradeInfo);
-          self.onMyTradeInfoSub(response);
-        }
-      },
-      error(err) {
-        self.onMyTradeInfoSub({ error: err.message });
-      },
-    });
   }
 }

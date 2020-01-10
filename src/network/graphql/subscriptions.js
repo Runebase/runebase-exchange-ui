@@ -96,9 +96,18 @@ export function getOnMyTradeInfoSubscription(Address) {
   `;
 }
 
+export function getOnFundRedeemInfoSubscription(Address) {
+  return gql`
+    subscription OnFundRedeemInfo {
+      onFundRedeemInfo (owner: "${Address}"){
+        ${getTypeDef('FundRedeem')}
+      }
+    }
+  `;
+}
+
 export const channels = {
   ON_SYNC_INFO: 'onSyncInfo',
-  ON_FUNDREDEEM_INFO: 'onFundRedeemInfo',
   ON_MYORDER_INFO: 'onMyOrderInfo',
   ON_ACTIVEORDER_INFO: 'onActiveOrderInfo',
   ON_FULFILLEDORDER_INFO: 'onFulfilledOrderInfo',

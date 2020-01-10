@@ -256,6 +256,7 @@ export default class {
     }
     try {
       runInAction(() => {
+        this.app.fundRedeemHistoryStore.getFundRedeemInfo();
         this.app.buyStore.getBuyOrderInfo();
         this.app.sellStore.getSellOrderInfo();
         this.app.activeOrderStore.getActiveOrderInfo();

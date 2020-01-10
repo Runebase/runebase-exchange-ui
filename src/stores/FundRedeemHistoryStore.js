@@ -5,7 +5,7 @@ import { queryAllFundRedeems } from '../network/graphql/queries';
 import FundRedeem from './models/FundRedeem';
 import AppConfig from '../config/app';
 import apolloClient from '../network/graphql';
-import { getSubscription, channels } from '../network/graphql/subscriptions';
+import { getOnFundRedeemInfoSubscription } from '../network/graphql/subscriptions';
 
 const INIT_VALUES = {
   loading: true,
@@ -53,22 +53,26 @@ export default class {
       }
     );
     // Call mytrades once to init the wallet addresses used by other stores
-    this.getFundRedeemInfo();
+    // this.getFundRedeemInfo();
     this.subscribeFundRedeemInfo();
-    setInterval(this.getFundRedeemInfo, AppConfig.intervals.fundRedeemInfo);
+    // setInterval(this.getFundRedeemInfo, AppConfig.intervals.fundRedeemInfo);
   }
 
   @action
   init = async (limit = this.limit) => {
     Object.assign(this, INIT_VALUES); // reset all properties
     this.app.ui.location = Routes.EXCHANGE;
-    this.fundRedeemInfo = await this.getFundRedeemInfo(limit);
+    // this.fundRedeemInfo = await this.getFundRedeemInfo(limit);
     runInAction(() => {
       this.loading = false;
     });
   }
 
   getFundRedeemInfo = async (limit = this.limit, skip = this.skip) => {
+    console.log('getFundRedeemInfo');
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
     try {
       if (this.app.wallet.currentAddressKey !== '') {
         const orderBy = { field: 'time', direction: 'DESC' };
@@ -80,6 +84,7 @@ export default class {
         if (this.skip === 0) this.hasLessFundRedeems = false;
         if (this.skip > 0) this.hasLessFundRedeems = true;
         this.onFundRedeemInfo(fundRedeemInfo);
+        this.subscribeFundRedeemInfo();
       }
     } catch (error) {
       this.onFundRedeemInfo({ error });
@@ -97,21 +102,50 @@ export default class {
     }
   }
 
+  @action
+  onFundRedeemInfoSub = (fundRedeemInfo) => {
+    console.log(fundRedeemInfo);
+    console.log(this.skip);
+    if (fundRedeemInfo.error) {
+      console.error(fundRedeemInfo.error.message); // eslint-disable-line no-console
+    } else {
+      if (this.fundRedeemInfo === undefined) {
+        this.fundRedeemInfo = [];
+      }
+      const result = _.uniqBy(fundRedeemInfo, 'txid').map((fundRedeem) => new FundRedeem(fundRedeem, this.app));
+      result.forEach((fundRedeem) => {
+        const index = _.findIndex(this.fundRedeemInfo, { txid: fundRedeem.txid });
+        if (index === -1) {
+          this.fundRedeemInfo.push(fundRedeem);
+        } else {
+          this.fundRedeemInfo[index] = fundRedeem;
+        }
+      });
+      this.fundRedeemInfo = _.orderBy(this.fundRedeemInfo, ['time'], 'desc');
+      this.fundRedeemInfo = this.fundRedeemInfo.slice(0, this.limit);
+    }
+  }
+
   subscribeFundRedeemInfo = () => {
     const self = this;
-    apolloClient.subscribe({
-      query: getSubscription(channels.ON_FUNDREDEEM_INFO),
-    }).subscribe({
-      next({ data, errors }) {
-        if (errors && errors.length > 0) {
-          self.onFundRedeemInfo({ error: errors[0] });
-        } else {
-          self.onFundRedeemInfo(data.onFundRedeemInfo);
-        }
-      },
-      error(err) {
-        self.onFundRedeemInfo({ error: err.message });
-      },
-    });
+    if (this.app.wallet.currentAddressKey !== '') {
+      this.subscription = apolloClient.subscribe({
+        query: getOnFundRedeemInfoSubscription(this.app.wallet.addresses[this.app.wallet.currentAddressKey].address),
+      }).subscribe({
+        next({ data, errors }) {
+          console.log(data);
+          if (errors && errors.length > 0) {
+            self.onFundRedeemInfoSub({ error: errors[0] });
+          } else {
+            const response = [];
+            response.push(data.onFundRedeemInfo);
+            self.onFundRedeemInfoSub(response);
+          }
+        },
+        error(err) {
+          self.onFundRedeemInfoSub({ error: err.message });
+        },
+      });
+    }
   }
 }
