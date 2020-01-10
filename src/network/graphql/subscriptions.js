@@ -31,27 +31,6 @@ const subscriptions = {
       }
     }
   `,
-  onMyTradeInfo: `
-    subscription OnMyTradeInfo {
-      onMyTradeInfo {
-        ${getTypeDef('Trade')}
-      }
-    }
-  `,
-  onBuyHistoryInfo: `
-    subscription OnBuyHistoryInfo {
-      onBuyHistoryInfo {
-        ${getTypeDef('Trade')}
-      }
-    }
-  `,
-  onSellHistoryInfo: `
-    subscription OnSellHistoryInfo {
-      onSellHistoryInfo {
-        ${getTypeDef('Trade')}
-      }
-    }
-  `,
   onBuyOrderInfo: `
     subscription OnBuyOrderInfo {
       onBuyOrderInfo {
@@ -66,13 +45,6 @@ const subscriptions = {
       }
     }
   `,
-  onFundRedeemInfo: `
-    subscription OnFundRedeemInfo {
-      onFundRedeemInfo {
-        ${getTypeDef('FundRedeem')}
-      }
-    }
-  `,
   onSelectedOrderInfo: `
     subscription OnSelectedOrderInfo {
       onSelectedOrderInfo {
@@ -84,6 +56,26 @@ const subscriptions = {
 
 export function getSubscription(name) {
   return gql`${subscriptions[name]}`;
+}
+
+export function getOnBuyHistoryInfoSubscription(token, orderType) {
+  return gql`
+    subscription OnBuyHistoryInfo {
+      onBuyHistoryInfo (token: "${token}", orderType: "${orderType}"){
+        ${getTypeDef('Trade')}
+      }
+    }
+  `;
+}
+
+export function getOnSellHistoryInfoSubscription(token, orderType) {
+  return gql`
+    subscription OnSellHistoryInfo {
+      onSellHistoryInfo (token: "${token}", orderType: "${orderType}"){
+        ${getTypeDef('Trade')}
+      }
+    }
+  `;
 }
 
 export function getOnMyTradeInfoSubscription(Address) {
@@ -112,8 +104,6 @@ export const channels = {
   ON_ACTIVEORDER_INFO: 'onActiveOrderInfo',
   ON_FULFILLEDORDER_INFO: 'onFulfilledOrderInfo',
   ON_CANCELEDORDER_INFO: 'onCanceledOrderInfo',
-  ON_SELLHISTORY_INFO: 'onSellHistoryInfo',
-  ON_BUYHISTORY_INFO: 'onBuyHistoryInfo',
   ON_BUYORDER_INFO: 'onBuyOrderInfo',
   ON_SELLORDER_INFO: 'onSellOrderInfo',
   ON_SELECTEDORDER_INFO: 'onSelectedOrderInfo',

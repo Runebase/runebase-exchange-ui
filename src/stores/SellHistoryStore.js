@@ -5,7 +5,7 @@ import { queryAllTrades } from '../network/graphql/queries';
 import Trade from './models/Trade';
 import AppConfig from '../config/app';
 import apolloClient from '../network/graphql';
-import { getSubscription, channels } from '../network/graphql/subscriptions';
+import { getOnSellHistoryInfoSubscription } from '../network/graphql/subscriptions';
 
 const INIT_VALUES = {
   loading: true,
@@ -79,6 +79,9 @@ export default class {
   }
 
   getSellHistoryInfo = async (limit = this.limit, skip = this.skip) => {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
     try {
       let sellHistoryInfo = [];
       const orderBy = { field: 'time', direction: 'DESC' };
@@ -90,6 +93,7 @@ export default class {
       if (this.skip === 0) this.hasLessSellHistory = false;
       if (this.skip > 0) this.hasLessSellHistory = true;
       this.onSellHistoryInfo(sellHistoryInfo);
+      this.subscribeSellHistoryInfo();
     } catch (error) {
       this.onSellHistoryInfo({ error });
     }
@@ -106,23 +110,51 @@ export default class {
     }
   }
 
+  @action
+  onSellHistoryInfoSub = (sellHistoryInfo) => {
+    console.log('onSellHistoryInfoSub');
+    console.log(sellHistoryInfo);
+    console.log(this.skip);
+    if (sellHistoryInfo.error) {
+      console.error(sellHistoryInfo.error.message); // eslint-disable-line no-console
+    } else {
+      if (this.sellHistoryInfo === undefined) {
+        this.sellHistoryInfo = [];
+      }
+      const result = _.uniqBy(sellHistoryInfo, 'txid').map((trade) => new Trade(trade, this.app));
+      result.forEach((trade) => {
+        const index = _.findIndex(this.sellHistoryInfo, { txid: trade.txid });
+        if (index === -1) {
+          this.sellHistoryInfo.push(trade);
+        } else {
+          this.sellHistoryInfo[index] = trade;
+        }
+      });
+      this.sellHistoryInfo = _.orderBy(this.sellHistoryInfo, ['time'], 'desc');
+      this.sellHistoryInfo = this.sellHistoryInfo.slice(0, this.limit);
+    }
+  }
 
   subscribeSellHistoryInfo = () => {
     const self = this;
-    apolloClient.subscribe({
-      query: getSubscription(channels.ON_SELLHISTORY_INFO),
+    console.log('subscribeSellHistoryInfo');
+    this.subscription = apolloClient.subscribe({
+      query: getOnSellHistoryInfoSubscription(this.app.wallet.currentMarket, 'SELLORDER'),
     }).subscribe({
       next({ data, errors }) {
+        console.log(data);
         if (errors && errors.length > 0) {
-          self.onSellHistoryInfo({ error: errors[0] });
+          console.log(errors);
+          self.onSellHistoryInfoSub({ error: errors[0] });
         } else {
-          console.log('subscription-sellhistory');
-          console.log(data.onSellHistoryInfo);
-          self.onSellHistoryInfo(data.onSellHistoryInfo);
+          const response = [];
+          response.push(data.onSellHistoryInfo);
+          self.onSellHistoryInfoSub(response);
         }
       },
       error(err) {
-        self.onSellHistoryInfo({ error: err.message });
+        console.log(err);
+        self.onSellHistoryInfoSub({ error: err.message });
       },
     });
   }
