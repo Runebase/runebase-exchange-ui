@@ -5,7 +5,7 @@ import { queryAllNewOrders } from '../network/graphql/queries';
 import NewOrder from './models/NewOrder';
 import AppConfig from '../config/app';
 import apolloClient from '../network/graphql';
-import { getSubscription, channels } from '../network/graphql/subscriptions';
+import { getonActiveOrderInfoSubscription } from '../network/graphql/subscriptions';
 
 const INIT_VALUES = {
   loading: true,
@@ -49,12 +49,11 @@ export default class {
       () => {
         if (this.app.ui.location === Routes.EXCHANGE) {
           this.init();
+          this.getActiveOrderInfo();
         }
       }
     );
-    this.getActiveOrderInfo();
-    this.subscribeActiveOrderInfo();
-    setInterval(this.getActiveOrderInfo, AppConfig.intervals.activeOrderInfo);
+
     if (this.app.wallet.currentAddressSelected === '') {
       this.hasLessActiveOrders = false;
       this.hasMoreActiveOrders = false;
@@ -73,6 +72,9 @@ export default class {
 
   @action
   getActiveOrderInfo = async (limit = this.limit, skip = this.skip) => {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
     if (this.app.wallet.currentAddressSelected !== '') {
       const orderBy = { field: 'time', direction: this.app.sortBy };
       let activeOrders = [];
@@ -87,6 +89,7 @@ export default class {
       if (this.skip === 0) this.hasLessActiveOrders = false;
       if (this.skip > 0) this.hasLessActiveOrders = true;
       this.onActiveOrderInfo(activeOrders);
+      this.subscribeActiveOrderInfo();
     }
   }
 
@@ -101,20 +104,60 @@ export default class {
     }
   }
 
+  @action
+  onActiveOrderInfoSub = (activeOrderInfo) => {
+    console.log('onActiveOrderInfoSub');
+    console.log(activeOrderInfo);
+    console.log(this.skip);
+    if (this.activeOrderInfo === undefined) {
+      this.activeOrderInfo = [];
+    }
+    if (activeOrderInfo.error) {
+      console.error(activeOrderInfo.error.message); // eslint-disable-line no-console
+    } else {
+      if (this.skip === 0 && activeOrderInfo[0].owner === this.app.wallet.currentAddressSelected) {
+        const result = _.uniqBy(activeOrderInfo, 'txid').map((newOrder) => new NewOrder(newOrder, this.app));
+        result.forEach((trade) => {
+          const index = _.findIndex(this.activeOrderInfo, { txid: trade.txid });
+          if (index === -1) {
+            this.activeOrderInfo.push(trade);
+          } else {
+            this.activeOrderInfo[index] = trade;
+          }
+        });
+        this.activeOrderInfo = _.orderBy(this.activeOrderInfo, ['time'], 'desc');
+        this.activeOrderInfo = this.activeOrderInfo.slice(0, this.limit);
+      }
+      if (this.skip !== 0 && activeOrderInfo[0].owner === this.app.wallet.currentAddressSelected) {
+        this.getActiveOrderInfo();
+      }
+      if (activeOrderInfo[0].token === this.app.wallet.market) {
+        this.app.sellStore.getSellOrderInfo();
+        this.app.buyStore.getBuyOrderInfo();
+      }
+    }
+  }
+
   subscribeActiveOrderInfo = () => {
     const self = this;
-    apolloClient.subscribe({
-      query: getSubscription(channels.ON_ACTIVEORDER_INFO),
+    console.log('subscribeActiveOrderInfo');
+    this.subscription = apolloClient.subscribe({
+      query: getonActiveOrderInfoSubscription(),
     }).subscribe({
       next({ data, errors }) {
+        console.log(data);
         if (errors && errors.length > 0) {
-          self.getActiveOrderInfo({ error: errors[0] });
+          console.log(errors);
+          self.onActiveOrderInfoSub({ error: errors[0] });
         } else {
-          self.getActiveOrderInfo(data.getActiveOrderInfo);
+          const response = [];
+          response.push(data.onActiveOrderInfo);
+          self.onActiveOrderInfoSub(response);
         }
       },
       error(err) {
-        self.getActiveOrderInfo({ error: err.message });
+        console.log(err);
+        self.onActiveOrderInfoSub({ error: err.message });
       },
     });
   }

@@ -67,10 +67,13 @@ export default class {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
-    this.skip = skip;
     const orderBy = { field: 'price', direction: 'ASC' };
     let sellOrders = [];
-    const filters = [{ orderType: 'SELLORDER', token: this.app.wallet.market, status: 'ACTIVE' }];
+    const filters = [
+      { orderType: 'SELLORDER', token: this.app.wallet.market, status: 'PENDING' },
+      { orderType: 'SELLORDER', token: this.app.wallet.market, status: 'PENDINGCANCEL' },
+      { orderType: 'SELLORDER', token: this.app.wallet.market, status: 'ACTIVE' },
+    ];
     sellOrders = await queryAllNewOrders(filters, orderBy, limit, skip);
     this.onSellOrderInfo(sellOrders);
     this.subscribeSellOrderInfo();
@@ -116,6 +119,8 @@ export default class {
       });
       this.sellOrderInfo = _.orderBy(this.sellOrderInfo, ['price'], 'desc');
       this.sellOrderInfo = this.sellOrderInfo.slice(0, this.limit);
+    } else if (this.skip !== 0) {
+      this.getSellOrderInfo();
     }
   }
 

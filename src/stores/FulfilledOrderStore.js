@@ -5,7 +5,7 @@ import { queryAllNewOrders } from '../network/graphql/queries';
 import NewOrder from './models/NewOrder';
 import AppConfig from '../config/app';
 import apolloClient from '../network/graphql';
-import { getSubscription, channels } from '../network/graphql/subscriptions';
+import { getonFulfilledOrderInfoSubscription } from '../network/graphql/subscriptions';
 
 const INIT_VALUES = {
   loading: true,
@@ -49,26 +49,25 @@ export default class {
       () => {
         if (this.app.ui.location === Routes.EXCHANGE) {
           this.init();
+          this.getFulfilledOrderInfo();
         }
       }
     );
-    // Call BuyOrders once to init the wallet addresses used by other stores
-    this.getFulfilledOrderInfo();
-    this.subscribeFulfilledOrderInfo();
-    setInterval(this.getFulfilledOrderInfo, AppConfig.intervals.fulfilledOrderInfo);
   }
 
   @action
-  init = async (limit = this.limit) => {
+  init = async () => {
     Object.assign(this, INIT_VALUES); // reset all properties
     this.app.ui.location = Routes.EXCHANGE;
-    this.fulfilledOrderInfo = await this.getFulfilledOrderInfo(limit);
     runInAction(() => {
       this.loading = false;
     });
   }
 
   getFulfilledOrderInfo = async (limit = this.limit, skip = this.skip) => {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
     if (this.app.wallet.currentAddressSelected !== '') {
       const orderBy = { field: 'time', direction: this.app.sortBy };
       let fulfilledOrders = [];
@@ -79,6 +78,7 @@ export default class {
       if (this.skip === 0) this.hasLessFulfilledOrders = false;
       if (this.skip > 0) this.hasLessFulfilledOrders = true;
       this.onFulfilledOrderInfo(fulfilledOrders);
+      this.subscribeFulfilledOrderInfo();
     }
   }
 
@@ -93,20 +93,62 @@ export default class {
     }
   }
 
+  @action
+  onFulfilledOrderInfoSub = (fulfilledOrderInfo) => {
+    console.log('onFulfilledOrderInfoSub');
+    console.log(fulfilledOrderInfo);
+    console.log(this.skip);
+    if (this.fulfilledOrderInfo === undefined) {
+      this.fulfilledOrderInfo = [];
+    }
+    if (fulfilledOrderInfo.error) {
+      console.error(fulfilledOrderInfo.error.message); // eslint-disable-line no-console
+    } else {
+      if (this.skip === 0 && fulfilledOrderInfo[0].owner === this.app.wallet.currentAddressSelected) {
+        const result = _.uniqBy(fulfilledOrderInfo, 'txid').map((newOrder) => new NewOrder(newOrder, this.app));
+        result.forEach((order) => {
+          const index = _.findIndex(this.fulfilledOrderInfo, { txid: order.txid });
+          if (index === -1) {
+            this.fulfilledOrderInfo.push(order);
+          } else {
+            this.fulfilledOrderInfo[index] = order;
+          }
+        });
+        this.fulfilledOrderInfo = _.orderBy(this.fulfilledOrderInfo, ['time'], 'desc');
+        this.fulfilledOrderInfo = this.fulfilledOrderInfo.slice(0, this.limit);
+        this.app.activeOrderStore.getActiveOrderInfo();
+      }
+      if (this.skip !== 0 && fulfilledOrderInfo[0].owner === this.app.wallet.currentAddressSelected) {
+        this.getFulfilledOrderInfo();
+        this.app.activeOrderStore.getActiveOrderInfo();
+      }
+      if (fulfilledOrderInfo[0].token === this.app.wallet.market) {
+        this.app.sellStore.getSellOrderInfo();
+        this.app.buyStore.getBuyOrderInfo();
+      }
+    }
+  }
+
   subscribeFulfilledOrderInfo = () => {
     const self = this;
-    apolloClient.subscribe({
-      query: getSubscription(channels.ON_FULFILLEDORDER_INFO),
+    console.log('subscribeFulfilledOrderInfo');
+    this.subscription = apolloClient.subscribe({
+      query: getonFulfilledOrderInfoSubscription('FULFILLED'),
     }).subscribe({
       next({ data, errors }) {
+        console.log(data);
         if (errors && errors.length > 0) {
-          self.getFulfilledOrderInfo({ error: errors[0] });
+          console.log(errors);
+          self.onFulfilledOrderInfoSub({ error: errors[0] });
         } else {
-          self.getFulfilledOrderInfo(data.getFulfilledOrderInfo);
+          const response = [];
+          response.push(data.onFulfilledOrderInfo);
+          self.onFulfilledOrderInfoSub(response);
         }
       },
       error(err) {
-        self.getFulfilledOrderInfo({ error: err.message });
+        console.log(err);
+        self.onFulfilledOrderInfoSub({ error: err.message });
       },
     });
   }

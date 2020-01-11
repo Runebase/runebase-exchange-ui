@@ -70,7 +70,11 @@ export default class {
     }
     const orderBy = { field: 'price', direction: 'DESC' };
     let buyOrders = [];
-    const filters = [{ orderType: 'BUYORDER', token: this.app.wallet.market, status: 'ACTIVE' }];
+    const filters = [
+      { orderType: 'BUYORDER', token: this.app.wallet.market, status: 'ACTIVE' },
+      { orderType: 'BUYORDER', token: this.app.wallet.market, status: 'PENDING' },
+      { orderType: 'BUYORDER', token: this.app.wallet.market, status: 'PENDINGCANCEL' },
+    ];
     buyOrders = await queryAllNewOrders(filters, orderBy, limit, skip);
     if (buyOrders.length < limit) this.hasMoreBuyOrders = false;
     if (buyOrders.length === limit) this.hasMoreBuyOrders = true;
@@ -98,11 +102,11 @@ export default class {
     console.log(this.skip);
     if (buyOrderInfo.error) {
       console.error(buyOrderInfo.error.message); // eslint-disable-line no-console
-    } else {
+    } else if (this.skip === 0) {
       if (this.buyOrderInfo === undefined) {
         this.buyOrderInfo = [];
       }
-      const result = _.uniqBy(buyOrderInfo, 'orderId').map((newOrder) => new NewOrder(newOrder, this.app));
+      const result = _.uniqBy(buyOrderInfo, 'txid').map((newOrder) => new NewOrder(newOrder, this.app));
       result.forEach((trade) => {
         const index = _.findIndex(this.buyOrderInfo, { txid: trade.txid });
         if (index === -1) {
@@ -113,6 +117,8 @@ export default class {
       });
       this.buyOrderInfo = _.orderBy(this.buyOrderInfo, ['price'], 'desc');
       this.buyOrderInfo = this.buyOrderInfo.slice(0, this.limit);
+    } else if (this.skip !== 0) {
+      this.getBuyOrderInfo();
     }
   }
 

@@ -116,6 +116,8 @@ export default class {
       });
       this.buyHistoryInfo = _.orderBy(this.buyHistoryInfo, ['time'], 'desc');
       this.buyHistoryInfo = this.buyHistoryInfo.slice(0, this.limit);
+    } else if (this.skip !== 0) {
+      this.getBuyHistoryInfo();
     }
   }
 

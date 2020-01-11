@@ -1,47 +1,64 @@
 import gql from 'graphql-tag';
-
 import { getTypeDef } from './schema';
 
-const subscriptions = {
-  onSyncInfo: `
+export function getonMarketInfoSubscription() {
+  return gql`
+    subscription OnMarketInfo {
+      onMarketInfo {
+        ${getTypeDef('MarketInfo')}
+      }
+    }
+  `;
+}
+
+export function getonSyncInfoSubscription() {
+  return gql`
     subscription OnSyncInfo {
       onSyncInfo {
         ${getTypeDef('SyncInfo')}
       }
     }
-  `,
-  onActiveOrderInfo: `
+  `;
+}
+
+export function getonActiveOrderInfoSubscription() {
+  return gql`
     subscription OnActiveOrderInfo {
       onActiveOrderInfo {
         ${getTypeDef('NewOrder')}
       }
     }
-  `,
-  onFulfilledOrderInfo: `
+  `;
+}
+
+export function getonFulfilledOrderInfoSubscription(Status) {
+  return gql`
     subscription OnFulfilledOrderInfo {
-      onFulfilledOrderInfo {
+      onFulfilledOrderInfo (status: "${Status}"){
         ${getTypeDef('NewOrder')}
       }
     }
-  `,
-  onCanceledOrderInfo: `
+  `;
+}
+
+export function getonCanceledOrderInfoSubscription(Status) {
+  return gql`
     subscription OnCanceledOrderInfo {
-      onCanceledOrderInfo {
+      onCanceledOrderInfo (status: "${Status}"){
         ${getTypeDef('NewOrder')}
       }
     }
-  `,
-  onSelectedOrderInfo: `
+  `;
+}
+
+export function getonSelectedOrderInfoSubscription() {
+  return gql`
     subscription OnSelectedOrderInfo {
       onSelectedOrderInfo {
         ${getTypeDef('NewOrder')}
       }
     }
-  `,
-};
-
-export function getSubscription(name) {
-  return gql`${subscriptions[name]}`;
+  `;
 }
 
 export function getonSellOrderInfoSubscription(token, orderType, status) {
@@ -103,12 +120,3 @@ export function getOnFundRedeemInfoSubscription(Address) {
     }
   `;
 }
-
-export const channels = {
-  ON_SYNC_INFO: 'onSyncInfo',
-  ON_MYORDER_INFO: 'onMyOrderInfo',
-  ON_ACTIVEORDER_INFO: 'onActiveOrderInfo',
-  ON_FULFILLEDORDER_INFO: 'onFulfilledOrderInfo',
-  ON_CANCELEDORDER_INFO: 'onCanceledOrderInfo',
-  ON_SELECTEDORDER_INFO: 'onSelectedOrderInfo',
-};

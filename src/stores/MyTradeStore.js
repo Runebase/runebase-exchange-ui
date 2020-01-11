@@ -103,7 +103,7 @@ export default class {
     console.log(this.skip);
     if (myTradeInfo.error) {
       console.error(myTradeInfo.error.message); // eslint-disable-line no-console
-    } else {
+    } else if (this.skip === 0) {
       if (this.myTradeInfo === undefined) {
         this.myTradeInfo = [];
       }
@@ -118,6 +118,8 @@ export default class {
       });
       this.myTradeInfo = _.orderBy(this.myTradeInfo, ['time'], 'desc');
       this.myTradeInfo = this.myTradeInfo.slice(0, this.limit);
+    } else if (this.skip !== 0) {
+      this.getMyTradeInfo();
     }
   }
 

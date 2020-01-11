@@ -2,7 +2,7 @@ import { observable, action, reaction } from 'mobx';
 
 import SyncInfo from './models/SyncInfo';
 import { querySyncInfo, queryAllNewOrders } from '../network/graphql/queries';
-import { getSubscription, channels } from '../network/graphql/subscriptions';
+import { getonSyncInfoSubscription, getonMarketInfoSubscription, getonSelectedOrderInfoSubscription } from '../network/graphql/subscriptions';
 import apolloClient from '../network/graphql';
 import AppConfig from '../config/app';
 
@@ -106,7 +106,7 @@ export default class GlobalStore {
   subscribeSelectedOrderInfo = () => {
     const self = this;
     apolloClient.subscribe({
-      query: getSubscription(channels.ON_SELECTEDORDER_INFO),
+      query: getonSelectedOrderInfoSubscription(),
     }).subscribe({
       next({ data, errors }) {
         if (errors && errors.length > 0) {
@@ -129,7 +129,7 @@ export default class GlobalStore {
   subscribeMarketInfo = () => {
     const self = this;
     apolloClient.subscribe({
-      query: getSubscription(channels.ON_MARKET_INFO),
+      query: getonMarketInfoSubscription(),
     }).subscribe({
       next({ data, errors }) {
         if (errors && errors.length > 0) {
@@ -185,7 +185,7 @@ export default class GlobalStore {
   subscribeSyncInfo = () => {
     const self = this;
     apolloClient.subscribe({
-      query: getSubscription(channels.ON_SYNC_INFO),
+      query: getonSyncInfoSubscription(),
     }).subscribe({
       next({ data, errors }) {
         console.log('subscribeSyncInfo');

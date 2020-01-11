@@ -102,7 +102,7 @@ export default class {
     console.log(this.skip);
     if (fundRedeemInfo.error) {
       console.error(fundRedeemInfo.error.message); // eslint-disable-line no-console
-    } else {
+    } else if (this.skip === 0) {
       if (this.fundRedeemInfo === undefined) {
         this.fundRedeemInfo = [];
       }
