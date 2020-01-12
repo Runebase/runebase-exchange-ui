@@ -113,7 +113,7 @@ export default @injectIntl @withStyles(styles, { withTheme: true }) @inject('sto
 }
 
 const Button = injectIntl(withStyles(styles)(({ classes, intl, msgId, ...props }) => (
-  <_Button {...props} className={classes.button} variant="raised" size="medium">
+  <_Button {...props} className={classes.button} variant="contained" size="medium">
     {intl.formatMessage(msgId)}
   </_Button>
 )));

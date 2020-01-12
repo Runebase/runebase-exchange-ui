@@ -20,7 +20,8 @@ import {
   IconButton,
 } from '@material-ui/core';
 import { SortBy } from 'constants';
-import { Close as CloseIcon, ContentCopy } from '@material-ui/icons';
+import { Close as CloseIcon } from '@material-ui/icons';
+import FileCopyIcon from '@material-ui/icons/FileCopy';
 import { FormattedMessage, injectIntl, defineMessages } from 'react-intl';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import _ from 'lodash';
@@ -285,7 +286,7 @@ export default @injectIntl @withStyles(styles, { withTheme: true }) @inject('sto
             <TableCell>
               <CopyToClipboard text={item.address} onCopy={this.onCopyClicked}>
                 <Button size="small" className={classes.tableRowCopyButton}>
-                  <ContentCopy className={classes.tableRowCopyButtonIcon} />
+                  <FileCopyIcon />
                   <Typography variant="body1" className={classes.tableRowCopyButtonText}>
                     <FormattedMessage id="str.copy" defaultMessage="Copy" />
                   </Typography>
@@ -295,7 +296,7 @@ export default @injectIntl @withStyles(styles, { withTheme: true }) @inject('sto
             {rows}
             <TableCell>
               <Button
-                variant="raised"
+                variant="contained"
                 color="primary"
                 size="small"
                 className={classes.tableRowActionButton}
@@ -305,7 +306,7 @@ export default @injectIntl @withStyles(styles, { withTheme: true }) @inject('sto
                 <FormattedMessage id="myBalances.deposit" defaultMessage="Deposit" />
               </Button>
               <Button
-                variant="raised"
+                variant="contained"
                 color="primary"
                 size="small"
                 className={classes.tableRowActionButton}
