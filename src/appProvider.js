@@ -6,8 +6,8 @@ import { MuiThemeProvider } from '@material-ui/core';
 import { Route, Router } from 'react-router-dom';
 import { Provider as MobxProvider, observer } from 'mobx-react';
 import { ThemeProvider } from 'styled-components';
-import MuiPickersUtilsProvider from 'material-ui-pickers/utils/MuiPickersUtilsProvider';
-import MomentUtils from 'material-ui-pickers/utils/moment-utils';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import MomentUtils from '@date-io/moment';
 import { createBrowserHistory } from 'history';
 import { syncHistoryWithStore } from 'mobx-react-router';
 
