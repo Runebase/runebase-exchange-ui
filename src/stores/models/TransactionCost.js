@@ -7,7 +7,7 @@ import { satoshiToDecimal } from '../../helpers/utility';
 * Represents the cost for a transaction. This is fetched before the user executes a transaction.
 */
 
-export default @inject('store') @observer class TransactionCost {
+export default class TransactionCost {
   type
 
   token
@@ -18,11 +18,13 @@ export default @inject('store') @observer class TransactionCost {
 
   gasCost
 
-  constructor(txCost) {
+  constructor(txCost, baseCurrencyPair) {
     Object.assign(this, txCost);
-    const { store: { baseCurrencyStore } } = this.props;
+    console.log('txCost');
+    console.log(txCost);
+    console.log(baseCurrencyPair);
 
-    if (this.token !== baseCurrencyStore.baseCurrency.pair) {
+    if (this.token !== baseCurrencyPair) {
       this.amount = satoshiToDecimal(this.amount);
     }
   }

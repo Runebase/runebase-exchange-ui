@@ -85,10 +85,10 @@ export default @injectIntl @withStyles(styles, { withTheme: true }) @inject('sto
               </TableHead>
               <TableBody>
                 <TableRow>
-                  <TableCell>{txFees[0].props.type}</TableCell>
-                  <TableCell>{txFees[0].props.amount} {txFees[0].props.token}</TableCell>
-                  <TableCell>{txFees[0].props.gasCost}</TableCell>
-                  <TableCell>{txFees[0].props.gasLimit}</TableCell>
+                  <TableCell>{txFees[0].type}</TableCell>
+                  <TableCell>{txFees[0].amount} {txFees[0].token}</TableCell>
+                  <TableCell>{txFees[0].gasCost}</TableCell>
+                  <TableCell>{txFees[0].gasLimit}</TableCell>
                 </TableRow>
               </TableBody>
             </Table>

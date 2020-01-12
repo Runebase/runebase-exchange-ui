@@ -512,7 +512,7 @@ export default class {
           senderAddress: walletAddress,
           receiverAddress: this.toAddress,
         });
-        const txFees = _.map(result, (item) => new TransactionCost(item));
+        const txFees = _.map(result, (item) => new TransactionCost(item, this.app.baseCurrencyStore.baseCurrency.pair));
         runInAction(() => {
           this.txFees = txFees;
           this.fundConfirmDialogOpen = true;
