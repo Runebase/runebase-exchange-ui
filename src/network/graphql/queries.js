@@ -171,6 +171,29 @@ export function queryAllTrades(filters, orderBy, limit, skip) {
 }
 
 /*
+* Queries allTrades from GraphQL with optional filters.
+*
+*
+*/
+export function queryAllCharts(filters, orderBy, limit, skip) {
+  const request = new GraphQuery('allCharts', TYPE.chart);
+  if (!_.isEmpty(filters)) {
+    request.setFilters(filters);
+  }
+  if (!_.isEmpty(orderBy)) {
+    request.setOrderBy(orderBy);
+  }
+  if (_.isFinite(limit) && limit > 0) {
+    request.addParam('limit', limit);
+  }
+  if (_.isFinite(skip) && skip >= 0) {
+    request.addParam('skip', skip);
+  }
+  console.log('queryAllCharts');
+  return request.execute();
+}
+
+/*
 * Queries allFundRedeems from GraphQL with optional filters.
 *
 *

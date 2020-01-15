@@ -9,12 +9,14 @@ export const TYPE = {
   marketImage: 'MarketImage',
   fundRedeem: 'FundRedeem',
   baseCurrency: 'BaseCurrency',
+  chart: 'Chart',
 };
 
 const TYPE_DEF = {
 
   NewOrder: `
     txid
+    tokenAddress
     orderId
     owner
     token
@@ -35,6 +37,7 @@ const TYPE_DEF = {
 
   Trade: `
     txid
+    tokenAddress
     type
     date
     from
@@ -72,6 +75,17 @@ const TYPE_DEF = {
     change
     volume
     address
+  `,
+
+  Chart: `
+    tokenAddress
+    timeTable
+    time
+    open
+    high
+    low
+    close
+    volume
   `,
 
   MarketImage: `

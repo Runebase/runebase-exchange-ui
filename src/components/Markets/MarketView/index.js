@@ -8,7 +8,7 @@ import classNames from 'classnames/bind';
 
 export default @injectIntl @inject('store') class MarketView extends PureComponent {
   render() {
-    const { market, tokenName, price, change, volume } = this.props.event;
+    const { market, tokenName, price, change, volume, address } = this.props.event;
     const { store: { wallet, marketStore, baseCurrencyStore } } = this.props;
     const fixedVolume = parseFloat(volume).toFixed(2);
     let active = false;
@@ -39,7 +39,7 @@ export default @injectIntl @inject('store') class MarketView extends PureCompone
 
     return (
       <div>
-        <Card className={triggerActive} onClick={() => wallet.changeMarket(market, wallet.addresses)}>
+        <Card className={triggerActive} onClick={() => wallet.changeMarket(market, address, wallet.addresses)}>
           <Grid container>
             <Grid item xs={3}>
               <p className='textCenter fat'>{tokenName}</p>

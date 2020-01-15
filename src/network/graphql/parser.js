@@ -11,6 +11,7 @@ class GraphParser {
       MarketImage: this.parseMarketImage,
       FundRedeem: this.parseFundRedeem,
       BaseCurrency: this.parseBaseCurrency,
+      Chart: this.parseChart,
     };
     return PARSER_MAPPINGS[requestName];
   }
@@ -33,6 +34,7 @@ class GraphParser {
   static parseNewOrder(data) {
     return data.map((entry) => ({
       txid: entry.txid,
+      tokenAddress: entry.tokenAddress,
       orderId: entry.orderId,
       owner: entry.owner,
       status: entry.status,
@@ -78,9 +80,24 @@ class GraphParser {
     }));
   }
 
+  static parseChart(data) {
+    console.log('parseChart');
+    return data.map((entry) => ({
+      tokenAddress: entry.tokenAddress,
+      timeTable: entry.timeTable,
+      time: entry.time,
+      open: entry.open,
+      high: entry.high,
+      low: entry.low,
+      close: entry.close,
+      volume: entry.volume,
+    }));
+  }
+
   static parseTrade(data) {
     return data.map((entry) => ({
       txid: entry.txid,
+      tokenAddress: entry.tokenAddress,
       type: entry.type,
       date: entry.date,
       from: entry.from,

@@ -48,6 +48,7 @@ const messages = defineMessages({
 
 const INIT_VALUE = {
   market: 'PRED',
+  tokenAddress: 'cdaba40280c10b356e3b17fb8a023321cded71a7',
   txSentDialogOpen: false,
   exchangeAddress: 'RNLAUEZ7qmCVLYDbKYRhhj77KMoPUTgyGz', // Dummy Value
   accountData: [],
@@ -140,6 +141,8 @@ export default class {
 
   @observable market = INIT_VALUE.market; // this.app.marketStore.marketInfo[0].market; Get this value from marketStore?
 
+  @observable tokenAddress = INIT_VALUE.tokenAddress;
+
   constructor(app) {
     this.app = app;
     //
@@ -221,12 +224,14 @@ export default class {
     }
   }
 
-  @action changeMarket = (market, addresses) => {
+  @action changeMarket = (market, tokenAddress, addresses) => {
     if (market === this.market) {
       return;
     }
     this.addressList = [];
     this.market = market;
+    this.tokenAddress = tokenAddress;
+    console.log(this.tokenAddress);
     addresses.forEach((address) => {
       if (address[market] || address[this.app.baseCurrencyStore.baseCurrency.pair]) {
         this.accountData = [address.address, market, address[market], address[this.app.baseCurrencyStore.baseCurrency.pair]];
