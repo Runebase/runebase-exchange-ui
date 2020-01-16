@@ -3,12 +3,12 @@
 *
 *
 */
-export default class Chart {
+export default class Volume {
   tokenAddress
 
   time
 
-  volume
+  value
 
   // for invalid option
   localizedInvalid = {};
@@ -18,7 +18,7 @@ export default class Chart {
     this.app = app;
     this.tokenAddress = chart.tokenAddress;
     this.time = chart.time;
-    this.volume = chart.volume;
+    this.value = chart.volume;
     this.localizedInvalid = {
       en: 'Invalid',
       pt: 'Portuguese',

@@ -10,12 +10,15 @@ const INIT_VALUES = {
   ohlcInfo: null,
   volumeInfo: null,
   loading: true,
+  timeTable: '1h',
 };
 
 export default class {
   @observable ohlcInfo = INIT_VALUES.ohlcInfo
 
   @observable volumeInfo = INIT_VALUES.volumeInfo
+
+  @observable timeTable = INIT_VALUES.timeTable
 
   constructor(app) {
     this.app = app;
@@ -29,6 +32,13 @@ export default class {
     );
   }
 
+  @action
+  changeTimeTable = (newTimeTable) => {
+    this.timeTable = newTimeTable;
+    this.getChartInfo();
+  }
+
+  @action
   getChartInfo = async (limit = 500, skip = 0) => {
     try {
       this.ohlcInfo = null;
@@ -36,7 +46,7 @@ export default class {
       const orderBy = { field: 'time', direction: 'ASC' };
       let chartInfo = [];
       const filters = [
-        { timeTable: '1h', tokenAddress: this.app.wallet.tokenAddress },
+        { timeTable: this.timeTable, tokenAddress: this.app.wallet.tokenAddress },
       ];
       chartInfo = await queryAllCharts(filters, orderBy, limit, skip);
       console.log(chartInfo);
