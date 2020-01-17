@@ -46,7 +46,7 @@ export default @withStyles(styles, { withTheme: true }) @injectIntl class Deposi
           <FormattedMessage id="depositDialog.title" defaultMessage="Deposit Address" />
         </DialogTitle>
         <DialogContent>
-          <Typography variant="title" className={classes.depositAddress}>
+          <Typography variant="h6" className={classes.depositAddress}>
             {walletAddress}
           </Typography>
         </DialogContent>

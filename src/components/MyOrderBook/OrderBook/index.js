@@ -148,30 +148,30 @@ export default @injectIntl @inject('store') @withStyles(styles, { withTheme: tru
               <Grid item xs={12}>
                 <Grid container className='spacingOrderBook vcenter'>
                   <Grid item xs={3} className='inheritHeight ordersRoundBox'>
-                    <Typography variant='title' className='ordersPropertyLabel'>amount</Typography>
-                    <Typography variant='subheading' className='ordersPropertyContent inheritHeight'>{amountToken}</Typography>
-                    <Typography variant='subheading' className='ordersPropertyContent inheritHeight'>{token}</Typography>
+                    <Typography variant='h6' className='ordersPropertyLabel'>amount</Typography>
+                    <Typography variant='subtitle1' className='ordersPropertyContent inheritHeight'>{amountToken}</Typography>
+                    <Typography variant='subtitle1' className='ordersPropertyContent inheritHeight'>{token}</Typography>
                   </Grid>
                   <Grid item xs={3} className='inheritHeight ordersRoundBox'>
-                    <Typography variant='title' className='ordersPropertyLabel'>price</Typography>
-                    <Typography variant='subheading' className='ordersPropertyContent inheritHeight'>{price}</Typography>
-                    <Typography variant='subheading' className='ordersPropertyContent inheritHeight'>{baseCurrencyStore.baseCurrency.pair}</Typography>
+                    <Typography variant='h6' className='ordersPropertyLabel'>price</Typography>
+                    <Typography variant='subtitle1' className='ordersPropertyContent inheritHeight'>{price}</Typography>
+                    <Typography variant='subtitle1' className='ordersPropertyContent inheritHeight'>{baseCurrencyStore.baseCurrency.pair}</Typography>
                   </Grid>
                   <Grid item xs={3} className='inheritHeight ordersRoundBox'>
-                    <Typography variant='title' className='ordersPropertyLabel'>total</Typography>
-                    <Typography variant='subheading' className='ordersPropertyContent inheritHeight'>{total}</Typography>
-                    <Typography variant='subheading' className='ordersPropertyContent inheritHeight'>{baseCurrencyStore.baseCurrency.pair}</Typography>
+                    <Typography variant='h6' className='ordersPropertyLabel'>total</Typography>
+                    <Typography variant='subtitle1' className='ordersPropertyContent inheritHeight'>{total}</Typography>
+                    <Typography variant='subtitle1' className='ordersPropertyContent inheritHeight'>{baseCurrencyStore.baseCurrency.pair}</Typography>
                   </Grid>
                   <Grid item xs={3} className='inheritHeight ordersRoundBox'>
-                    <Typography variant='title' className='ordersPropertyLabel'>filled</Typography>
+                    <Typography variant='h6' className='ordersPropertyLabel'>filled</Typography>
                     <div className='ordersPropertyContent inheritHeight'>
                       <Grid container>
                         <Grid item xs={12}>
-                          <Typography variant='subheading'>{filled}</Typography>
+                          <Typography variant='subtitle1'>{filled}</Typography>
                         </Grid>
                         <span className='filledDivider'></span>
                         <Grid item xs={12}>
-                          <Typography variant='subheading'>{startAmountToken}</Typography>
+                          <Typography variant='subtitle1'>{startAmountToken}</Typography>
                         </Grid>
                       </Grid>
                     </div>
@@ -180,19 +180,19 @@ export default @injectIntl @inject('store') @withStyles(styles, { withTheme: tru
               </Grid>
 
               <Grid item xs={12} className='spacingOrderBook'>
-                <Typography variant='subheading' className=''>owner:</Typography>
+                <Typography variant='subtitle1' className=''>owner:</Typography>
                 <Typography className={classes.root}><a href={`https://explorer.runebase.io/address/${owner}`}>{owner}</a></Typography>
               </Grid>
               <Grid item xs={12} className='spacingOrderBook'>
-                <Typography variant='subheading' className={classes.root}>txid:</Typography>
+                <Typography variant='subtitle1' className={classes.root}>txid:</Typography>
                 <Typography className={classes.root}><a href={`https://explorer.runebase.io/tx/${txid}`}>{txid}</a></Typography>
               </Grid>
               <Grid item xs={6} className='spacingOrderBook'>
-                <Typography variant='subheading'>created time</Typography>
+                <Typography variant='subtitle1'>created time</Typography>
                 <Typography>{time}</Typography>
               </Grid>
               <Grid item xs={6} className='spacingOrderBook'>
-                <Typography variant='subheading'>created blockNum</Typography>
+                <Typography variant='subtitle1'>created blockNum</Typography>
                 <Typography>{blockNum}</Typography>
               </Grid>
               {status !== 'CANCELED' && status !== 'FULFILLED' ? (

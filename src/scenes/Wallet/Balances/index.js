@@ -82,7 +82,7 @@ export default @injectIntl @withStyles(styles, { withTheme: true }) @inject('sto
     return (
       <Paper className={classes.myBalancePaper}>
         <Grid container spacing={0} className={classes.myBalanceGridContainer}>
-          <Typography variant="title" className={classes.myBalanceTitle}>
+          <Typography variant="h6" className={classes.myBalanceTitle}>
             <FormattedMessage id="myBalances.myBalance" defaultMessage="My Balance" />
           </Typography>
           {this.getTotalsGrid()}

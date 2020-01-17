@@ -270,30 +270,30 @@ class OrderBook extends PureComponent {
                 <Grid item xs={12}>
                   <Grid container className='spacingOrderBook vcenter'>
                     <Grid item xs={3} className='inheritHeight ordersRoundBox'>
-                      <Typography variant='title' className='ordersPropertyLabel'>amount</Typography>
-                      <Typography variant='subheading' className='ordersPropertyContent inheritHeight'>{amountToken}</Typography>
-                      <Typography variant='subheading' className='ordersPropertyContent inheritHeight'>{global.selectedOrderInfo.token}</Typography>
+                      <Typography variant='h6' className='ordersPropertyLabel'>amount</Typography>
+                      <Typography variant='subtitle1' className='ordersPropertyContent inheritHeight'>{amountToken}</Typography>
+                      <Typography variant='subtitle1' className='ordersPropertyContent inheritHeight'>{global.selectedOrderInfo.token}</Typography>
                     </Grid>
                     <Grid item xs={3} className='inheritHeight ordersRoundBox'>
-                      <Typography variant='title' className='ordersPropertyLabel'>price</Typography>
-                      <Typography variant='subheading' className='ordersPropertyContent inheritHeight'>{global.selectedOrderInfo.price}</Typography>
-                      <Typography variant='subheading' className='ordersPropertyContent inheritHeight'>{baseCurrencyStore.baseCurrency.pair}</Typography>
+                      <Typography variant='h6' className='ordersPropertyLabel'>price</Typography>
+                      <Typography variant='subtitle1' className='ordersPropertyContent inheritHeight'>{global.selectedOrderInfo.price}</Typography>
+                      <Typography variant='subtitle1' className='ordersPropertyContent inheritHeight'>{baseCurrencyStore.baseCurrency.pair}</Typography>
                     </Grid>
                     <Grid item xs={3} className='inheritHeight ordersRoundBox'>
-                      <Typography variant='title' className='ordersPropertyLabel'>total</Typography>
-                      <Typography variant='subheading' className='ordersPropertyContent inheritHeight'>{total}</Typography>
-                      <Typography variant='subheading' className='ordersPropertyContent inheritHeight'>{baseCurrencyStore.baseCurrency.pair}</Typography>
+                      <Typography variant='h6' className='ordersPropertyLabel'>total</Typography>
+                      <Typography variant='subtitle1' className='ordersPropertyContent inheritHeight'>{total}</Typography>
+                      <Typography variant='subtitle1' className='ordersPropertyContent inheritHeight'>{baseCurrencyStore.baseCurrency.pair}</Typography>
                     </Grid>
                     <Grid item xs={3} className='inheritHeight ordersRoundBox'>
-                      <Typography variant='title' className='ordersPropertyLabel'>filled</Typography>
+                      <Typography variant='h6' className='ordersPropertyLabel'>filled</Typography>
                       <div className='ordersPropertyContent inheritHeight'>
                         <Grid container>
                           <Grid item xs={12}>
-                            <Typography variant='subheading'>{filled}</Typography>
+                            <Typography variant='subtitle1'>{filled}</Typography>
                           </Grid>
                           <span className='filledDivider'></span>
                           <Grid item xs={12}>
-                            <Typography variant='subheading'>{startAmountToken}</Typography>
+                            <Typography variant='subtitle1'>{startAmountToken}</Typography>
                           </Grid>
                         </Grid>
                       </div>
@@ -313,7 +313,7 @@ class OrderBook extends PureComponent {
                   <Typography className={classes.root}><a href={`https://explorer.runebase.io/tx/${global.selectedOrderInfo.txid}`}>{global.selectedOrderInfo.txid}</a></Typography>
                 </Grid>
                 <Grid item xs={6} className='spacingOrderBook'>
-                  <Typography variant='subheading' className={classes.root}>Created Time</Typography>
+                  <Typography variant='subtitle1' className={classes.root}>Created Time</Typography>
                   <Typography>
                     <Moment unix>
                       {global.selectedOrderInfo.time}
@@ -321,23 +321,23 @@ class OrderBook extends PureComponent {
                   </Typography>
                 </Grid>
                 <Grid item xs={6} className='spacingOrderBook'>
-                  <Typography variant='subheading' className={classes.root}>Created BlockNum</Typography>
+                  <Typography variant='subtitle1' className={classes.root}>Created BlockNum</Typography>
                   <Typography>{global.selectedOrderInfo.blockNum}</Typography>
                 </Grid>
                 <div className="ui horizontal divider">
                   Trade
                 </div>
                 <Grid item xs={6}>
-                  <Typography variant='subheading' className={classes.root}>{global.selectedOrderInfo.token} Available</Typography>
+                  <Typography variant='subtitle1' className={classes.root}>{global.selectedOrderInfo.token} Available</Typography>
                   <Typography>{walletAmount}</Typography>
                 </Grid>
                 <Grid item xs={6}>
-                  <Typography variant='subheading' className={classes.root}>Gas Available</Typography>
+                  <Typography variant='subtitle1' className={classes.root}>Gas Available</Typography>
                   <Typography>{availableGasAmount}</Typography>
                 </Grid>
                 <div className="ui horizontal divider">
                 </div>
-                <Typography variant='subheading' className={classes.root}>Amount</Typography>
+                <Typography variant='subtitle1' className={classes.root}>Amount</Typography>
                 <Grid item xs={12}>
                   <Slider
                     disabled={!isEnabled}

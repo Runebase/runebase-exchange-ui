@@ -80,7 +80,7 @@ export default @injectIntl @withStyles(styles, { withTheme: true }) @inject('sto
     const CurrentComponentName = this.components[currentIndex];
 
     return (
-      <Dialog open={openTutorial} fullWidth maxWidth="md">
+      <Dialog open={openTutorial} fullwidth maxWidth="md">
         <DialogContent className={cx(classes[`tutorialDialog${currentIndex}`], classes.tutorialDialog)}>
           <div className={classes.titleTopLine}></div>
           <Select

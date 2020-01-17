@@ -32,7 +32,7 @@ export default @withStyles(styles) @inject('store') @observer class Loader exten
             <img className={classes.loaderGif} src="/images/loader.gif" alt="Loading..." />
           </div>
           <div className={classes.loaderPercentWrapper}>
-            <Typography variant="display1" className={classes.loaderPercent}>{syncPercent}</Typography>
+            <Typography variant="h4" className={classes.loaderPercent}>{syncPercent}</Typography>
             <span>%</span>
             <div>
               <FormattedMessage id="str.blockSync" defaultMessage="Blockchain syncing with {peers} peers..." values={{ peers: peerNodeCount }} />

@@ -43,7 +43,7 @@ const messages = defineMessages({
 
 const Tutorial1 = ({ classes }) => (
   <div>
-    <Typography variant="display1">
+    <Typography variant="h4">
       <FormattedMessage id="tutorial1.title" defaultMessage="RunebaseExchange Dapp Uses The Runebase Wallet" />
     </Typography>
     <ul className={classes.contentList}>

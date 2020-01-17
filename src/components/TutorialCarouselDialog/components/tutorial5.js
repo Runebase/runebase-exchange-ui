@@ -31,7 +31,7 @@ const messages = defineMessages({
 
 const Tutorial5 = ({ classes }) => (
   <div>
-    <Typography variant="display1">
+    <Typography variant="h4">
       <FormattedMessage id="tutorial5.title" defaultMessage="What Is Blockchain" />
     </Typography>
     <ul className={classes.contentList}>

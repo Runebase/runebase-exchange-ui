@@ -60,7 +60,7 @@ export default @injectIntl @withStyles(null, { withTheme: true }) @inject('store
         </DialogTitle>
         <DialogContent>
           <div>
-            <Typography variant="title"></Typography>
+            <Typography variant="h6"></Typography>
             <TextField
               autoFocus
               margin="normal"

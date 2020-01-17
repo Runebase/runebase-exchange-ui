@@ -100,7 +100,7 @@ export default @inject('store') @observer class MyOrderBook extends Component {
             onChange={this.handleChange}
             indicatorColor="primary"
             textColor="primary"
-            fullWidth
+            variant="fullWidth"
           >
             <Tab label="Current" />
             <Tab label="FulFilled" />

@@ -27,7 +27,7 @@ const messages = defineMessages({
 
 const Tutorial4 = ({ classes }) => (
   <div>
-    <Typography variant="display1">
+    <Typography variant="h4">
       <FormattedMessage id="tutorial4.title" defaultMessage="How To Protect Yourself From Loss" />
     </Typography>
     <ul className={classes.contentList}>

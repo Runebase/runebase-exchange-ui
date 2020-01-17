@@ -99,8 +99,6 @@ export default class {
 
   @action
   onMyTradeInfoSub = (myTradeInfo) => {
-    console.log(myTradeInfo);
-    console.log(this.skip);
     if (myTradeInfo.error) {
       console.error(myTradeInfo.error.message); // eslint-disable-line no-console
     } else if (this.skip === 0) {
@@ -124,14 +122,12 @@ export default class {
   }
 
   subscribeMyTradeInfo = () => {
-    console.log('subbing');
     const self = this;
     if (this.app.wallet.currentAddressKey !== '') {
       this.subscription = apolloClient.subscribe({
         query: getOnMyTradeInfoSubscription(this.app.wallet.addresses[this.app.wallet.currentAddressKey].address),
       }).subscribe({
         next({ data, errors }) {
-          console.log(data);
           if (errors && errors.length > 0) {
             self.onMyTradeInfoSub({ error: errors[0] });
           } else {

@@ -27,7 +27,7 @@ const messages = defineMessages({
 
 const Tutorial0 = ({ classes }) => (
   <div>
-    <Typography variant="display1">
+    <Typography variant="h4">
       <FormattedMessage id="tutorial0.title" defaultMessage="What Is The RunebaseExchange App" />
     </Typography>
     <ul className={classes.contentList}>

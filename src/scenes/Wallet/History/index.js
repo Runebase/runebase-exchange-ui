@@ -59,7 +59,7 @@ export default @injectIntl @withStyles(styles, { withTheme: true }) @inject('sto
     return (
       <Paper className={classes.txHistoryPaper}>
         <Grid container spacing={0} className={classes.txHistoryGridContainer}>
-          <Typography variant="title">
+          <Typography variant="h6">
             <FormattedMessage id="walletHistory.transferHistory" defaultMessage="Transfer History" />
           </Typography>
           <Table className={classes.table}>

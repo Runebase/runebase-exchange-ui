@@ -3,6 +3,23 @@
   "language.portuguese": "Portuguese",
   "language.dutch": "Dutch",
 
+  "load.allMarkets": "Loading...",
+  "load.currentOrders": "Loading...",
+  "load.allOrders": "Loading...",
+  "load.sellBook": "Loading...",
+  "load.buyBook": "Loading...",
+  "load.sellHistory": "Loading...",
+  "load.buyHistory": "Loading...",
+
+  "chart.1hour": "1 Hour",
+  "chart.3hour": "3 Hours",
+  "chart.6hour": "6 Hours",
+  "chart.12hour": "12 Hours",
+  "chart.daily": "Daily",
+  "chart.weekly": "Weekly",
+
+
+
   "str.withdraw": "Withdraw",
   "navbar.wallet": "Wallet",
   "navBar.history": "History",
