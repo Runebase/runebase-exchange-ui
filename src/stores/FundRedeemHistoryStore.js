@@ -63,7 +63,6 @@ export default class {
   }
 
   getFundRedeemInfo = async (limit = this.limit, skip = this.skip) => {
-    console.log('getFundRedeemInfo');
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
@@ -98,8 +97,6 @@ export default class {
 
   @action
   onFundRedeemInfoSub = (fundRedeemInfo) => {
-    console.log(fundRedeemInfo);
-    console.log(this.skip);
     if (fundRedeemInfo.error) {
       console.error(fundRedeemInfo.error.message); // eslint-disable-line no-console
     } else if (this.skip === 0) {
@@ -127,7 +124,6 @@ export default class {
         query: getOnFundRedeemInfoSubscription(this.app.wallet.addresses[this.app.wallet.currentAddressKey].address),
       }).subscribe({
         next({ data, errors }) {
-          console.log(data);
           if (errors && errors.length > 0) {
             self.onFundRedeemInfoSub({ error: errors[0] });
           } else {

@@ -231,7 +231,6 @@ export default class {
     this.addressList = [];
     this.market = market;
     this.tokenAddress = tokenAddress;
-    console.log(this.tokenAddress);
     addresses.forEach((address) => {
       if (address[market] || address[this.app.baseCurrencyStore.baseCurrency.pair]) {
         this.accountData = [address.address, market, address[market], address[this.app.baseCurrencyStore.baseCurrency.pair]];

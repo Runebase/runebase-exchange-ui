@@ -3,7 +3,6 @@ import _ from 'lodash';
 import { Routes } from 'constants';
 import { queryAllNewOrders } from '../network/graphql/queries';
 import NewOrder from './models/NewOrder';
-import AppConfig from '../config/app';
 import apolloClient from '../network/graphql';
 import { getonActiveOrderInfoSubscription } from '../network/graphql/subscriptions';
 
@@ -106,9 +105,6 @@ export default class {
 
   @action
   onActiveOrderInfoSub = (activeOrderInfo) => {
-    console.log('onActiveOrderInfoSub');
-    console.log(activeOrderInfo);
-    console.log(this.skip);
     if (this.activeOrderInfo === undefined) {
       this.activeOrderInfo = [];
     }
@@ -140,14 +136,11 @@ export default class {
 
   subscribeActiveOrderInfo = () => {
     const self = this;
-    console.log('subscribeActiveOrderInfo');
     this.subscription = apolloClient.subscribe({
       query: getonActiveOrderInfoSubscription(),
     }).subscribe({
       next({ data, errors }) {
-        console.log(data);
         if (errors && errors.length > 0) {
-          console.log(errors);
           self.onActiveOrderInfoSub({ error: errors[0] });
         } else {
           const response = [];
@@ -156,7 +149,6 @@ export default class {
         }
       },
       error(err) {
-        console.log(err);
         self.onActiveOrderInfoSub({ error: err.message });
       },
     });

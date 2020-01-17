@@ -10,7 +10,7 @@ import {
   MenuItem,
 } from '@material-ui/core';
 import 'semantic-ui-css/semantic.min.css';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import styles from './styles';
 
 export default @injectIntl @withStyles(styles, { withTheme: true }) @inject('store') @observer class MarketInfo extends Component {

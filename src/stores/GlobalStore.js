@@ -188,20 +188,13 @@ export default class GlobalStore {
       query: getonSyncInfoSubscription(),
     }).subscribe({
       next({ data, errors }) {
-        console.log('subscribeSyncInfo');
         if (errors && errors.length > 0) {
-          console.log('errors');
-          console.log(errors);
           self.onSyncInfo({ error: errors[0] });
         } else {
-          console.log('data');
-          console.log(data.onSyncInfo);
           self.onSyncInfo(data.onSyncInfo);
         }
       },
       error(err) {
-        console.log('err');
-        console.log(err);
         self.onSyncInfo({ error: err.message });
       },
     });

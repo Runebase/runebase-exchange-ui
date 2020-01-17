@@ -96,9 +96,6 @@ export default class {
 
   @action
   onBuyHistoryInfoSub = (buyHistoryInfo) => {
-    console.log('onBuyHistoryInfoSub');
-    console.log(buyHistoryInfo);
-    console.log(this.skip);
     if (buyHistoryInfo.error) {
       console.error(buyHistoryInfo.error.message); // eslint-disable-line no-console
     } else if (this.skip === 0) {
@@ -123,14 +120,11 @@ export default class {
 
   subscribeBuyHistoryInfo = () => {
     const self = this;
-    console.log('subscribeBuyHistoryInfo');
     this.subscription = apolloClient.subscribe({
       query: getOnBuyHistoryInfoSubscription(this.app.wallet.currentMarket, 'BUYORDER'),
     }).subscribe({
       next({ data, errors }) {
-        console.log(data);
         if (errors && errors.length > 0) {
-          console.log(errors);
           self.onBuyHistoryInfoSub({ error: errors[0] });
         } else {
           const response = [];
@@ -139,7 +133,6 @@ export default class {
         }
       },
       error(err) {
-        console.log(err);
         self.onBuyHistoryInfoSub({ error: err.message });
       },
     });

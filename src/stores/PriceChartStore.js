@@ -1,4 +1,4 @@
-import { observable, action, runInAction, computed, reaction } from 'mobx';
+import { observable, action, reaction } from 'mobx';
 import _ from 'lodash';
 import { Routes } from 'constants';
 import Ohlc from './models/Ohlc';
@@ -6,7 +6,6 @@ import Volume from './models/Volume';
 import apolloClient from '../network/graphql';
 import { queryAllCharts } from '../network/graphql/queries';
 import { getOnChartInfoSubscription } from '../network/graphql/subscriptions';
-import { getChartData } from '../helpers/utility';
 
 const INIT_VALUES = {
   ohlcInfo: null,

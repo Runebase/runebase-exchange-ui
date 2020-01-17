@@ -1,11 +1,11 @@
-/* eslint-disable react/destructuring-assignment */
+/* eslint-disable react/destructuring-assignment, camelcase */
 import React, { Component, useEffect, useRef } from 'react';
 import { inject, observer } from 'mobx-react';
 import { createChart, CrosshairMode } from 'lightweight-charts';
 import './style.css';
 
 export default @inject('store') @observer class ChartComponent extends Component {
-  componentDidMount() {
+  UNSAFE_componentWillMount() {
     this.props.store.priceChartStore.getChartInfo();
   }
 
@@ -45,8 +45,6 @@ export default @inject('store') @observer class ChartComponent extends Component
             borderColor: '#485c7b',
           },
         });
-
-        console.log(chart.current);
 
         const candleSeries = chart.current.addCandlestickSeries({
           upColor: '#4bffb5',

@@ -91,17 +91,12 @@ export default class {
       console.error(sellOrderInfo.error.message); // eslint-disable-line no-console
     } else {
       const result = _.uniqBy(sellOrderInfo, 'orderId').map((newOrder) => new NewOrder(newOrder, this.app));
-      const resultOrder = _.orderBy(result, ['price'], 'asc');
-      console.log(resultOrder);
-      this.sellOrderInfo = resultOrder;
+      this.sellOrderInfo = _.orderBy(result, ['price'], 'asc');
     }
   }
 
   @action
   onSellOrderInfoSub = (sellOrderInfo) => {
-    console.log('onSellOrderInfoInfoSub');
-    console.log(sellOrderInfo);
-    console.log(this.skip);
     if (sellOrderInfo.error) {
       console.error(sellOrderInfo.error.message); // eslint-disable-line no-console
     } else if (this.skip === 0) {
@@ -126,14 +121,11 @@ export default class {
 
   subscribeSellOrderInfo = () => {
     const self = this;
-    console.log('subscribeSellOrderInfo');
     this.subscription = apolloClient.subscribe({
       query: getonSellOrderInfoSubscription('SELLORDER', this.app.wallet.market, 'ACTIVE'),
     }).subscribe({
       next({ data, errors }) {
-        console.log(data);
         if (errors && errors.length > 0) {
-          console.log(errors);
           self.onSellOrderInfoSub({ error: errors[0] });
         } else {
           const response = [];
@@ -142,7 +134,6 @@ export default class {
         }
       },
       error(err) {
-        console.log(err);
         self.onSellOrderInfoSub({ error: err.message });
       },
     });

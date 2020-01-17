@@ -97,9 +97,6 @@ export default class {
 
   @action
   onBuyOrderInfoSub = (buyOrderInfo) => {
-    console.log('onbuyOrderInfoInfoSub');
-    console.log(buyOrderInfo);
-    console.log(this.skip);
     if (buyOrderInfo.error) {
       console.error(buyOrderInfo.error.message); // eslint-disable-line no-console
     } else if (this.skip === 0) {
@@ -124,14 +121,11 @@ export default class {
 
   subscribeBuyOrderInfo = () => {
     const self = this;
-    console.log('subscribeBuyOrderInfo');
     this.subscription = apolloClient.subscribe({
       query: getonBuyOrderInfoSubscription('BUYORDER', this.app.wallet.market, 'ACTIVE'),
     }).subscribe({
       next({ data, errors }) {
-        console.log(data);
         if (errors && errors.length > 0) {
-          console.log(errors);
           self.onBuyOrderInfoSub({ error: errors[0] });
         } else {
           const response = [];
@@ -140,7 +134,6 @@ export default class {
         }
       },
       error(err) {
-        console.log(err);
         self.onBuyOrderInfoSub({ error: err.message });
       },
     });

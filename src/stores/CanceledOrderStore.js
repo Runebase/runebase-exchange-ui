@@ -3,7 +3,6 @@ import _ from 'lodash';
 import { Routes } from 'constants';
 import { queryAllNewOrders } from '../network/graphql/queries';
 import NewOrder from './models/NewOrder';
-import AppConfig from '../config/app';
 import apolloClient from '../network/graphql';
 import { getonCanceledOrderInfoSubscription } from '../network/graphql/subscriptions';
 
@@ -95,9 +94,6 @@ export default class {
 
   @action
   onCanceledOrderInfoSub = (canceledOrderInfo) => {
-    console.log('onCanceledOrderInfoSub');
-    console.log(canceledOrderInfo);
-    console.log(this.skip);
     if (this.canceledOrderInfo === undefined) {
       this.canceledOrderInfo = [];
     }
@@ -131,14 +127,11 @@ export default class {
 
   subscribeCanceledOrderInfo = () => {
     const self = this;
-    console.log('subscribeCanceledOrderInfo');
     this.subscription = apolloClient.subscribe({
       query: getonCanceledOrderInfoSubscription('CANCELED'),
     }).subscribe({
       next({ data, errors }) {
-        console.log(data);
         if (errors && errors.length > 0) {
-          console.log(errors);
           self.onCanceledOrderInfoSub({ error: errors[0] });
         } else {
           const response = [];
@@ -147,7 +140,6 @@ export default class {
         }
       },
       error(err) {
-        console.log(err);
         self.onCanceledOrderInfoSub({ error: err.message });
       },
     });

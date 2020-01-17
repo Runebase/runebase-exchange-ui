@@ -2,7 +2,6 @@
 import React, { Component, Fragment } from 'react';
 import { inject, observer } from 'mobx-react';
 import { injectIntl, defineMessages } from 'react-intl';
-import { withStyles } from '@material-ui/core';
 import MarketView from './MarketView';
 import LoadingElement from '../Loading';
 

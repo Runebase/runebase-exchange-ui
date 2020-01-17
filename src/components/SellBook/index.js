@@ -30,7 +30,6 @@ export default @inject('store') @observer class SellBook extends Component {
 
   render() {
     const { sellStore, wallet } = this.props.store;
-    console.log(sellStore.sellOrderInfo);
     return (
       <Fragment>
         <Card className='dashboardOrderBookTitle'>
