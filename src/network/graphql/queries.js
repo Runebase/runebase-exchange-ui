@@ -189,7 +189,6 @@ export function queryAllCharts(filters, orderBy, limit, skip) {
   if (_.isFinite(skip) && skip >= 0) {
     request.addParam('skip', skip);
   }
-  console.log('queryAllCharts');
   return request.execute();
 }
 

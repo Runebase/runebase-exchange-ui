@@ -81,7 +81,6 @@ class GraphParser {
   }
 
   static parseChart(data) {
-    console.log('parseChart');
     return data.map((entry) => ({
       tokenAddress: entry.tokenAddress,
       timeTable: entry.timeTable,

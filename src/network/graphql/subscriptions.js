@@ -31,6 +31,18 @@ export function getonActiveOrderInfoSubscription() {
   `;
 }
 
+
+export function getOnChartInfoSubscription(timeTable, tokenAddress) {
+  return gql`
+    subscription OnChartInfo {
+      onChartInfo (timeTable: "${timeTable}", tokenAddress: "${tokenAddress}"){
+        ${getTypeDef('Chart')}
+      }
+    }
+  `;
+}
+
+
 export function getonFulfilledOrderInfoSubscription(Status) {
   return gql`
     subscription OnFulfilledOrderInfo {
