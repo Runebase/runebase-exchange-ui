@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 import React, { Component } from 'react';
 import { injectIntl } from 'react-intl';
 import { inject, observer } from 'mobx-react';
@@ -8,7 +9,7 @@ import {
 
 export default @injectIntl @inject('store') @observer class ExchangeBalance extends Component {
   render() {
-    const { store: { wallet } } = this.props;
+    const { store: { wallet, fundRedeemHistoryStore } } = this.props;
     const rows = [];
     if (wallet.currentAddressKey !== '') {
       Object.keys(wallet.addresses[wallet.currentAddressKey].Exchange).forEach((key) => {
@@ -16,6 +17,18 @@ export default @injectIntl @inject('store') @observer class ExchangeBalance exte
         rows.push(<Grid item xs={3} key={key}>
           <Typography variant="body2" className={`${isActive}`}>{key}</Typography>
           <Typography variant="body2" className={`${isActive}`}>{wallet.addresses[wallet.currentAddressKey].Exchange[key]}</Typography>
+          {(() => {
+            if (fundRedeemHistoryStore.pendingWithdrawAmount[key] > 0) {
+              return (
+                <Typography variant="body2" className="positiveChange">(+{fundRedeemHistoryStore.pendingWithdrawAmount[key]})</Typography>
+              );
+            }
+            if (fundRedeemHistoryStore.pendingWithdrawAmount[key] < 0) {
+              return (
+                <Typography variant="body2" className="negativeChange">({fundRedeemHistoryStore.pendingWithdrawAmount[key]})</Typography>
+              );
+            }
+          })()}
         </Grid>);
       });
     }

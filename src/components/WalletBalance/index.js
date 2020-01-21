@@ -18,19 +18,44 @@ export default @injectIntl @withStyles(styles, { withTheme: true }) @inject('sto
   };
 
   render() {
-    const { classes, store: { wallet, baseCurrencyStore } } = this.props;
+    const { classes, store: { wallet, baseCurrencyStore, fundRedeemHistoryStore } } = this.props;
     const rows = [];
+    console.log(fundRedeemHistoryStore.pendingDepositAmount);
     if (wallet.currentAddressKey !== '') {
       Object.keys(wallet.addresses[wallet.currentAddressKey].Wallet).forEach((key) => {
         if (key === baseCurrencyStore.baseCurrency.pair) {
           rows.push(<Grid item xs={3} key={key}>
             <Typography variant="body2">{key}(GAS)</Typography>
             <Typography variant="body2">{wallet.addresses[wallet.currentAddressKey].Wallet[key]}</Typography>
+            {(() => {
+              if (fundRedeemHistoryStore.pendingDepositAmount[key] > 0) {
+                return (
+                  <Typography variant="body2" className="positiveChange">(+{fundRedeemHistoryStore.pendingDepositAmount[key]})</Typography>
+                );
+              }
+              if (fundRedeemHistoryStore.pendingDepositAmount[key] < 0) {
+                return (
+                  <Typography variant="body2" className="negativeChange">({fundRedeemHistoryStore.pendingDepositAmount[key]})</Typography>
+                );
+              }
+            })()}
           </Grid>);
         } else {
           rows.push(<Grid item xs={3} key={key}>
             <Typography variant="body2">{key}</Typography>
             <Typography variant="body2">{wallet.addresses[wallet.currentAddressKey].Wallet[key]}</Typography>
+            {(() => {
+              if (fundRedeemHistoryStore.pendingDepositAmount[key] > 0) {
+                return (
+                  <Typography variant="body2" className="positiveChange">(+{fundRedeemHistoryStore.pendingDepositAmount[key]})</Typography>
+                );
+              }
+              if (fundRedeemHistoryStore.pendingDepositAmount[key] < 0) {
+                return (
+                  <Typography variant="body2" className="negativeChange">({fundRedeemHistoryStore.pendingDepositAmount[key]})</Typography>
+                );
+              }
+            })()}
           </Grid>);
         }
       });

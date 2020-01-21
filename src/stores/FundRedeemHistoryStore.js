@@ -5,6 +5,7 @@ import { queryAllFundRedeems } from '../network/graphql/queries';
 import FundRedeem from './models/FundRedeem';
 import apolloClient from '../network/graphql';
 import { getOnFundRedeemInfoSubscription } from '../network/graphql/subscriptions';
+import { subtractPending, oppositePending } from '../helpers/utility';
 
 const INIT_VALUES = {
   loading: true,
@@ -14,6 +15,8 @@ const INIT_VALUES = {
   hasMoreFundRedeems: false, // has more buyOrders to fetch?
   hasLessFundRedeems: false, // has more buyOrders to fetch?
   skip: 0, // skip
+  pendingDepositAmount: 0,
+  pendingWithdrawAmount: 0,
 };
 
 export default class {
@@ -28,6 +31,10 @@ export default class {
   @observable hasLessFundRedeems = INIT_VALUES.hasLessFundRedeems
 
   @observable fundRedeemInfo = INIT_VALUES.fundRedeemInfo
+
+  @observable pendingDepositAmount = INIT_VALUES.pendingDepositAmount
+
+  @observable pendingWithdrawAmount = INIT_VALUES.pendingWithdrawAmount
 
   @computed get hasMore() {
     return this.hasMoreFundRedeems;
@@ -51,6 +58,14 @@ export default class {
         }
       }
     );
+    reaction(
+      () => this.app.sortBy + this.app.wallet.addresses + this.app.refreshing + this.app.global.syncBlockNum,
+      () => {
+        if (this.app.ui.location === Routes.EXCHANGE) {
+          this.getPendingInfo();
+        }
+      }
+    );
   }
 
   @action
@@ -60,6 +75,44 @@ export default class {
     runInAction(() => {
       this.loading = false;
     });
+  }
+
+
+  getPendingInfo = async (limit = this.limit, skip = this.skip) => {
+    if (this.subscription) {
+      // this.subscription.unsubscribe();
+    }
+    try {
+      if (this.app.wallet.currentAddressKey !== '') {
+        const orderBy = { field: 'time', direction: 'DESC' };
+        let pendingInfo = [];
+        const filters = [{ owner: this.app.wallet.addresses[this.app.wallet.currentAddressKey].address, status: 'PENDING' }];
+        pendingInfo = await queryAllFundRedeems(filters, orderBy, 500, skip);
+        this.onPendingInfo(pendingInfo);
+        // this.subscribeFundRedeemInfo();
+      }
+    } catch (error) {
+      this.onPendingInfo({ error });
+    }
+  }
+
+  @action
+  onPendingInfo = (pendingInfo) => {
+    if (pendingInfo.error) {
+      console.error(pendingInfo.error.message); // eslint-disable-line no-console
+    } else {
+      const result = _.uniqBy(pendingInfo, 'txid').map((fundRedeem) => new FundRedeem(fundRedeem, this.app));
+      const pendingDeposits = _.filter(result, { type: 'DEPOSITEXCHANGE' });
+      const pendingWithdraws = _.filter(result, { type: 'WITHDRAWEXCHANGE' });
+      const pendingDepositAmount = _(pendingDeposits).groupBy('token').map((amount, token) => ({ token, amount: _.sumBy(amount, 'amount') })).value();
+      const pendingWithdrawAmount = _(pendingWithdraws).groupBy('token').map((amount, token) => ({ token, amount: _.sumBy(amount, 'amount') })).value();
+      const pendingWithdrawAmountSubtract = subtractPending(pendingDepositAmount, pendingWithdrawAmount);
+      const pendingDepositAmountSubtract = subtractPending(pendingWithdrawAmount, pendingDepositAmount);
+      const mergableWithdraw = oppositePending(pendingDepositAmountSubtract);
+      const mergableDeposit = oppositePending(pendingWithdrawAmountSubtract);
+      this.pendingWithdrawAmount = _.assign({}, pendingWithdrawAmountSubtract, mergableWithdraw);
+      this.pendingDepositAmount = _.assign({}, pendingDepositAmountSubtract, mergableDeposit);
+    }
   }
 
   getFundRedeemInfo = async (limit = this.limit, skip = this.skip) => {

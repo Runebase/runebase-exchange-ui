@@ -216,6 +216,7 @@ export default class {
         this.txid = redeemExchange.txid;
         this.txSentDialogOpen = true;
         this.app.pendingTxsSnackbar.init();
+        this.app.fundRedeemHistoryStore.getPendingInfo();
       });
     } catch (error) {
       runInAction(() => {
@@ -261,6 +262,7 @@ export default class {
     try {
       runInAction(() => {
         this.app.fundRedeemHistoryStore.getFundRedeemInfo();
+        this.app.fundRedeemHistoryStore.getPendingInfo();
         this.app.buyStore.getBuyOrderInfo();
         this.app.sellStore.getSellOrderInfo();
         this.app.activeOrderStore.getActiveOrderInfo();
@@ -555,6 +557,7 @@ export default class {
         this.txid = transferExchange.txid;
         this.txSentDialogOpen = true;
         this.app.pendingTxsSnackbar.init();
+        this.app.fundRedeemHistoryStore.getPendingInfo();
       });
     } catch (error) {
       runInAction(() => {

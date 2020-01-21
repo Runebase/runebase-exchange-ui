@@ -180,3 +180,33 @@ export function toFixed(num) {
   }
   return x;
 }
+
+export function subtractPending(a1, a2) {
+  const replace = {};
+  a1.forEach((o1) => {
+    let found = false;
+    a2.forEach((o2) => {
+      if (o1.token === o2.token) {
+        found = true;
+        replace[o1.token] = parseFloat(new BigNumber(o1.amount).minus(o2.amount));
+      }
+    });
+    if (!found) {
+      replace[o1.token] = o1.amount;
+    }
+  });
+  return replace;
+}
+
+export function oppositePending(a1) {
+  const replace = {};
+  Object.keys(a1).forEach((key) => {
+    if (a1[key] > 0) {
+      replace[key] = -Math.abs(a1[key]);
+    }
+    if (a1[key] < 0) {
+      replace[key] = Math.abs(a1[key]);
+    }
+  });
+  return replace;
+}
