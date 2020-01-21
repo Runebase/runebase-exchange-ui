@@ -112,6 +112,7 @@ class GraphParser {
       time: entry.time,
       amount: entry.amount,
       blockNum: entry.blockNum,
+      gasUsed: entry.gasUsed,
     }));
   }
 

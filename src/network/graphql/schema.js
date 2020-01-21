@@ -53,6 +53,7 @@ const TYPE_DEF = {
     time
     amount
     blockNum
+    gasUsed
   `,
 
   FundRedeem: `

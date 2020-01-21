@@ -32,6 +32,8 @@ export default class Trade {
 
   blockNum = ''
 
+  gasUsed = ''
+
   // for invalid option
   localizedInvalid = {};
 
@@ -52,6 +54,7 @@ export default class Trade {
     this.time = trade.time;
     this.amount = trade.amount;
     this.blockNum = trade.blockNum;
+    this.gasUsed = trade.gasUsed;
     this.localizedInvalid = {
       en: 'Invalid',
       zh: '无效',
