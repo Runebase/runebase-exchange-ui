@@ -33,6 +33,7 @@ const TYPE_DEF = {
     startAmount
     blockNum
     status
+    decimals
   `,
 
   Trade: `
@@ -54,6 +55,7 @@ const TYPE_DEF = {
     amount
     blockNum
     gasUsed
+    decimals
   `,
 
   FundRedeem: `

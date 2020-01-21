@@ -18,11 +18,12 @@ class BuyHistoryView extends PureComponent {
   }
 
   render() {
-    const { txid, boughtTokens, amount, price, token, orderType, date, status, gasUsed } = this.props.event;
+    const { txid, boughtTokens, amount, price, token, orderType, date, status, gasUsed, decimals } = this.props.event;
     const { store: { baseCurrencyStore } } = this.props;
-    const amountToken = satoshiToDecimal(amount);
+    const amountToken = satoshiToDecimal(amount, 8);
     const totalToken = parseFloat((amountToken / price).toFixed(8));
     const actualGasUsed = gasUsed * 0.0000004;
+    console.log(decimals);
 
     return (
       <div className={`classes.root ${orderType}`}>
@@ -42,7 +43,7 @@ class BuyHistoryView extends PureComponent {
           </Grid>
           <Grid item xs={4} className='breakWord'>
             <Typography className='listLabel'>amount</Typography>
-            <Typography className='listInfo'>{amount}</Typography>
+            <Typography className='listInfo'>{amount} {token}</Typography>
           </Grid>
           <Grid item xs={4} className='breakWord'>
             <Typography className='listLabel'>gasUsed</Typography>

@@ -34,6 +34,8 @@ export default class NewOrder {
 
   blockNum = ''
 
+  decimals = ''
+
   // for invalid option
   localizedInvalid = {};
 
@@ -55,6 +57,7 @@ export default class NewOrder {
     this.time = newOrder.time;
     this.amount = newOrder.amount;
     this.blockNum = newOrder.blockNum;
+    this.decimals = newOrder.decimals;
     this.localizedInvalid = {
       en: 'Invalid',
       zh: '无效',

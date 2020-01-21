@@ -181,7 +181,7 @@ export default class {
       const { data: { result } } = await axios.post(Routes.api.transactionCost, {
         type: TransactionType.WITHDRAWEXCHANGE,
         token: tokenChoice,
-        amount: tokenChoice === this.app.baseCurrencyStore.baseCurrency.pair ? Number(confirmAmount) : decimalToSatoshi(confirmAmount),
+        amount: tokenChoice === this.app.baseCurrencyStore.baseCurrency.pair ? Number(confirmAmount) : decimalToSatoshi(confirmAmount, 8),
         senderAddress: walletAddress,
         receiverAddress: this.toAddress,
       });
@@ -199,7 +199,7 @@ export default class {
 
   @action
   confirmRedeemExchange = (onRedeem) => {
-    this.createTransferRedeemExchange(this.walletAddress, this.exchangeAddress, this.tokenChoice, decimalToSatoshi(this.confirmAmount));
+    this.createTransferRedeemExchange(this.walletAddress, this.exchangeAddress, this.tokenChoice, decimalToSatoshi(this.confirmAmount, 8));
     runInAction(() => {
       onRedeem();
       this.redeemConfirmDialogOpen = false;
@@ -307,7 +307,7 @@ export default class {
       const { data: { result } } = await axios.post(Routes.api.transactionCost, {
         type: TransactionType.BUYORDER,
         token: tokenChoice,
-        amount: tokenChoice === this.app.baseCurrencyStore.baseCurrency.pair ? Number(confirmAmount) : decimalToSatoshi(confirmAmount),
+        amount: tokenChoice === this.app.baseCurrencyStore.baseCurrency.pair ? Number(confirmAmount) : decimalToSatoshi(confirmAmount, 8),
         senderAddress: this.walletAddress,
         receiverAddress: this.toAddress,
       });
@@ -338,7 +338,7 @@ export default class {
       const { data: { result } } = await axios.post(Routes.api.transactionCost, {
         type: TransactionType.SELLORDER,
         token: tokenChoice,
-        amount: tokenChoice === this.app.baseCurrencyStore.baseCurrency.pair ? Number(confirmAmount) : decimalToSatoshi(confirmAmount),
+        amount: tokenChoice === this.app.baseCurrencyStore.baseCurrency.pair ? Number(confirmAmount) : decimalToSatoshi(confirmAmount, 8),
         senderAddress: this.walletAddress,
         receiverAddress: this.toAddress,
       });
@@ -358,7 +358,7 @@ export default class {
   @action
   confirmOrderExchange = (onOrder) => {
     let amount = this.confirmAmount;
-    amount = decimalToSatoshi(this.confirmAmount);
+    amount = decimalToSatoshi(this.confirmAmount, 8);
     this.createTransferOrderExchange(this.walletAddress, this.exchangeAddress, this.tokenChoice, amount, this.price, this.orderType);
     runInAction(() => {
       onOrder();
@@ -514,7 +514,7 @@ export default class {
         const { data: { result } } = await axios.post(Routes.api.transactionCost, {
           type: TransactionType.DEPOSITEXCHANGE,
           token: tokenChoice,
-          amount: tokenChoice === this.app.baseCurrencyStore.baseCurrency.pair ? Number(confirmAmount) : decimalToSatoshi(confirmAmount),
+          amount: tokenChoice === this.app.baseCurrencyStore.baseCurrency.pair ? Number(confirmAmount) : decimalToSatoshi(confirmAmount, 8),
           senderAddress: walletAddress,
           receiverAddress: this.toAddress,
         });
@@ -536,7 +536,7 @@ export default class {
     let amount = this.confirmAmount;
     Object.keys(this.app.marketStore.marketInfo).forEach((key) => {
       if (this.tokenChoice === this.app.marketStore.marketInfo[key].market) {
-        amount = decimalToSatoshi(this.confirmAmount);
+        amount = decimalToSatoshi(this.confirmAmount, 8);
       }
     });
 
@@ -721,7 +721,7 @@ export default class {
     let amount = this.withdrawAmount;
     Object.keys(this.app.marketStore.marketInfo).forEach((key) => {
       if (this.selectedToken === this.app.marketStore.marketInfo[key].market) {
-        amount = decimalToSatoshi(this.withdrawAmount);
+        amount = decimalToSatoshi(this.withdrawAmount, 8);
       }
     });
 
@@ -740,7 +740,7 @@ export default class {
       const { data: { result } } = await axios.post(Routes.api.transactionCost, {
         type: TransactionType.WITHDRAWEXCHANGE,
         token: this.selectedToken,
-        amount: this.selectedToken === this.app.baseCurrencyStore.baseCurrency.pair ? Number(this.withdrawAmount) : decimalToSatoshi(this.withdrawAmount),
+        amount: this.selectedToken === this.app.baseCurrencyStore.baseCurrency.pair ? Number(this.withdrawAmount) : decimalToSatoshi(this.withdrawAmount, 8),
         optionIdx: undefined,
         senderAddress: walletAddress,
       });
@@ -763,7 +763,7 @@ export default class {
       const { data: { result } } = await axios.post(Routes.api.transactionCost, {
         type: TransactionType.TRANSFER,
         token: this.selectedToken,
-        amount: this.selectedToken === this.app.baseCurrencyStore.baseCurrency.pair ? Number(this.depositAmount) : decimalToSatoshi(this.depositAmount),
+        amount: this.selectedToken === this.app.baseCurrencyStore.baseCurrency.pair ? Number(this.depositAmount) : decimalToSatoshi(this.depositAmount, 8),
         optionIdx: undefined,
         senderAddress: walletAddress,
       });

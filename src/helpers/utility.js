@@ -4,7 +4,6 @@ import _ from 'lodash';
 import { defineMessages } from 'react-intl';
 import { getIntlProvider } from './i18nUtil';
 
-const SATOSHI_CONVERSION = 10 ** 8;
 const GAS_COST = 0.0000004;
 const FORMAT_DATE_TIME = 'MMM Do, YYYY H:mm:ss';
 const FORMAT_SHORT_DATE_TIME = 'M/D/YY H:mm:ss';
@@ -53,12 +52,12 @@ export function calculateBlock(currentBlock, futureDate, averageBlockTime) {
  * @param number {String/Number} The decimal number to convert.
  * @return {String} The converted Satoshi number.
  */
-export function decimalToSatoshi(number) {
+export function decimalToSatoshi(number, decimals) {
   if (!number) {
     return number;
   }
 
-  const conversionBN = new BigNumber(SATOSHI_CONVERSION);
+  const conversionBN = new BigNumber(10 ** decimals);
   return new BigNumber(number).multipliedBy(conversionBN).toString(10);
 }
 
@@ -67,7 +66,7 @@ export function decimalToSatoshi(number) {
  * @param number {String} The Satoshi string (or hex string) to convert.
  * @return {String} The converted decimal number.
  */
-export function satoshiToDecimal(number) {
+export function satoshiToDecimal(number, decimals) {
   if (!number) {
     return number;
   }
@@ -79,7 +78,7 @@ export function satoshiToDecimal(number) {
     bn = new BigNumber(number);
   }
 
-  const conversionBN = new BigNumber(SATOSHI_CONVERSION);
+  const conversionBN = new BigNumber(10 ** decimals);
   return bn.dividedBy(conversionBN).toNumber();
 }
 

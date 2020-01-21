@@ -139,13 +139,13 @@ class OrderBook extends PureComponent {
     const isEnabled = wallet.currentAddressSelected !== '';
     const isEnabledButton = wallet.currentAddressSelected !== '' && this.state.exchangeAmount > 0;
     const { orderId, amount, price, token, type, status } = this.props.event;
-    const amountTokenLabel = satoshiToDecimal(amount);
-    const amountToken = satoshiToDecimal(global.selectedOrderInfo.amount);
-    const startAmountToken = satoshiToDecimal(global.selectedOrderInfo.startAmount);
-    const filled = satoshiToDecimal((global.selectedOrderInfo.startAmount - global.selectedOrderInfo.amount));
+    const amountTokenLabel = satoshiToDecimal(amount, 8);
+    const amountToken = satoshiToDecimal(global.selectedOrderInfo.amount, 8);
+    const startAmountToken = satoshiToDecimal(global.selectedOrderInfo.startAmount, 8);
+    const filled = satoshiToDecimal((global.selectedOrderInfo.startAmount - global.selectedOrderInfo.amount), 8);
     let total = amountToken * global.selectedOrderInfo.price;
     total = total.toFixed(8).replace(/\.?0+$/, '');
-    const exchangeAmount = decimalToSatoshi(this.state.exchangeAmount);
+    const exchangeAmount = decimalToSatoshi(this.state.exchangeAmount, 8);
     const findImage = _.find(marketStore.marketImages, { market: `${wallet.market}` });
     let walletAmount;
     let availableGasAmount;

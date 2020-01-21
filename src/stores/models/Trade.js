@@ -34,6 +34,8 @@ export default class Trade {
 
   gasUsed = ''
 
+  decimals = ''
+
   // for invalid option
   localizedInvalid = {};
 
@@ -55,6 +57,7 @@ export default class Trade {
     this.amount = trade.amount;
     this.blockNum = trade.blockNum;
     this.gasUsed = trade.gasUsed;
+    this.decimals = trade.decimals;
     this.localizedInvalid = {
       en: 'Invalid',
       zh: '无效',

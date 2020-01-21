@@ -72,8 +72,8 @@ export default @injectIntl @inject('store') @withStyles(styles, { withTheme: tru
     const { classes } = this.props;
     const { store: { wallet, marketStore, baseCurrencyStore } } = this.props;
     const { orderId, txid, amount, startAmount, owner, blockNum, time, price, token, tokenName, type, status } = this.props.order;
-    const amountToken = satoshiToDecimal(amount);
-    const startAmountToken = satoshiToDecimal(startAmount);
+    const amountToken = satoshiToDecimal(amount, 8);
+    const startAmountToken = satoshiToDecimal(startAmount, 8);
     const filled = parseFloat((startAmountToken - amountToken).toFixed(8));
     let total = amountToken * price;
     total = total.toFixed(8);

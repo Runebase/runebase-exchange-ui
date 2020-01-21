@@ -51,6 +51,7 @@ class GraphParser {
       amount: entry.amount,
       startAmount: entry.startAmount,
       blockNum: entry.blockNum,
+      decimals: entry.decimals,
     }));
   }
 
@@ -113,6 +114,7 @@ class GraphParser {
       amount: entry.amount,
       blockNum: entry.blockNum,
       gasUsed: entry.gasUsed,
+      decimals: entry.decimals,
     }));
   }
 

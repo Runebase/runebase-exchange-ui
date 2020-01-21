@@ -21,7 +21,7 @@ export default class TransactionCost {
     Object.assign(this, txCost);
 
     if (this.token !== baseCurrencyPair) {
-      this.amount = satoshiToDecimal(this.amount);
+      this.amount = satoshiToDecimal(this.amount, 8);
     }
   }
 }
