@@ -95,10 +95,10 @@ export default @inject('store') @observer class Exchange extends Component {
             </Grid>
             <Grid container>
               <Grid item xs={12} sm={12} lg={6}>
-                <SellHistory />
+                <BuyHistory />
               </Grid>
               <Grid item xs={12} sm={12} lg={6}>
-                <BuyHistory />
+                <SellHistory />
               </Grid>
             </Grid>
           </Grid>

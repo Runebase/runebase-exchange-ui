@@ -40,7 +40,6 @@ const TYPE_DEF = {
     txid
     tokenAddress
     type
-    date
     from
     to
     status
@@ -66,7 +65,6 @@ const TYPE_DEF = {
     status
     owner
     time
-    date
     amount
     blockNum
   `,

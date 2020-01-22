@@ -18,8 +18,6 @@ export default class FundRedeem {
 
   time = ''
 
-  date = ''
-
   amount = ''
 
   blockNum = ''
@@ -37,7 +35,6 @@ export default class FundRedeem {
     this.status = fundRedeem.status;
     this.owner = fundRedeem.owner;
     this.time = fundRedeem.time;
-    this.date = fundRedeem.date;
     this.amount = fundRedeem.amount;
     this.blockNum = fundRedeem.blockNum;
     this.localizedInvalid = {

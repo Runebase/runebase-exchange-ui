@@ -35,13 +35,13 @@ class BuyHistoryView extends PureComponent {
 
   render() {
     const {
-      event: { txid, boughtTokens, soldTokens, price, token, orderType, date, status, gasUsed, decimals },
+      event: { txid, boughtTokens, soldTokens, price, token, orderType, time, status, gasUsed, decimals },
       store: { baseCurrencyStore },
     } = this.props;
-    const amountToken = (satoshiToDecimal(boughtTokens, decimals)).toLocaleString('fullwide', { useGrouping: true, maximumSignificantDigits: decimals });
-    const totalToken = (satoshiToDecimal(soldTokens, 8)).toLocaleString('fullwide', { useGrouping: true, maximumSignificantDigits: 8 });
+    const amountToken = (satoshiToDecimal(soldTokens, decimals)).toLocaleString('fullwide', { useGrouping: true, maximumSignificantDigits: decimals });
+    const totalToken = (satoshiToDecimal(boughtTokens, 8)).toLocaleString('fullwide', { useGrouping: true, maximumSignificantDigits: 8 });
     const actualGasUsed = gasToRunebase(gasUsed);
-    const dateTime = getShortLocalDateTimeString(date);
+    const dateTime = getShortLocalDateTimeString(time);
 
     return (
       <div className={`classes.root ${orderType}`}>

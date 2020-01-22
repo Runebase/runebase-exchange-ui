@@ -25,7 +25,6 @@ class GraphParser {
       status: entry.status,
       owner: entry.owner,
       time: entry.time,
-      date: entry.date,
       amount: entry.amount,
       blockNum: entry.blockNum,
     }));
@@ -99,7 +98,6 @@ class GraphParser {
       txid: entry.txid,
       tokenAddress: entry.tokenAddress,
       type: entry.type,
-      date: entry.date,
       from: entry.from,
       to: entry.to,
       status: entry.status,

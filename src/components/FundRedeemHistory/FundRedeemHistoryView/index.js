@@ -1,18 +1,18 @@
 /* eslint-disable react/destructuring-assignment, react/jsx-one-expression-per-line */
 import React, { PureComponent } from 'react';
-import 'semantic-ui-css/semantic.min.css';
 import { inject } from 'mobx-react';
 import { injectIntl } from 'react-intl';
 import {
-  withMobileDialog,
   Grid,
   Typography } from '@material-ui/core';
+import { getShortLocalDateTimeString } from '../../../helpers/utility';
 
 @injectIntl
 @inject('store')
 class FundRedeemHistoryView extends PureComponent {
   render() {
-    const { txid, type, token, status, date, amount } = this.props.event;
+    const { txid, type, token, status, time, amount } = this.props.event;
+    const dateTime = getShortLocalDateTimeString(time);
     let renderType;
     if (type === 'DEPOSITEXCHANGE') {
       renderType = 'Deposit';
@@ -24,7 +24,7 @@ class FundRedeemHistoryView extends PureComponent {
       <div className={`${status}`}>
         <Grid container className='myTradeContainer'>
           <Grid item xs={8} className='breakWord'>
-            <p>{date}</p>
+            <p>{dateTime}</p>
           </Grid>
           <Grid item xs={4} className='breakWord'>
             <p className={`fat ${status}COLOR`}>{status}</p>
@@ -41,4 +41,4 @@ class FundRedeemHistoryView extends PureComponent {
   }
 }
 
-export default withMobileDialog()(FundRedeemHistoryView);
+export default FundRedeemHistoryView;

@@ -69,7 +69,7 @@ export default class {
     try {
       let sellHistoryInfo = [];
       const orderBy = { field: 'time', direction: 'DESC' };
-      const filters = [{ token: this.app.wallet.currentMarket, orderType: 'SELLORDER' }];
+      const filters = [{ token: this.app.wallet.currentMarket, orderType: 'BUYORDER' }];
       /* Filter From and To,  unique by txid */
       sellHistoryInfo = await queryAllTrades(filters, orderBy, limit, skip);
       if (sellHistoryInfo.length < limit) this.hasMoreSellHistory = false;
@@ -121,7 +121,7 @@ export default class {
   subscribeSellHistoryInfo = () => {
     const self = this;
     this.subscription = apolloClient.subscribe({
-      query: getOnSellHistoryInfoSubscription(this.app.wallet.currentMarket, 'SELLORDER'),
+      query: getOnSellHistoryInfoSubscription(this.app.wallet.currentMarket, 'BUYORDER'),
     }).subscribe({
       next({ data, errors }) {
         if (errors && errors.length > 0) {
