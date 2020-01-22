@@ -6,7 +6,7 @@ import { getIntlProvider } from './i18nUtil';
 
 const GAS_COST = 0.0000004;
 const FORMAT_DATE_TIME = 'MMM Do, YYYY H:mm:ss';
-const FORMAT_SHORT_DATE_TIME = 'M/D/YY H:mm:ss';
+const FORMAT_SHORT_DATE_TIME = 'MM/DD/YYYY H:mm:ss';
 const messages = defineMessages({
   end: {
     id: 'str.end',
@@ -159,25 +159,6 @@ export function doesUserNeedToUnlockWallet(isEncrypted, unlockedUntil) {
   const now = moment();
   const unlocked = moment.unix(unlockedUntil).subtract(1, 'hours');
   return now.isSameOrAfter(unlocked);
-}
-
-export function toFixed(num) {
-  let x = num;
-  if (Math.abs(x) < 1.0) {
-    const e = parseInt(x.toString().split('e-')[1], 10);
-    if (e) {
-      x *= 10 ** (e - 1);
-      x = `0.${(new Array(e)).join('0')}${x.toString().substring(2)}`;
-    }
-  } else {
-    let e = parseInt(x.toString().split('+')[1], 10);
-    if (e > 20) {
-      e -= 20;
-      x /= 10 ** e;
-      x += (new Array(e + 1)).join('0');
-    }
-  }
-  return x;
 }
 
 export function subtractPending(a1, a2) {

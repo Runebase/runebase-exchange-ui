@@ -7,7 +7,7 @@ import {
   withMobileDialog,
   Grid,
   Typography } from '@material-ui/core';
-import { satoshiToDecimal } from '../../../helpers/utility';
+import { satoshiToDecimal, gasToRunebase } from '../../../helpers/utility';
 
 @injectIntl
 @inject('store')
@@ -34,7 +34,7 @@ class MyTradesView extends PureComponent {
     const totalToken2 = parseFloat((amountToken / price).toFixed(8));
     const myaddress = wallet.addresses[wallet.currentAddressKey].address;
     const baseCurrency = baseCurrencyStore.baseCurrency.pair;
-    const actualGasUsed = gasUsed * 0.0000004;
+    const actualGasUsed = gasToRunebase(gasUsed);
 
     return (
       <div className={`${status}`}>

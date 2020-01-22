@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-one-expression-per-line, react/destructuring-assignment */
 import React, { PureComponent } from 'react';
 import { inject } from 'mobx-react';
 import { injectIntl } from 'react-intl';
@@ -7,50 +6,95 @@ import {
   Typography,
   withStyles } from '@material-ui/core';
 import styles from './styles';
-import { satoshiToDecimal } from '../../../helpers/utility';
+import {
+  satoshiToDecimal,
+  getShortLocalDateTimeString,
+  gasToRunebase } from '../../../helpers/utility';
 
 @injectIntl
 @inject('store')
 @withStyles(styles, { withTheme: true })
 class BuyHistoryView extends PureComponent {
-  renderTrade(boughtTokens, amountToken, totalToken, token, orderType, baseCurrency) {
-    return (<Typography className='bought fat'>Buy {amountToken} {token} for {totalToken} {baseCurrency}</Typography>);
+  renderTrade(amountToken, totalToken, token, orderType, baseCurrency) {
+    return (
+      <Typography className='bought fat'>
+        Buy
+        &nbsp;
+        {amountToken}
+        &nbsp;
+        {token}
+        &nbsp;
+        for
+        &nbsp;
+        {totalToken}
+        &nbsp;
+        {baseCurrency}
+      </Typography>
+    );
   }
 
   render() {
-    const { txid, boughtTokens, amount, price, token, orderType, date, status, gasUsed, decimals } = this.props.event;
-    const { store: { baseCurrencyStore } } = this.props;
-    const amountToken = satoshiToDecimal(amount, 8);
-    const totalToken = parseFloat((amountToken / price).toFixed(8));
-    const actualGasUsed = gasUsed * 0.0000004;
-    console.log(decimals);
+    const {
+      event: { txid, boughtTokens, soldTokens, price, token, orderType, date, status, gasUsed, decimals },
+      store: { baseCurrencyStore },
+    } = this.props;
+    const amountToken = (satoshiToDecimal(boughtTokens, decimals)).toLocaleString('fullwide', { useGrouping: true, maximumSignificantDigits: decimals });
+    const totalToken = (satoshiToDecimal(soldTokens, 8)).toLocaleString('fullwide', { useGrouping: true, maximumSignificantDigits: 8 });
+    const actualGasUsed = gasToRunebase(gasUsed);
+    const dateTime = getShortLocalDateTimeString(date);
 
     return (
       <div className={`classes.root ${orderType}`}>
         <Grid container className='myTradeContainer'>
           <Grid item xs={8} className='breakWord'>
-            <p>{date}</p>
+            <Typography>
+              {dateTime}
+            </Typography>
           </Grid>
           <Grid item xs={4} className='breakWord'>
-            <p className={`fat ${status}COLOR`}>{status}</p>
+            <Typography className={`fat ${status}COLOR`}>
+              {status}
+            </Typography>
           </Grid>
           <Grid item xs={12}>
-            {this.renderTrade(boughtTokens, amountToken, totalToken, token, orderType, baseCurrencyStore.baseCurrency.pair)}
+            {this.renderTrade(amountToken, totalToken, token, orderType, baseCurrencyStore.baseCurrency.pair)}
           </Grid>
           <Grid item xs={4} className='breakWord'>
-            <Typography className='listLabel'>price</Typography>
-            <Typography className='listInfo'>{price} RUNES</Typography>
+            <Typography className='listLabel'>
+              price
+            </Typography>
+            <Typography className='listInfo'>
+              {price}
+              &nbsp;
+              RUNES
+            </Typography>
           </Grid>
           <Grid item xs={4} className='breakWord'>
-            <Typography className='listLabel'>amount</Typography>
-            <Typography className='listInfo'>{amount} {token}</Typography>
+            <Typography className='listLabel'>
+              amount
+            </Typography>
+            <Typography className='listInfo'>
+              {amountToken}
+              &nbsp;
+              {token}
+            </Typography>
           </Grid>
           <Grid item xs={4} className='breakWord'>
-            <Typography className='listLabel'>gasUsed</Typography>
-            <Typography className='listInfo'>{actualGasUsed} RUNES</Typography>
+            <Typography className='listLabel'>
+              gasUsed
+            </Typography>
+            <Typography className='listInfo'>
+              {actualGasUsed}
+              &nbsp;
+              RUNES
+            </Typography>
           </Grid>
           <Grid item xs={12} className='breakWord'>
-            <Typography variant="caption" gutterBottom><a href={`https://explorer.runebase.io/tx/${txid}`}>{txid}</a></Typography>
+            <Typography variant="caption" gutterBottom>
+              <a href={`https://explorer.runebase.io/tx/${txid}`}>
+                {txid}
+              </a>
+            </Typography>
           </Grid>
         </Grid>
       </div>
