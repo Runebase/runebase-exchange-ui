@@ -1,4 +1,3 @@
-/* eslint-disable react/destructuring-assignment, react/jsx-one-expression-per-line */
 import React, { PureComponent } from 'react';
 import { inject } from 'mobx-react';
 import { injectIntl } from 'react-intl';
@@ -11,7 +10,9 @@ import { getShortLocalDateTimeString } from '../../../helpers/utility';
 @inject('store')
 class FundRedeemHistoryView extends PureComponent {
   render() {
-    const { txid, type, token, status, time, amount } = this.props.event;
+    const {
+      event: { txid, type, token, status, time, amount },
+    } = this.props;
     const dateTime = getShortLocalDateTimeString(time);
     let renderType;
     if (type === 'DEPOSITEXCHANGE') {
@@ -24,16 +25,30 @@ class FundRedeemHistoryView extends PureComponent {
       <div className={`${status}`}>
         <Grid container className='myTradeContainer'>
           <Grid item xs={8} className='breakWord'>
-            <p>{dateTime}</p>
+            <Typography>
+              {dateTime}
+            </Typography>
           </Grid>
           <Grid item xs={4} className='breakWord'>
-            <p className={`fat ${status}COLOR`}>{status}</p>
+            <Typography className={`fat ${status}COLOR`}>
+              {status}
+            </Typography>
           </Grid>
-          <Grid item xs={12} className={`${type} fat`}>
-            {renderType} {amount} {token}
+          <Grid item xs={12}>
+            <Typography className={`${type} fat`}>
+              {renderType}
+              &nbsp;
+              {amount}
+              &nbsp;
+              {token}
+            </Typography>
           </Grid>
           <Grid item xs={12} className='breakWord'>
-            <Typography variant="caption" gutterBottom><a href={`https://explorer.runebase.io/tx/${txid}`}>{txid}</a></Typography>
+            <Typography variant="caption" gutterBottom>
+              <a href={`https://explorer.runebase.io/tx/${txid}`}>
+                {txid}
+              </a>
+            </Typography>
           </Grid>
         </Grid>
       </div>
