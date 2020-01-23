@@ -12,6 +12,7 @@ class FundRedeemHistoryView extends PureComponent {
   render() {
     const {
       event: { txid, type, token, status, time, amount },
+      store: { global: { explorerUrl } },
     } = this.props;
     const dateTime = getShortLocalDateTimeString(time);
     let renderType;
@@ -45,7 +46,10 @@ class FundRedeemHistoryView extends PureComponent {
           </Grid>
           <Grid item xs={12} className='breakWord'>
             <Typography variant="caption" gutterBottom>
-              <a href={`https://explorer.runebase.io/tx/${txid}`}>
+              <a
+                href={`${explorerUrl}/tx/${txid}`}
+                target='_blank'
+              >
                 {txid}
               </a>
             </Typography>

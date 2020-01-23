@@ -33,7 +33,7 @@ class SellHistoryView extends PureComponent {
   render() {
     const {
       event: { txid, boughtTokens, soldTokens, price, token, orderType, time, status, gasUsed, decimals },
-      store: { baseCurrencyStore },
+      store: { baseCurrencyStore, global: { explorerUrl } },
     } = this.props;
     const amountToken = (satoshiToDecimal(soldTokens, decimals)).toLocaleString('fullwide', { useGrouping: true, maximumSignificantDigits: decimals });
     const totalToken = (satoshiToDecimal(boughtTokens, 8)).toLocaleString('fullwide', { useGrouping: true, maximumSignificantDigits: 8 });
@@ -88,7 +88,10 @@ class SellHistoryView extends PureComponent {
           </Grid>
           <Grid item xs={12} className='breakWord'>
             <Typography variant="caption" gutterBottom>
-              <a href={`https://explorer.runebase.io/tx/${txid}`}>
+              <a
+                href={`${explorerUrl}/tx/${txid}`}
+                target='_blank'
+              >
                 {txid}
               </a>
             </Typography>

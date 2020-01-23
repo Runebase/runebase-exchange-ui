@@ -1,4 +1,5 @@
 import { observable, action, reaction } from 'mobx';
+import axios from 'axios';
 
 import SyncInfo from './models/SyncInfo';
 import { querySyncInfo, queryAllNewOrders } from '../network/graphql/queries';
@@ -15,6 +16,7 @@ const INIT_VALUES = {
   syncBlockNum: 0,
   syncBlockTime: '',
   peerNodeCount: 1,
+  chain: 'unkown',
 };
 let syncInfoInterval;
 
@@ -32,6 +34,8 @@ export default class GlobalStore {
   @observable syncBlockTime = INIT_VALUES.syncBlockTime
 
   @observable peerNodeCount = INIT_VALUES.peerNodeCount
+
+  @observable explorerUrl = INIT_VALUES.explorerUrl
 
   constructor(app) {
     this.app = app;
@@ -53,10 +57,23 @@ export default class GlobalStore {
     this.getSelectedOrderInfo();
     this.subscribeSelectedOrderInfo();
 
+    this.getNetworkInfo();
+
     // Start syncInfo long polling
     // We use this to update the percentage of the loading screen
     syncInfoInterval = setInterval(this.getSyncInfo, AppConfig.intervals.syncInfo);
     setInterval(this.getSelectedOrderInfo, AppConfig.intervals.selectedOrderInfo);
+  }
+
+  @action
+  getNetworkInfo = async () => {
+    axios.get(`${AppConfig.server}/get-blockchain-info`)
+      .then((response) => {
+        this.explorerUrl = AppConfig.explorer[response.data.result.chain];
+      })
+      .catch((err) => {
+        console.log('getNetworkInfo: ', err);
+      });
   }
 
   /*

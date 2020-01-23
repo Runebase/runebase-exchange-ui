@@ -70,7 +70,7 @@ export default @injectIntl @inject('store') @withStyles(styles, { withTheme: tru
 
   render() {
     const { classes } = this.props;
-    const { store: { wallet, marketStore, baseCurrencyStore } } = this.props;
+    const { store: { wallet, marketStore, baseCurrencyStore, global: { explorerUrl } } } = this.props;
     const { orderId, txid, amount, startAmount, owner, blockNum, time, price, token, tokenName, type, status } = this.props.order;
     const amountToken = satoshiToDecimal(amount, 8);
     const startAmountToken = satoshiToDecimal(startAmount, 8);
@@ -181,11 +181,11 @@ export default @injectIntl @inject('store') @withStyles(styles, { withTheme: tru
 
               <Grid item xs={12} className='spacingOrderBook'>
                 <Typography variant='subtitle1' className=''>owner:</Typography>
-                <Typography className={classes.root}><a href={`https://explorer.runebase.io/address/${owner}`}>{owner}</a></Typography>
+                <Typography className={classes.root}><a href={`${explorerUrl}/address/${owner}`}>{owner}</a></Typography>
               </Grid>
               <Grid item xs={12} className='spacingOrderBook'>
                 <Typography variant='subtitle1' className={classes.root}>txid:</Typography>
-                <Typography className={classes.root}><a href={`https://explorer.runebase.io/tx/${txid}`}>{txid}</a></Typography>
+                <Typography className={classes.root}><a href={`${explorerUrl}/tx/${txid}`}>{txid}</a></Typography>
               </Grid>
               <Grid item xs={6} className='spacingOrderBook'>
                 <Typography variant='subtitle1'>created time</Typography>

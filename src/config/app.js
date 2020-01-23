@@ -1,18 +1,6 @@
 module.exports = {
   intervals: { // in MS
     syncInfo: 5000,
-    chartInfo: 30000,
-    myOrderInfo: 10000,
-    activeOrderInfo: 30000,
-    fulfilledOrderInfo: 30000,
-    canceledOrderInfo: 30000,
-    buyOrderInfo: 30000,
-    myTradeInfo: 3000,
-    fundRedeemInfo: 3000,
-    sellHistoryInfo: 30000,
-    buyHistoryInfo: 30000,
-    sellOrderInfo: 30000,
-    selectedOrderInfo: 30000,
     marketInfo: 30000,
     tooltipDelay: 300,
     snackbarLong: 5000,
@@ -21,6 +9,11 @@ module.exports = {
   defaults: {
     averageBlockTime: 142.01324503311258,
     unlockWalletMins: 1440,
+  },
+  server: 'http://127.0.0.1:8989',
+  explorer: {
+    main: 'https://explorer.runebase.io',
+    test: 'https://testnet.runebase.io',
   },
   maxTransactionFee: 0.1,
   faqUrls: {

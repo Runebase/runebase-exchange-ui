@@ -304,13 +304,13 @@ class OrderBook extends PureComponent {
                   <div className="ui horizontal divider">
                     Owner
                   </div>
-                  <Typography className={classes.root}><a href={`https://explorer.runebase.io/address/${global.selectedOrderInfo.owner}`}>{global.selectedOrderInfo.owner}</a></Typography>
+                  <Typography className={classes.root}><a href={`${global.explorerUrl}/address/${global.selectedOrderInfo.owner}`}>{global.selectedOrderInfo.owner}</a></Typography>
                 </Grid>
                 <Grid item xs={12} className='spacingOrderBook'>
                   <div className="ui horizontal divider">
                     TX ID
                   </div>
-                  <Typography className={classes.root}><a href={`https://explorer.runebase.io/tx/${global.selectedOrderInfo.txid}`}>{global.selectedOrderInfo.txid}</a></Typography>
+                  <Typography className={classes.root}><a href={`${global.explorerUrl}/tx/${global.selectedOrderInfo.txid}`}>{global.selectedOrderInfo.txid}</a></Typography>
                 </Grid>
                 <Grid item xs={6} className='spacingOrderBook'>
                   <Typography variant='subtitle1' className={classes.root}>Created Time</Typography>
