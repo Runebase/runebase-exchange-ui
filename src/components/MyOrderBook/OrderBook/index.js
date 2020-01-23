@@ -79,7 +79,7 @@ export default @injectIntl @inject('store') @withStyles(styles, { withTheme: tru
     total = total.toFixed(8);
     const findImage = _.find(marketStore.marketImages, { market: `${token}` });
     return (
-      <div className={`classes.root ${status}`}>
+      <div className={`classes.root ${status}`} style={{ overflow: 'hidden' }}>
         <Dialog
           open={this.state.openError}
           onClose={this.handleClose}

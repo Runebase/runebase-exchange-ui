@@ -108,9 +108,10 @@ export default @inject('store') @observer class MyOrderBook extends Component {
           </Tabs>
         </AppBar>
         <SwipeableViews
-          axis='x-reverse'
+          axis='x'
           index={this.state.value}
           onChangeIndex={this.handleChangeIndex}
+          enableMouseEvents='true'
         >
           <Orders activeOrderStore={activeOrderStore} />
           <OrdersFulFilled fulfilledOrderStore={fulfilledOrderStore} />
