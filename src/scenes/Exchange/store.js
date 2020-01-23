@@ -1,6 +1,5 @@
 import { observable, action, runInAction, reaction } from 'mobx';
-import _ from 'lodash';
-import { SortBy, Token, Routes } from 'constants';
+import { SortBy, Routes } from 'constants';
 
 
 const INIT_VALUES = {
