@@ -1,7 +1,6 @@
-/* eslint-disable react/jsx-props-no-spreading, react/destructuring-assignment, operator-assignment, react/jsx-one-expression-per-line, react/jsx-fragments, react/button-has-type */
 import React, { Component, Fragment } from 'react';
 import { inject, observer } from 'mobx-react';
-import { Card } from '@material-ui/core';
+import { Card, Typography } from '@material-ui/core';
 import { defineMessages } from 'react-intl';
 import BuyHistoryView from './BuyHistoryView';
 import LoadingElement from '../Loading';
@@ -15,55 +14,57 @@ const messages = defineMessages({
 
 export default @inject('store') @observer class BuyHistory extends Component {
   handleNext = async () => {
-    this.props.store.buyHistoryStore.loading = true;
-    this.props.store.buyHistoryStore.skip = this.props.store.buyHistoryStore.skip + 10;
-    await this.props.store.buyHistoryStore.getBuyHistoryInfo();
-    this.props.store.buyHistoryStore.loading = false;
+    this.props.store.buyHistoryStore.skip += 10; // eslint-disable-line react/destructuring-assignment
+    this.props.store.buyHistoryStore.getBuyHistoryInfo(); // eslint-disable-line react/destructuring-assignment
   }
 
   handlePrevious = async () => {
-    this.props.store.buyHistoryStore.loading = true;
-    this.props.store.buyHistoryStore.skip = this.props.store.buyHistoryStore.skip - 10;
-    await this.props.store.buyHistoryStore.getBuyHistoryInfo();
-    this.props.store.buyHistoryStore.loading = false;
+    this.props.store.buyHistoryStore.skip -= 10; // eslint-disable-line react/destructuring-assignment
+    this.props.store.buyHistoryStore.getBuyHistoryInfo(); // eslint-disable-line react/destructuring-assignment
   }
 
   render() {
-    const { buyHistoryStore, wallet } = this.props.store;
+    const { store: { buyHistoryStore, wallet } } = this.props;
     const { currentMarket } = wallet;
     return (
-      <Fragment>
+      <>
         <Card className='dashboardOrderBookTitle'>
-          <p>Buy History ({ currentMarket })</p>
+          <Typography color='textPrimary'>
+            Buy
+            &nbsp;
+            History
+            &nbsp;
+            (
+            {currentMarket}
+            )
+          </Typography>
         </Card>
         <Trades buyHistoryStore={buyHistoryStore} />
         <div className='centerText'>
           <button
             disabled={!buyHistoryStore.hasLess || buyHistoryStore.loading}
             onClick={this.handlePrevious}
+            type='button'
           >
             Previous Page
           </button>
           <button
             onClick={this.handleNext}
             disabled={!buyHistoryStore.hasMore || buyHistoryStore.loading}
+            type='button'
           >
             Next Page
           </button>
         </div>
-      </Fragment>
+      </>
     );
   }
 }
 
 const Trades = observer(({ buyHistoryStore: { buyHistoryInfo, loading } }) => {
-  if (loading) return <Loading />;
+  if (loading) return <LoadingElement text={messages.loadBuyBookMsg} />;
   const buyHistory = (buyHistoryInfo || []).map((event, i) => <BuyHistoryView key={i} index={i} event={event} />); // eslint-disable-line
   return (
     buyHistory
   );
 });
-
-const Loading = () => <Row><LoadingElement text={messages.loadBuyBookMsg} /></Row>;
-
-const Row = ({ ...props }) => <div {...props} />;

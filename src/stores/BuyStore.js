@@ -49,22 +49,21 @@ export default class {
       () => {
         if (this.app.ui.location === Routes.EXCHANGE) {
           this.init();
-          this.getBuyOrderInfo();
         }
       }
     );
   }
 
   @action
-  init = async () => {
+  init = async (limit = this.limit) => {
     Object.assign(this, INIT_VALUES); // reset all properties
-    runInAction(() => {
-      this.loading = false;
-    });
+    await this.getBuyOrderInfo(limit, 0);
+    this.loading = false;
   }
 
 
   getBuyOrderInfo = async (limit = this.limit, skip = this.skip) => {
+    this.loading = true;
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
@@ -92,6 +91,7 @@ export default class {
       const result = _.uniqBy(buyOrderInfo, 'orderId').map((newOrder) => new NewOrder(newOrder, this.app));
       const resultOrder = _.orderBy(result, ['price'], 'desc');
       this.buyOrderInfo = resultOrder;
+      this.loading = false;
     }
   }
 

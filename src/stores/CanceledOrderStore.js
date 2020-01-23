@@ -48,22 +48,21 @@ export default class {
       () => {
         if (this.app.ui.location === Routes.EXCHANGE) {
           this.init();
-          this.getCanceledOrderInfo();
         }
       }
     );
   }
 
   @action
-  init = async () => {
+  init = async (limit = this.limit) => {
     Object.assign(this, INIT_VALUES); // reset all properties
     this.app.ui.location = Routes.EXCHANGE;
-    runInAction(() => {
-      this.loading = false;
-    });
+    await this.getCanceledOrderInfo(limit, 0);
+    this.loading = false;
   }
 
   getCanceledOrderInfo = async (limit = this.limit, skip = this.skip) => {
+    this.loading = true;
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
@@ -89,6 +88,7 @@ export default class {
       const result = _.uniqBy(canceledOrderInfo, 'txid').map((newOrder) => new NewOrder(newOrder, this.app));
       const resultOrder = _.orderBy(result, ['time'], 'desc');
       this.canceledOrderInfo = resultOrder;
+      this.loading = false;
     }
   }
 

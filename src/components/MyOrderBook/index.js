@@ -1,7 +1,6 @@
-/* eslint-disable react/jsx-props-no-spreading, react/button-has-type, react/jsx-curly-newline, react/destructuring-assignment, operator-assignment, operator-linebreak, react/jsx-wrap-multilines, react/jsx-fragments */
 import React, { Component, Fragment } from 'react';
 import { inject, observer } from 'mobx-react';
-import { Card, Tab, Tabs, AppBar } from '@material-ui/core';
+import { Card, Tab, Tabs, AppBar, Typography } from '@material-ui/core';
 import { defineMessages } from 'react-intl';
 import SwipeableViews from 'react-swipeable-views';
 import LoadingElement from '../Loading';
@@ -30,52 +29,34 @@ export default @inject('store') @observer class MyOrderBook extends Component {
     };
   }
 
-  componentDidMount() {
-    this.props.store.activeOrderStore.init();
-    this.props.store.fulfilledOrderStore.init();
-    this.props.store.canceledOrderStore.init();
-  }
-
   handleActiveNext = async () => {
-    this.props.store.activeOrderStore.loading = true;
-    this.props.store.activeOrderStore.skip = this.props.store.activeOrderStore.skip + 10;
-    await this.props.store.activeOrderStore.getActiveOrderInfo();
-    this.props.store.activeOrderStore.loading = false;
+    this.props.store.activeOrderStore.skip += 10; // eslint-disable-line react/destructuring-assignment
+    this.props.store.activeOrderStore.getActiveOrderInfo(); // eslint-disable-line react/destructuring-assignment
   }
 
   handleActivePrevious = async () => {
-    this.props.store.activeOrderStore.loading = true;
-    this.props.store.activeOrderStore.skip = this.props.store.activeOrderStore.skip - 10;
-    await this.props.store.activeOrderStore.getActiveOrderInfo();
-    this.props.store.activeOrderStore.loading = false;
+    this.props.store.activeOrderStore.skip -= 10; // eslint-disable-line react/destructuring-assignment
+    this.props.store.activeOrderStore.getActiveOrderInfo(); // eslint-disable-line react/destructuring-assignment
   }
 
   handleFulfilledNext = async () => {
-    this.props.store.fulfilledOrderStore.loading = true;
-    this.props.store.fulfilledOrderStore.skip = this.props.store.fulfilledOrderStore.skip + 10;
-    await this.props.store.fulfilledOrderStore.getFulfilledOrderInfo();
-    this.props.store.fulfilledOrderStore.loading = false;
+    this.props.store.fulfilledOrderStore.skip += 10; // eslint-disable-line react/destructuring-assignment
+    this.props.store.fulfilledOrderStore.getFulfilledOrderInfo(); // eslint-disable-line react/destructuring-assignment
   }
 
   handleFulfilledPrevious = async () => {
-    this.props.store.fulfilledOrderStore.loading = true;
-    this.props.store.fulfilledOrderStore.skip = this.props.store.fulfilledOrderStore.skip - 10;
-    await this.props.store.fulfilledOrderStore.getFulfilledOrderInfo();
-    this.props.store.fulfilledOrderStore.loading = false;
+    this.props.store.fulfilledOrderStore.skip -= 10; // eslint-disable-line react/destructuring-assignment
+    this.props.store.fulfilledOrderStore.getFulfilledOrderInfo(); // eslint-disable-line react/destructuring-assignment
   }
 
   handleCanceledNext = async () => {
-    this.props.store.canceledOrderStore.loading = true;
-    this.props.store.canceledOrderStore.skip = this.props.store.canceledOrderStore.skip + 10;
-    await this.props.store.canceledOrderStore.getCanceledOrderInfo();
-    this.props.store.canceledOrderStore.loading = false;
+    this.props.store.canceledOrderStore.skip += 10; // eslint-disable-line react/destructuring-assignment
+    this.props.store.canceledOrderStore.getCanceledOrderInfo(); // eslint-disable-line react/destructuring-assignment
   }
 
   handleCanceledPrevious = async () => {
-    this.props.store.canceledOrderStore.loading = true;
-    this.props.store.canceledOrderStore.skip = this.props.store.canceledOrderStore.skip - 10;
-    await this.props.store.canceledOrderStore.getCanceledOrderInfo();
-    this.props.store.canceledOrderStore.loading = false;
+    this.props.store.canceledOrderStore.skip -= 10; // eslint-disable-line react/destructuring-assignment
+    this.props.store.canceledOrderStore.getCanceledOrderInfo(); // eslint-disable-line react/destructuring-assignment
   }
 
   handleChange = (event, value) => {
@@ -87,16 +68,19 @@ export default @inject('store') @observer class MyOrderBook extends Component {
   };
 
   render() {
-    const { activeOrderStore, fulfilledOrderStore, canceledOrderStore } = this.props.store;
+    const { store: { activeOrderStore, fulfilledOrderStore, canceledOrderStore } } = this.props;
+    const { value } = this.state;
 
     return (
-      <Fragment>
+      <>
         <Card className='dashboardOrderBookTitle'>
-          <p>My Orders</p>
+          <Typography color='textPrimary'>
+            My Orders
+          </Typography>
         </Card>
         <AppBar position="static" color="default">
           <Tabs
-            value={this.state.value}
+            value={value}
             onChange={this.handleChange}
             indicatorColor="primary"
             textColor="primary"
@@ -109,7 +93,7 @@ export default @inject('store') @observer class MyOrderBook extends Component {
         </AppBar>
         <SwipeableViews
           axis='x'
-          index={this.state.value}
+          index={value}
           onChangeIndex={this.handleChangeIndex}
           enableMouseEvents='true'
         >
@@ -118,62 +102,68 @@ export default @inject('store') @observer class MyOrderBook extends Component {
           <OrdersCanceled canceledOrderStore={canceledOrderStore} />
         </SwipeableViews>
         <div className='centerText'>
-          {this.state.value === 0 &&
+          {value === 0 && (
             <div>
               <button
+                type='button'
                 disabled={!activeOrderStore.hasLess || activeOrderStore.loading}
                 onClick={this.handleActivePrevious}
               >
                 Previous Page
               </button>
               <button
+                type='button'
                 onClick={this.handleActiveNext}
                 disabled={!activeOrderStore.hasMore || activeOrderStore.loading}
               >
                 Next Page
               </button>
             </div>
-          }
-          {this.state.value === 1 &&
+          )}
+          {value === 1 && (
             <div>
               <button
+                type='button'
                 disabled={!fulfilledOrderStore.hasLess || fulfilledOrderStore.loading}
                 onClick={this.handleFulfilledPrevious}
               >
                 Previous Page
               </button>
               <button
+                type='button'
                 onClick={this.handleFulfilledNext}
                 disabled={!fulfilledOrderStore.hasMore || fulfilledOrderStore.loading}
               >
                 Next Page
               </button>
             </div>
-          }
-          {this.state.value === 2 &&
+          )}
+          {value === 2 && (
             <div>
               <button
+                type='button'
                 disabled={!canceledOrderStore.hasLess || canceledOrderStore.loading}
                 onClick={this.handleCanceledPrevious}
               >
                 Previous Page
               </button>
               <button
+                type='button'
                 onClick={this.handleCanceledNext}
                 disabled={!canceledOrderStore.hasMore || canceledOrderStore.loading}
               >
                 Next Page
               </button>
             </div>
-          }
+          )}
         </div>
-      </Fragment>
+      </>
     );
   }
 }
 
 const Orders = observer(({ activeOrderStore: { activeOrderInfo, loading } }) => {
-  if (loading) return <Loading1 />;
+  if (loading) return <LoadingElement text={messages.loadCurrentOrdersMsg} />;
   const activeOrders = (activeOrderInfo || []).map((order, i) => <OrderBook key={i} index={i} order={order} />); // eslint-disable-line
   return (
     activeOrders
@@ -181,7 +171,7 @@ const Orders = observer(({ activeOrderStore: { activeOrderInfo, loading } }) => 
 });
 
 const OrdersFulFilled = observer(({ fulfilledOrderStore: { fulfilledOrderInfo, loading } }) => {
-  if (loading) return <Loading2 />;
+  if (loading) return <LoadingElement text={messages.loadFulfilledOrdersMsg} />;
   const filledOrders = (fulfilledOrderInfo || []).map((order, i) => <OrderBook key={i} index={i} order={order} />); // eslint-disable-line
   return (
     filledOrders
@@ -189,17 +179,9 @@ const OrdersFulFilled = observer(({ fulfilledOrderStore: { fulfilledOrderInfo, l
 });
 
 const OrdersCanceled = observer(({ canceledOrderStore: { canceledOrderInfo, loading } }) => {
-  if (loading) return <Loading3 />;
+  if (loading) return <LoadingElement text={messages.loadCanceledOrdersMsg} />;
   const canceledOrders = (canceledOrderInfo || []).map((order, i) => <OrderBook key={i} index={i} order={order} />); // eslint-disable-line
   return (
     canceledOrders
   );
 });
-
-const Loading1 = () => <Row><LoadingElement text={messages.loadCurrentOrdersMsg} /></Row>;
-
-const Loading2 = () => <Row><LoadingElement text={messages.loadFulfilledOrdersMsg} /></Row>;
-
-const Loading3 = () => <Row><LoadingElement text={messages.loadCanceledOrdersMsg} /></Row>;
-
-const Row = ({ ...props }) => <div {...props} />;

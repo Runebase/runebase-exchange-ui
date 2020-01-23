@@ -48,21 +48,20 @@ export default class {
       () => {
         if (this.app.ui.location === Routes.EXCHANGE) {
           this.init();
-          this.getBuyHistoryInfo();
         }
       }
     );
   }
 
   @action
-  init = async () => {
+  init = async (limit = this.limit) => {
     Object.assign(this, INIT_VALUES); // reset all properties
-    runInAction(() => {
-      this.loading = false;
-    });
+    await this.getBuyHistoryInfo();
+    this.loading = false;
   }
 
   getBuyHistoryInfo = async (limit = this.limit, skip = this.skip) => {
+    this.loading = true;
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
@@ -90,6 +89,7 @@ export default class {
       const result = _.uniqBy(buyHistoryInfo, 'txid').map((trade) => new Trade(trade, this.app));
       const resultOrder = _.orderBy(result, ['time'], 'desc');
       this.buyHistoryInfo = resultOrder;
+      this.loading = false;
     }
   }
 

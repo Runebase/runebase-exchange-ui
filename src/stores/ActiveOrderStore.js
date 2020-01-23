@@ -48,7 +48,6 @@ export default class {
       () => {
         if (this.app.ui.location === Routes.EXCHANGE) {
           this.init();
-          this.getActiveOrderInfo();
         }
       }
     );
@@ -63,14 +62,13 @@ export default class {
   init = async (limit = this.limit) => {
     Object.assign(this, INIT_VALUES); // reset all properties
     this.app.ui.location = Routes.EXCHANGE;
-    this.activeOrderInfo = await this.getActiveOrderInfo(limit, 0);
-    runInAction(() => {
-      this.loading = false;
-    });
+    await this.getActiveOrderInfo(limit, 0);
+    this.loading = false;
   }
 
   @action
   getActiveOrderInfo = async (limit = this.limit, skip = this.skip) => {
+    this.loading = true;
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
@@ -89,6 +87,7 @@ export default class {
       if (this.skip > 0) this.hasLessActiveOrders = true;
       this.onActiveOrderInfo(activeOrders);
       this.subscribeActiveOrderInfo();
+      this.loading = false;
     }
   }
 
@@ -100,6 +99,7 @@ export default class {
       const result = _.uniqBy(activeOrderInfo, 'txid').map((newOrder) => new NewOrder(newOrder, this.app));
       const resultOrder = _.orderBy(result, ['time'], 'desc');
       this.activeOrderInfo = resultOrder;
+      this.loading = false;
     }
   }
 

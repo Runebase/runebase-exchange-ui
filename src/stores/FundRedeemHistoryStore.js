@@ -69,14 +69,12 @@ export default class {
   }
 
   @action
-  init = async () => {
+  init = async (limit = this.limit) => {
     Object.assign(this, INIT_VALUES); // reset all properties
     this.app.ui.location = Routes.EXCHANGE;
-    runInAction(() => {
-      this.loading = false;
-    });
+    await this.getFundRedeemInfo();
+    this.loading = false;
   }
-
 
   getPendingInfo = async (limit = this.limit, skip = this.skip) => {
     if (this.subscription) {
@@ -116,6 +114,7 @@ export default class {
   }
 
   getFundRedeemInfo = async (limit = this.limit, skip = this.skip) => {
+    this.loading = true;
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
@@ -145,6 +144,7 @@ export default class {
       const result = _.uniqBy(fundRedeemInfo, 'txid').map((fundRedeem) => new FundRedeem(fundRedeem, this.app));
       const resultOrder = _.orderBy(result, ['time'], 'desc');
       this.fundRedeemInfo = resultOrder;
+      this.loading = false;
     }
   }
 

@@ -55,15 +55,15 @@ export default class {
   }
 
   @action
-  init = async () => {
+  init = async (limit = this.limit) => {
     Object.assign(this, INIT_VALUES); // reset all properties
-    runInAction(() => {
-      this.loading = false;
-    });
+    await this.getSellOrderInfo(limit, 0);
+    this.loading = false;
   }
 
   @action
   getSellOrderInfo = async (limit = this.limit, skip = this.skip) => {
+    this.loading = true;
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
@@ -92,6 +92,7 @@ export default class {
     } else {
       const result = _.uniqBy(sellOrderInfo, 'orderId').map((newOrder) => new NewOrder(newOrder, this.app));
       this.sellOrderInfo = _.orderBy(result, ['price'], 'asc');
+      this.loading = false;
     }
   }
 

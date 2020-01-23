@@ -1,8 +1,7 @@
-/* eslint-disable react/jsx-props-no-spreading, react/destructuring-assignment, operator-assignment, react/jsx-one-expression-per-line, react/jsx-fragments, react/button-has-type */
 import React, { Component, Fragment } from 'react';
 import { inject, observer } from 'mobx-react';
 import { defineMessages } from 'react-intl';
-import { Card } from '@material-ui/core';
+import { Card, Typography } from '@material-ui/core';
 import MyTradesView from './MyTradesView';
 import LoadingElement from '../Loading';
 
@@ -15,54 +14,50 @@ const messages = defineMessages({
 
 export default @inject('store') @observer class MyTrades extends Component {
   handleNext = async () => {
-    this.props.store.myTradeStore.loading = true;
-    this.props.store.myTradeStore.skip = this.props.store.myTradeStore.skip + 10;
-    await this.props.store.myTradeStore.getMyTradeInfo();
-    this.props.store.myTradeStore.loading = false;
+    this.props.store.myTradeStore.skip += 10; // eslint-disable-line react/destructuring-assignment
+    this.props.store.myTradeStore.getMyTradeInfo(); // eslint-disable-line react/destructuring-assignment
   }
 
   handlePrevious = async () => {
-    this.props.store.myTradeStore.loading = true;
-    this.props.store.myTradeStore.skip = this.props.store.myTradeStore.skip - 10;
-    await this.props.store.myTradeStore.getMyTradeInfo();
-    this.props.store.myTradeStore.loading = false;
+    this.props.store.myTradeStore.skip -= 10; // eslint-disable-line react/destructuring-assignment
+    this.props.store.myTradeStore.getMyTradeInfo(); // eslint-disable-line react/destructuring-assignment
   }
 
   render() {
-    const { myTradeStore } = this.props.store;
+    const { store: { myTradeStore } } = this.props;
     return (
-      <Fragment>
+      <>
         <Card className='dashboardOrderBookTitle'>
-          <p>My Trades</p>
+          <Typography color='textPrimary'>
+            My Trades
+          </Typography>
         </Card>
         <Trades myTradeStore={myTradeStore} />
         <div className='centerText'>
           <button
             disabled={!myTradeStore.hasLess || myTradeStore.loading}
             onClick={this.handlePrevious}
+            type='button'
           >
             Previous Page
           </button>
           <button
             onClick={this.handleNext}
             disabled={!myTradeStore.hasMore || myTradeStore.loading}
+            type='button'
           >
             Next Page
           </button>
         </div>
-      </Fragment>
+      </>
     );
   }
 }
 
 const Trades = observer(({ myTradeStore: { myTradeInfo, loading } }) => {
-  if (loading) return <Loading />;
+  if (loading) return <LoadingElement text={messages.loadFundRedeemMsg} />;
   const myTrades = (myTradeInfo || []).map((event, i) => <MyTradesView key={i} index={i} event={event} />); // eslint-disable-line
   return (
     myTrades
   );
 });
-
-const Loading = () => <Row><LoadingElement text={messages.loadFundRedeemMsg} /></Row>;
-
-const Row = ({ ...props }) => <div {...props} />;
