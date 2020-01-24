@@ -1,4 +1,3 @@
-/* eslint-disable react/destructuring-assignment, react/jsx-one-expression-per-line */
 import React, { PureComponent } from 'react';
 import _ from 'lodash';
 import { inject } from 'mobx-react';
@@ -8,8 +7,21 @@ import classNames from 'classnames/bind';
 
 export default @injectIntl @inject('store') class MarketView extends PureComponent {
   render() {
-    const { market, tokenName, price, change, volume, address } = this.props.event;
-    const { store: { wallet, marketStore, baseCurrencyStore } } = this.props;
+    const {
+      store: {
+        wallet,
+        marketStore,
+        baseCurrencyStore,
+      },
+      event: {
+        market,
+        tokenName,
+        price,
+        change,
+        volume,
+        address,
+      },
+    } = this.props;
     const fixedVolume = parseFloat(volume).toFixed(2);
     let active = false;
     let changePos = false;
@@ -42,24 +54,38 @@ export default @injectIntl @inject('store') class MarketView extends PureCompone
         <Card className={triggerActive} onClick={() => wallet.changeMarket(market, address, wallet.addresses)}>
           <Grid container>
             <Grid item xs={3}>
-              <p className='textCenter fat'>{tokenName}</p>
+              <Typography className='textCenter fat'>
+                {tokenName}
+              </Typography>
             </Grid>
             <Grid item xs={9}>
-              <p className='textCenter fat'>{market}/{baseCurrencyStore.baseCurrency.pair}</p>
+              <Typography className='textCenter fat'>
+                {market}
+                /
+                {baseCurrencyStore.baseCurrency.pair}
+              </Typography>
             </Grid>
           </Grid>
           <Grid container>
             <Grid item xs={3} className='fullheight'>
               <div className='fullWidth'>
-                {findImage ? (<img alt={market} src={`https://ipfs.io/ipfs/${findImage.image}`} />) : (<div>Loading...</div>)}
+                {findImage ? (
+                  <img alt={market} src={`https://ipfs.io/ipfs/${findImage.image}`} />
+                ) : (
+                  <div>Loading...</div>
+                )}
               </div>
             </Grid>
             <Grid item xs={3}>
               <div className="like-table">
                 <div className="like-table-row">
                   <div className="like-table-cell valign-middle">
-                    <Typography variant="body2" className='textCenter'>Price</Typography>
-                    <Typography variant="body2" className='textCenter fat'>{price}</Typography>
+                    <Typography variant="body2" className='textCenter'>
+                      Price
+                    </Typography>
+                    <Typography variant="body2" className='textCenter fat'>
+                      {price}
+                    </Typography>
                   </div>
                 </div>
               </div>
@@ -68,8 +94,13 @@ export default @injectIntl @inject('store') class MarketView extends PureCompone
               <div className="like-table">
                 <div className="like-table-row">
                   <div className="like-table-cell valign-middle">
-                    <Typography variant="body2" className='textCenter'>Change</Typography>
-                    <Typography variant="body2" className={`textCenter fat ${changeClass}`}>{change}%</Typography>
+                    <Typography variant="body2" className='textCenter'>
+                      Change
+                    </Typography>
+                    <Typography variant="body2" className={`textCenter fat ${changeClass}`}>
+                      {change}
+                      %
+                    </Typography>
                   </div>
                 </div>
               </div>
@@ -78,8 +109,12 @@ export default @injectIntl @inject('store') class MarketView extends PureCompone
               <div className="like-table">
                 <div className="like-table-row">
                   <div className="like-table-cell valign-middle">
-                    <Typography variant="body2" className='textCenter'>Volume</Typography>
-                    <Typography variant="body2" className='textCenter fat'>{fixedVolume}</Typography>
+                    <Typography variant="body2" className='textCenter'>
+                      Volume
+                    </Typography>
+                    <Typography variant="body2" className='textCenter fat'>
+                      {fixedVolume}
+                    </Typography>
                   </div>
                 </div>
               </div>

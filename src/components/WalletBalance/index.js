@@ -1,8 +1,6 @@
-/* eslint-disable react/static-property-placement, react/jsx-one-expression-per-line */
 import React, { Component } from 'react';
 import { injectIntl } from 'react-intl';
 import { inject, observer } from 'mobx-react';
-import PropTypes from 'prop-types';
 import {
   Typography,
   Card,
@@ -13,46 +11,75 @@ import 'semantic-ui-css/semantic.min.css';
 import styles from './styles';
 
 export default @injectIntl @withStyles(styles, { withTheme: true }) @inject('store') @observer class WalletBalance extends Component {
-  static propTypes = {
-    classes: PropTypes.object.isRequired,
-  };
-
   render() {
-    const { classes, store: { wallet, baseCurrencyStore, fundRedeemHistoryStore } } = this.props;
+    const {
+      classes,
+      store: {
+        wallet,
+        baseCurrencyStore,
+        fundRedeemHistoryStore,
+      },
+    } = this.props;
     const rows = [];
-    console.log(fundRedeemHistoryStore.pendingDepositAmount);
     if (wallet.currentAddressKey !== '') {
       Object.keys(wallet.addresses[wallet.currentAddressKey].Wallet).forEach((key) => {
         if (key === baseCurrencyStore.baseCurrency.pair) {
           rows.push(<Grid item xs={3} key={key}>
-            <Typography variant="body2">{key}(GAS)</Typography>
-            <Typography variant="body2">{wallet.addresses[wallet.currentAddressKey].Wallet[key]}</Typography>
+            <Typography variant="body2">
+              {key}
+              (GAS)
+            </Typography>
+            <Typography variant="body2">
+              {wallet.addresses[wallet.currentAddressKey].Wallet[key]}
+            </Typography>
             {(() => {
               if (fundRedeemHistoryStore.pendingDepositAmount[key] > 0) {
                 return (
-                  <Typography variant="body2" className="positiveChange">(+{fundRedeemHistoryStore.pendingDepositAmount[key]})</Typography>
+                  <Typography variant="body2" className="positiveChange">
+                    (
+                    +
+                    {fundRedeemHistoryStore.pendingDepositAmount[key]}
+                    )
+                  </Typography>
                 );
               }
               if (fundRedeemHistoryStore.pendingDepositAmount[key] < 0) {
                 return (
-                  <Typography variant="body2" className="negativeChange">({fundRedeemHistoryStore.pendingDepositAmount[key]})</Typography>
+                  <Typography variant="body2" className="negativeChange">
+                    (
+                    {fundRedeemHistoryStore.pendingDepositAmount[key]}
+                    )
+                  </Typography>
                 );
               }
             })()}
           </Grid>);
         } else {
           rows.push(<Grid item xs={3} key={key}>
-            <Typography variant="body2">{key}</Typography>
-            <Typography variant="body2">{wallet.addresses[wallet.currentAddressKey].Wallet[key]}</Typography>
+            <Typography variant="body2">
+              {key}
+            </Typography>
+            <Typography variant="body2">
+              {wallet.addresses[wallet.currentAddressKey].Wallet[key]}
+            </Typography>
             {(() => {
               if (fundRedeemHistoryStore.pendingDepositAmount[key] > 0) {
                 return (
-                  <Typography variant="body2" className="positiveChange">(+{fundRedeemHistoryStore.pendingDepositAmount[key]})</Typography>
+                  <Typography variant="body2" className="positiveChange">
+                    (
+                    +
+                    {fundRedeemHistoryStore.pendingDepositAmount[key]}
+                    )
+                  </Typography>
                 );
               }
               if (fundRedeemHistoryStore.pendingDepositAmount[key] < 0) {
                 return (
-                  <Typography variant="body2" className="negativeChange">({fundRedeemHistoryStore.pendingDepositAmount[key]})</Typography>
+                  <Typography variant="body2" className="negativeChange">
+                    (
+                    {fundRedeemHistoryStore.pendingDepositAmount[key]}
+                    )
+                  </Typography>
                 );
               }
             })()}
@@ -61,9 +88,11 @@ export default @injectIntl @withStyles(styles, { withTheme: true }) @inject('sto
       });
     }
     return (
-      <div>
+      <>
         <Card className={classes.dashboardOrderBookTitle}>
-          <p>My Wallet Balances</p>
+          <Typography color='textPrimary'>
+            My Wallet Balances
+          </Typography>
         </Card>
         <Grid container>
           {(() => {
@@ -83,7 +112,9 @@ export default @injectIntl @withStyles(styles, { withTheme: true }) @inject('sto
                 <Card className={classes.dashboardOrderBook}>
                   <Grid container>
                     <Grid item xs={12}>
-                      <p>...</p>
+                      <Typography color='textPrimary'>
+                        ...
+                      </Typography>
                     </Grid>
                   </Grid>
                 </Card>
@@ -91,7 +122,7 @@ export default @injectIntl @withStyles(styles, { withTheme: true }) @inject('sto
             );
           })()}
         </Grid>
-      </div>
+      </>
     );
   }
 }

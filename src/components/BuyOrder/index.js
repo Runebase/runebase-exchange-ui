@@ -1,4 +1,3 @@
-/* eslint-disable react/static-property-placement, react/destructuring-assignment, react/no-access-state-in-setstate, react/jsx-props-no-spreading, react/jsx-one-expression-per-line, react/jsx-tag-spacing */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl } from 'react-intl';
@@ -17,10 +16,6 @@ import styles from './styles';
 import OrderExchange from './OrderExchange';
 
 export default @injectIntl @withStyles(styles, { withTheme: true }) @inject('store') @observer class BuyOrder extends Component {
-  static propTypes = {
-    classes: PropTypes.object.isRequired,
-  };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -33,23 +28,36 @@ export default @injectIntl @withStyles(styles, { withTheme: true }) @inject('sto
   }
 
   changeAmount = (event, tokenAmount) => {
-    const validateTotal = event.target.value * this.state.price;
+    const {
+      store: {
+        wallet: {
+          currentAddressSelected,
+        },
+      },
+    } = this.props;
+    const {
+      price,
+    } = this.state;
+    const validateTotal = event.target.value * price;
+
     if (event.target.value === '' || /^\d+(\.\d{1,8})?$/.test(event.target.value)) {
       this.setState({
         amount: event.target.value,
-        total: (event.target.value * this.state.price).toFixed(8),
+        total: (event.target.value * price).toFixed(8),
         hasError: false,
       });
     }
+
     if (tokenAmount < validateTotal) {
-      const newAmount = tokenAmount / this.state.price;
+      const newAmount = tokenAmount / price;
       this.setState({
         amount: newAmount,
-        total: (newAmount * this.state.price).toFixed(8),
+        total: (newAmount * price).toFixed(8),
         hasError: false,
       });
     }
-    if (this.props.store.wallet.currentAddressSelected === '') {
+
+    if (currentAddressSelected === '') {
       this.setState({
         hasError: true,
       });
@@ -57,23 +65,33 @@ export default @injectIntl @withStyles(styles, { withTheme: true }) @inject('sto
   }
 
   changePrice = (event, tokenAmount) => {
-    const validateTotal = event.target.value * this.state.amount;
+    const {
+      store: {
+        wallet: {
+          currentAddressSelected,
+        },
+      },
+    } = this.props;
+    const {
+      amount,
+    } = this.state;
+    const validateTotal = event.target.value * amount;
     if (event.target.value === '' || /^\d+(\.\d{1,8})?$/.test(event.target.value)) {
       this.setState({
         price: event.target.value,
-        total: (event.target.value * this.state.amount).toFixed(8),
+        total: (event.target.value * amount).toFixed(8),
         hasError: false,
       });
     }
     if (tokenAmount < validateTotal) {
-      const newPrice = tokenAmount / this.state.amount;
+      const newPrice = tokenAmount / amount;
       this.setState({
         price: newPrice,
-        total: (newPrice * this.state.amount).toFixed(8),
+        total: (newPrice * amount).toFixed(8),
         hasError: false,
       });
     }
-    if (this.props.store.wallet.currentAddressSelected === '') {
+    if (currentAddressSelected === '') {
       this.setState({
         hasError: true,
       });
@@ -84,12 +102,26 @@ export default @injectIntl @withStyles(styles, { withTheme: true }) @inject('sto
 
 
   render() {
-    const { classes, store: { wallet, baseCurrencyStore, marketStore } } = this.props;
+    const {
+      classes,
+      store: {
+        wallet,
+        baseCurrencyStore,
+        marketStore,
+      },
+    } = this.props;
+    const {
+      amount,
+      price,
+      total,
+      orderType,
+      hasError,
+    } = this.state;
     const market = wallet.currentMarket;
     const isEnabled = wallet.currentAddressSelected !== '';
     let tokenAmount;
 
-    if (wallet.currentAddressKey !== '') {
+    if (isEnabled) {
       Object.keys(marketStore.marketInfo).forEach((key) => {
         if (market === marketStore.marketInfo[key].market) {
           tokenAmount = wallet.addresses[wallet.currentAddressKey].Exchange[baseCurrencyStore.baseCurrency.pair];
@@ -100,16 +132,36 @@ export default @injectIntl @withStyles(styles, { withTheme: true }) @inject('sto
     return (
       <div>
         <Card className={classes.dashboardOrderBookTitle}>
-          <p>Create Buy Order ({wallet.currentMarket})</p>
+          <p>
+            Create
+            &nbsp;
+            Buy
+            &nbsp;
+            Order
+            &nbsp;
+            (
+            {wallet.currentMarket}
+            )
+          </p>
         </Card>
         <Card className={classes.dashboardOrderBook}>
           <Grid container className={classes.dashboardOrderBookWrapper}>
             <Grid item xs={12}>
               <Form className={classes.tokenSelect} onSubmit={this.handleSubmit}>
-                <h3>{wallet.currentMarket}/{baseCurrencyStore.baseCurrency.pair}</h3>
+                <h3>
+                  {wallet.currentMarket}
+                  /
+                  {baseCurrencyStore.baseCurrency.pair}
+                </h3>
                 {(() => {
                   if (wallet.currentAddressKey !== '') {
-                    return (<Typography variant="body2" className='fat'>{tokenAmount} {baseCurrencyStore.baseCurrency.pair}</Typography>);
+                    return (
+                      <Typography variant="body2" className='fat'>
+                        {tokenAmount}
+                        &nbsp;
+                        {baseCurrencyStore.baseCurrency.pair}
+                      </Typography>
+                    );
                   }
                   return (
                     <p>...</p>
@@ -122,7 +174,16 @@ export default @injectIntl @withStyles(styles, { withTheme: true }) @inject('sto
                     </InputLabel>
                   </Grid>
                   <Grid item xs={8}>
-                    <Input className='inputWidth' disabled={!isEnabled} type="number" step="0.00000001" min="0" value={this.state.amount} onChange={(event) => { this.changeAmount(event, tokenAmount); }} name="amount" />
+                    <Input
+                      className='inputWidth'
+                      disabled={!isEnabled}
+                      type="number"
+                      step="0.00000001"
+                      min="0"
+                      value={amount}
+                      onChange={(event) => { this.changeAmount(event, tokenAmount); }}
+                      name="amount"
+                    />
                   </Grid>
                   <Grid item xs={2}>
                     <InputLabel className='inputLabels'>
@@ -137,9 +198,18 @@ export default @injectIntl @withStyles(styles, { withTheme: true }) @inject('sto
                     </FormLabel>
                   </Grid>
                   <Grid item xs={8}>
-                    <Input className='inputWidth' disabled={!isEnabled} type="number" step="0.00000001" min="0" value={this.state.price} onChange={(event) => { this.changePrice(event, tokenAmount); }} name="price" />
+                    <Input
+                      className='inputWidth'
+                      disabled={!isEnabled}
+                      type="number"
+                      step="0.00000001"
+                      min="0"
+                      value={price}
+                      onChange={(event) => { this.changePrice(event, tokenAmount); }}
+                      name="price"
+                    />
                   </Grid>
-                  <Grid item xs={2} >
+                  <Grid item xs={2}>
                     <InputLabel className='inputLabels'>
                       {baseCurrencyStore.baseCurrency.pair}
                     </InputLabel>
@@ -152,7 +222,7 @@ export default @injectIntl @withStyles(styles, { withTheme: true }) @inject('sto
                     </FormLabel>
                   </Grid>
                   <Grid item xs={8}>
-                    <Input disabled className='inputWidth' value={this.state.total} name="total" />
+                    <Input disabled className='inputWidth' value={total} name="total" />
                   </Grid>
                   <Grid item xs={2}>
                     <FormLabel className={`inputLabels ${classes.orderLabel}`}>
@@ -160,7 +230,14 @@ export default @injectIntl @withStyles(styles, { withTheme: true }) @inject('sto
                     </FormLabel>
                   </Grid>
                 </Grid>
-                <OrderExchange tokenAmount={tokenAmount} {...this.state} />
+                <OrderExchange
+                  tokenAmount={tokenAmount}
+                  amount={amount}
+                  price={price}
+                  totel={total}
+                  orderType={orderType}
+                  hasError={hasError}
+                />
               </Form>
             </Grid>
           </Grid>

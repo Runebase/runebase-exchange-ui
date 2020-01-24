@@ -6,7 +6,6 @@ import { inject } from 'mobx-react';
 import Moment from 'react-moment';
 import { injectIntl, defineMessages } from 'react-intl';
 import {
-  withMobileDialog,
   Input,
   Button,
   Grid,
@@ -417,9 +416,11 @@ class OrderBook extends PureComponent {
                     {global.selectedOrderInfo.blockNum}
                   </Typography>
                 </Grid>
-                <div className="ui horizontal divider">
-                  Trade
-                </div>
+                <Grid item xs={12}>
+                  <div className="ui horizontal divider">
+                    Trade
+                  </div>
+                </Grid>
                 <Grid item xs={6}>
                   <Typography variant='subtitle1' className={classes.root}>
                     {global.selectedOrderInfo.token}
@@ -517,7 +518,6 @@ class OrderBook extends PureComponent {
 }
 
 OrderBook.propTypes = {
-  classes: PropTypes.object.isRequired,
   orderId: PropTypes.string,
 };
 
@@ -525,4 +525,4 @@ OrderBook.defaultProps = {
   orderId: undefined,
 };
 
-export default withMobileDialog()(OrderBook);
+export default OrderBook;

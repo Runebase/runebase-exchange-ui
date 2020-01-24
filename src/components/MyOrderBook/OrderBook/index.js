@@ -238,7 +238,6 @@ export default @injectIntl @inject('store') @withStyles(styles, { withTheme: tru
 }
 
 OrderBook.propTypes = {
-  classes: PropTypes.object.isRequired,
   orderId: PropTypes.string,
 };
 

@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-one-expression-per-line */
 import React, { Component } from 'react';
 import { injectIntl } from 'react-intl';
 import { inject, observer } from 'mobx-react';
@@ -9,23 +8,41 @@ import {
 
 export default @injectIntl @inject('store') @observer class ExchangeBalance extends Component {
   render() {
-    const { store: { wallet, fundRedeemHistoryStore } } = this.props;
+    const {
+      store: {
+        wallet,
+        fundRedeemHistoryStore,
+      },
+    } = this.props;
     const rows = [];
     if (wallet.currentAddressKey !== '') {
       Object.keys(wallet.addresses[wallet.currentAddressKey].Exchange).forEach((key) => {
         const isActive = (wallet.market === key) ? 'MarketBalanceActive' : 'NotSoActive';
         rows.push(<Grid item xs={3} key={key}>
-          <Typography variant="body2" className={`${isActive}`}>{key}</Typography>
-          <Typography variant="body2" className={`${isActive}`}>{wallet.addresses[wallet.currentAddressKey].Exchange[key]}</Typography>
+          <Typography variant="body2" className={`${isActive}`}>
+            {key}
+          </Typography>
+          <Typography variant="body2" className={`${isActive}`}>
+            {wallet.addresses[wallet.currentAddressKey].Exchange[key]}
+          </Typography>
           {(() => {
             if (fundRedeemHistoryStore.pendingWithdrawAmount[key] > 0) {
               return (
-                <Typography variant="body2" className="positiveChange">(+{fundRedeemHistoryStore.pendingWithdrawAmount[key]})</Typography>
+                <Typography variant="body2" className="positiveChange">
+                  (
+                  +
+                  {fundRedeemHistoryStore.pendingWithdrawAmount[key]}
+                  )
+                </Typography>
               );
             }
             if (fundRedeemHistoryStore.pendingWithdrawAmount[key] < 0) {
               return (
-                <Typography variant="body2" className="negativeChange">({fundRedeemHistoryStore.pendingWithdrawAmount[key]})</Typography>
+                <Typography variant="body2" className="negativeChange">
+                  (
+                  {fundRedeemHistoryStore.pendingWithdrawAmount[key]}
+                  )
+                </Typography>
               );
             }
           })()}
@@ -34,12 +51,14 @@ export default @injectIntl @inject('store') @observer class ExchangeBalance exte
     }
 
     return (
-      <div>
+      <>
         <Grid container>
           <Grid container>
             <Grid item xs={12}>
               <Card className='dashboardOrderBookTitle'>
-                <p>My Exchange Balances</p>
+                <Typography color='textPrimary'>
+                  My Exchange Balances
+                </Typography>
               </Card>
             </Grid>
             {(() => {
@@ -59,7 +78,9 @@ export default @injectIntl @inject('store') @observer class ExchangeBalance exte
                   <Card>
                     <Grid container>
                       <Grid item xs={12} className='dashboardOrderBook'>
-                        <p className='textCenter'>...</p>
+                        <Typography color='textPrimary'>
+                          ...
+                        </Typography>
                       </Grid>
                     </Grid>
                   </Card>
@@ -68,7 +89,7 @@ export default @injectIntl @inject('store') @observer class ExchangeBalance exte
             })()}
           </Grid>
         </Grid>
-      </div>
+      </>
     );
   }
 }

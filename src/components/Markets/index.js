@@ -1,5 +1,4 @@
-/* eslint-disable react/destructuring-assignment, react/jsx-fragments, react/jsx-props-no-spreading */
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import { injectIntl, defineMessages } from 'react-intl';
 import MarketView from './MarketView';
@@ -14,24 +13,24 @@ const messages = defineMessages({
 
 export default @injectIntl @observer @inject('store') class Markets extends Component {
   render() {
-    const { marketStore } = this.props.store;
+    const {
+      store: {
+        marketStore,
+      },
+    } = this.props;
 
     return (
-      <Fragment>
+      <>
         <Events marketStore={marketStore} />
-      </Fragment>
+      </>
     );
   }
 }
 
 const Events = observer(({ marketStore: { marketInfo, loading } }) => {
-  if (loading) return <Loading />;
+  if (loading) return <LoadingElement text={messages.loadAllMarketsMsg} />;
   const markets = (marketInfo || []).map((event, i) => <MarketView key={i} index={i} event={event} />); // eslint-disable-line
   return (
     markets
   );
 });
-
-const Loading = () => <Row><LoadingElement text={messages.loadAllMarketsMsg} /></Row>;
-
-const Row = ({ ...props }) => <div {...props} />;
