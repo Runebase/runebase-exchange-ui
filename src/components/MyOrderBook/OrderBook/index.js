@@ -1,4 +1,3 @@
-/* eslint-disable react/static-property-placement, react/destructuring-assignment, react/jsx-one-expression-per-line,  */
 import React, { PureComponent } from 'react';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
@@ -32,22 +31,13 @@ const messages = defineMessages({
 });
 
 export default @injectIntl @inject('store') @withStyles(styles, { withTheme: true }) class OrderBook extends PureComponent {
-  static propTypes = {
-    classes: PropTypes.object.isRequired,
-    orderId: PropTypes.string,
-  };
-
   constructor(props) {
     super(props);
     this.state = { openError: false };
   }
 
-  static defaultProps = {
-    orderId: undefined,
-  };
-
   onCancelOrder = () => {
-    if (this.props.store.wallet.currentAddressSelected === '') {
+    if (this.props.store.wallet.currentAddressSelected === '') { // eslint-disable-line react/destructuring-assignment
       this.setState({
         openError: true,
       });
@@ -55,7 +45,7 @@ export default @injectIntl @inject('store') @withStyles(styles, { withTheme: tru
   }
 
   addressCheck = () => {
-    if (this.props.store.wallet.currentAddressSelected === '') {
+    if (this.props.store.wallet.currentAddressSelected === '') { // eslint-disable-line react/destructuring-assignment
       this.setState({
         openError: true,
       });
@@ -69,9 +59,37 @@ export default @injectIntl @inject('store') @withStyles(styles, { withTheme: tru
   };
 
   render() {
-    const { classes } = this.props;
-    const { store: { wallet, marketStore, baseCurrencyStore, global: { explorerUrl } } } = this.props;
-    const { orderId, txid, amount, startAmount, owner, blockNum, time, price, token, tokenName, type, status } = this.props.order;
+    const {
+      classes: {
+        root,
+        dashboardOrderBookWrapper,
+      },
+      store: {
+        wallet,
+        marketStore,
+        baseCurrencyStore,
+        global: {
+          explorerUrl,
+        },
+      },
+      order: {
+        orderId,
+        txid,
+        amount,
+        startAmount,
+        owner,
+        blockNum,
+        time,
+        price,
+        token,
+        tokenName,
+        type,
+        status,
+      },
+    } = this.props;
+    const {
+      openError,
+    } = this.state;
     const amountToken = satoshiToDecimal(amount, 8);
     const startAmountToken = satoshiToDecimal(startAmount, 8);
     const filled = parseFloat((startAmountToken - amountToken).toFixed(8));
@@ -79,9 +97,9 @@ export default @injectIntl @inject('store') @withStyles(styles, { withTheme: tru
     total = total.toFixed(8);
     const findImage = _.find(marketStore.marketImages, { market: `${token}` });
     return (
-      <div className={`classes.root ${status}`} style={{ overflow: 'hidden' }}>
+      <div className={`root ${status}`} style={{ overflow: 'hidden' }}>
         <Dialog
-          open={this.state.openError}
+          open={openError}
           onClose={this.handleClose}
           aria-labelledby="form-dialog-title"
         >
@@ -124,13 +142,17 @@ export default @injectIntl @inject('store') @withStyles(styles, { withTheme: tru
               </Grid>
             </Grid>
           </ExpansionPanelSummary>
-          <ExpansionPanelDetails className={classes.dashboardOrderBookWrapper}>
+          <ExpansionPanelDetails className={dashboardOrderBookWrapper}>
 
             <Grid container className='centerText'>
               <Grid item xs={12}>
                 <Grid container justify="center">
                   <Grid item xs={3}>
-                    <p className='fat'>{token}/{baseCurrencyStore.baseCurrency.pair}</p>
+                    <p className='fat'>
+                      {token}
+                      /
+                      {baseCurrencyStore.baseCurrency.pair}
+                    </p>
                     <div className='fullwidth'>
                       {findImage ? (<img alt={tokenName} src={`https://ipfs.io/ipfs/${findImage.image}`} />) : (<div>Loading...</div>)}
                     </div>
@@ -181,11 +203,11 @@ export default @injectIntl @inject('store') @withStyles(styles, { withTheme: tru
 
               <Grid item xs={12} className='spacingOrderBook'>
                 <Typography variant='subtitle1' className=''>owner:</Typography>
-                <Typography className={classes.root}><a href={`${explorerUrl}/address/${owner}`}>{owner}</a></Typography>
+                <Typography className={root}><a href={`${explorerUrl}/address/${owner}`}>{owner}</a></Typography>
               </Grid>
               <Grid item xs={12} className='spacingOrderBook'>
-                <Typography variant='subtitle1' className={classes.root}>txid:</Typography>
-                <Typography className={classes.root}><a href={`${explorerUrl}/tx/${txid}`}>{txid}</a></Typography>
+                <Typography variant='subtitle1' className={root}>txid:</Typography>
+                <Typography className={root}><a href={`${explorerUrl}/tx/${txid}`}>{txid}</a></Typography>
               </Grid>
               <Grid item xs={6} className='spacingOrderBook'>
                 <Typography variant='subtitle1'>created time</Typography>
@@ -214,3 +236,12 @@ export default @injectIntl @inject('store') @withStyles(styles, { withTheme: tru
     );
   }
 }
+
+OrderBook.propTypes = {
+  classes: PropTypes.object.isRequired,
+  orderId: PropTypes.string,
+};
+
+OrderBook.defaultProps = {
+  orderId: undefined,
+};

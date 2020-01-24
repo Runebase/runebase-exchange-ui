@@ -68,7 +68,13 @@ export default @inject('store') @observer class MyOrderBook extends Component {
   };
 
   render() {
-    const { store: { activeOrderStore, fulfilledOrderStore, canceledOrderStore } } = this.props;
+    const {
+      store: {
+        activeOrderStore,
+        fulfilledOrderStore,
+        canceledOrderStore,
+      },
+    } = this.props;
     const { value } = this.state;
 
     return (
