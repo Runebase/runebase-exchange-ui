@@ -76,6 +76,7 @@ const TYPE_DEF = {
     change
     volume
     address
+    decimals
   `,
 
   Chart: `

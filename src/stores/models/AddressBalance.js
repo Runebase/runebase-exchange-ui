@@ -13,6 +13,7 @@ export default class AddressBalance {
   constructor(addressBalance) {
     Object.assign(this, addressBalance);
     this.address = this.address;
+    console.log(addressBalance);
     try {
       this.balance = _.omit(JSON.parse(addressBalance.balance), ['balance']);
     } catch (e) {

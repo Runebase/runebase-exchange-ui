@@ -177,11 +177,17 @@ export default class {
     this.toAddress = this.exchangeAddress;
     this.confirmAmount = confirmAmount;
     this.tokenChoice = tokenChoice;
+
+    if (tokenChoice === 'RUNES') {
+      this.decimals = 8;
+    } else {
+      this.decimals = (_.find(this.app.marketStore.marketInfo, { market: tokenChoice })).decimals;
+    }
     try {
       const { data: { result } } = await axios.post(Routes.api.transactionCost, {
         type: TransactionType.WITHDRAWEXCHANGE,
         token: tokenChoice,
-        amount: tokenChoice === this.app.baseCurrencyStore.baseCurrency.pair ? Number(confirmAmount) : decimalToSatoshi(confirmAmount, 8),
+        amount: tokenChoice === this.app.baseCurrencyStore.baseCurrency.pair ? Number(confirmAmount) : decimalToSatoshi(confirmAmount, this.decimals),
         senderAddress: walletAddress,
         receiverAddress: this.toAddress,
       });
@@ -199,7 +205,7 @@ export default class {
 
   @action
   confirmRedeemExchange = (onRedeem) => {
-    this.createTransferRedeemExchange(this.walletAddress, this.exchangeAddress, this.tokenChoice, decimalToSatoshi(this.confirmAmount, 8));
+    this.createTransferRedeemExchange(this.walletAddress, this.exchangeAddress, this.tokenChoice, decimalToSatoshi(this.confirmAmount, this.decimals));
     runInAction(() => {
       onRedeem();
       this.redeemConfirmDialogOpen = false;
@@ -503,6 +509,12 @@ export default class {
     this.toAddress = this.exchangeAddress;
     this.confirmAmount = confirmAmount;
     this.tokenChoice = tokenChoice;
+    if (tokenChoice === 'RUNES') {
+      this.decimals = 8;
+    } else {
+      this.decimals = (_.find(this.app.marketStore.marketInfo, { market: tokenChoice })).decimals;
+    }
+
     const calc = (this.addresses[this.currentAddressKey][this.app.baseCurrencyStore.baseCurrency.pair] - confirmAmount);
 
     if (tokenChoice === this.app.baseCurrencyStore.baseCurrency.pair && calc < 2) {
@@ -514,7 +526,7 @@ export default class {
         const { data: { result } } = await axios.post(Routes.api.transactionCost, {
           type: TransactionType.DEPOSITEXCHANGE,
           token: tokenChoice,
-          amount: tokenChoice === this.app.baseCurrencyStore.baseCurrency.pair ? Number(confirmAmount) : decimalToSatoshi(confirmAmount, 8),
+          amount: tokenChoice === this.app.baseCurrencyStore.baseCurrency.pair ? Number(confirmAmount) : decimalToSatoshi(confirmAmount, this.decimals),
           senderAddress: walletAddress,
           receiverAddress: this.toAddress,
         });
@@ -532,19 +544,20 @@ export default class {
   }
 
   @action
-  confirmFundExchange = (onWithdraw) => {
+  confirmFundExchange = (onDeposit) => {
     let amount = this.confirmAmount;
+    console.log(this.decimals);
     Object.keys(this.app.marketStore.marketInfo).forEach((key) => {
       if (this.tokenChoice === this.app.marketStore.marketInfo[key].market) {
-        amount = decimalToSatoshi(this.confirmAmount, 8);
+        amount = decimalToSatoshi(this.confirmAmount, this.decimals);
       }
     });
 
     this.createTransferTransactionExchange(this.walletAddress, this.exchangeAddress, this.tokenChoice, amount);
     runInAction(() => {
-      onWithdraw();
+      onDeposit();
       this.fundConfirmDialogOpen = false;
-      Tracking.track('myWallet-withdraw');
+      Tracking.track('myWallet-deposit');
     });
   };
 

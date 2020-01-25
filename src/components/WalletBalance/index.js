@@ -22,6 +22,7 @@ export default @injectIntl @withStyles(styles, { withTheme: true }) @inject('sto
     } = this.props;
     const rows = [];
     if (wallet.currentAddressKey !== '') {
+      console.log(wallet.addresses[wallet.currentAddressKey].Wallet);
       Object.keys(wallet.addresses[wallet.currentAddressKey].Wallet).forEach((key) => {
         if (key === baseCurrencyStore.baseCurrency.pair) {
           rows.push(<Grid item xs={3} key={key}>

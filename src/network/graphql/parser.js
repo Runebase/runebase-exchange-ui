@@ -62,6 +62,7 @@ class GraphParser {
       change: entry.change,
       volume: entry.volume,
       address: entry.address,
+      decimals: entry.decimals,
     }));
   }
 
