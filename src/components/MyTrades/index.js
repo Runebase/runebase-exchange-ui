@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import { defineMessages } from 'react-intl';
 import { Card, Typography } from '@material-ui/core';
@@ -24,7 +24,11 @@ export default @inject('store') @observer class MyTrades extends Component {
   }
 
   render() {
-    const { store: { myTradeStore } } = this.props;
+    const {
+      store: {
+        myTradeStore,
+      },
+    } = this.props;
     return (
       <>
         <Card className='dashboardOrderBookTitle'>

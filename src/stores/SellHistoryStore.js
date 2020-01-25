@@ -1,4 +1,4 @@
-import { observable, action, runInAction, computed, reaction } from 'mobx';
+import { observable, action, computed, reaction } from 'mobx';
 import _ from 'lodash';
 import { Routes } from 'constants';
 import { queryAllTrades } from '../network/graphql/queries';

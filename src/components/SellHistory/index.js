@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import { Card, Typography } from '@material-ui/core';
 import { defineMessages } from 'react-intl';

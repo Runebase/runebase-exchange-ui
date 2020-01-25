@@ -34,34 +34,31 @@ export default @inject('store') @observer class Exchange extends Component {
           <Grid item xs={12}>
             <DropDownAddresses />
           </Grid>
+          <Grid item xs={12}>
+            <WalletBalance />
+          </Grid>
+          <Grid item xs={6}>
+            <div className='rotation-wrapper-outer'>
+              <div className='rotation-wrapper-inner'>
+                <DepositExchangeButton />
+              </div>
+            </div>
+          </Grid>
+          <Grid item xs={6}>
+            <div className='rotation-wrapper-outer'>
+              <div className='rotation-wrapper-inner'>
+                <WithdrawExchangeButton />
+              </div>
+            </div>
+          </Grid>
+          <Grid item xs={12}>
+            <ExchangeBalance />
+          </Grid>
         </Grid>
         <Grid container>
           <Grid item xs={12} sm={12} lg={4}>
             <Grid container>
               <Grid item xs={12}>
-                <WalletBalance />
-              </Grid>
-            </Grid>
-            <Grid container>
-              <Grid item xs={6}>
-                <div className='rotation-wrapper-outer'>
-                  <div className='rotation-wrapper-inner'>
-                    <DepositExchangeButton />
-                  </div>
-                </div>
-              </Grid>
-              <Grid item xs={6}>
-                <div className='rotation-wrapper-outer'>
-                  <div className='rotation-wrapper-inner'>
-                    <WithdrawExchangeButton />
-                  </div>
-                </div>
-              </Grid>
-            </Grid>
-            <Grid container>
-              <Grid item xs={12}>
-                <ExchangeBalance />
-                <Markets />
                 <MyOrderBook />
                 <MyTrades />
                 <FundRedeemHistory />
@@ -70,6 +67,9 @@ export default @inject('store') @observer class Exchange extends Component {
           </Grid>
           <Grid item xs={12} sm={12} lg={8}>
             <Grid container>
+              <Grid item xs={12}>
+                <Markets />
+              </Grid>
               <Grid item xs={12}>
                 <MarketInfo />
               </Grid>

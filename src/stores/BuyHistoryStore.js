@@ -1,4 +1,4 @@
-import { observable, action, runInAction, computed, reaction } from 'mobx';
+import { observable, action, computed, reaction } from 'mobx';
 import _ from 'lodash';
 import { Routes } from 'constants';
 import { queryAllTrades } from '../network/graphql/queries';
@@ -54,7 +54,7 @@ export default class {
   }
 
   @action
-  init = async (limit = this.limit) => {
+  init = async () => {
     Object.assign(this, INIT_VALUES); // reset all properties
     await this.getBuyHistoryInfo();
     this.loading = false;

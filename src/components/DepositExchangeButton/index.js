@@ -1,4 +1,3 @@
-/* eslint-disable react/destructuring-assignment, react/no-access-state-in-setstate, react/button-has-type, react/jsx-one-expression-per-line */
 import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
 import {
@@ -11,7 +10,7 @@ import {
 } from '@material-ui/core';
 import { injectIntl, defineMessages } from 'react-intl';
 import { inject, observer } from 'mobx-react';
-import { FastRewind, AccountBalanceWallet } from '@material-ui/icons';
+import { FastRewind, AccountBalance } from '@material-ui/icons';
 import { TxSentDialog } from 'components';
 import DepositExchangeTxConfirmDialog from '../DepositExchangeTxConfirmDialog';
 
@@ -41,7 +40,7 @@ export default @injectIntl @inject('store') @observer class DepositExchangeButto
     Object.keys(addresses[currentAddressKey].Wallet).forEach((depositChoice) => {
       this.hasWallet[depositChoice] = addresses[currentAddressKey].Wallet[depositChoice] > 0;
     });
-    if (this.props.store.wallet.currentAddressSelected === '') {
+    if (currentAddressSelected === '') {
       this.setState({
         open: false,
         open2: false,
@@ -68,12 +67,12 @@ export default @injectIntl @inject('store') @observer class DepositExchangeButto
     this.setState({
       open: false,
       open2: true,
-      address: this.props.store.wallet.currentAddressSelected,
+      address: currentAddressSelected,
     });
   };
 
   handleClose = () => {
-    this.props.store.wallet.hasEnoughGasCoverage = false;
+    // this.props.store.wallet.hasEnoughGasCoverage = false;
     this.setState({
       open: false,
       open2: false,
@@ -86,23 +85,36 @@ export default @injectIntl @inject('store') @observer class DepositExchangeButto
   };
 
   handleChange = name => event => {
+    const {
+      store: {
+        baseCurrencyStore: {
+          baseCurrency: {
+            pair,
+          },
+        },
+      },
+    } = this.props;
+    const {
+      available,
+      tokenChoice,
+    } = this.state;
     if (event.target.value === '' || /^\d+(\.\d{1,8})?$/.test(event.target.value)) {
       this.setState({
         [name]: event.target.value,
       });
     }
 
-    if (event.target.value > this.state.available) {
+    if (event.target.value > available) {
       this.setState({
-        [name]: this.state.available,
+        [name]: available,
       });
     }
 
     // Keep atleast 2 RUNES for gasCoverage.
-    if (this.state.tokenChoice === this.props.store.baseCurrencyStore.baseCurrency.pair) {
-      if (this.state.available > 2 && this.state.available < event.target.value) {
+    if (tokenChoice === pair) {
+      if (available > 2 && available < event.target.value) {
         this.setState({
-          [name]: this.state.available - 2,
+          [name]: available - 2,
         });
       }
     }
@@ -116,15 +128,39 @@ export default @injectIntl @inject('store') @observer class DepositExchangeButto
   }
 
   closeAll = () => {
+    const {
+      store: {
+        wallet: {
+          closeTxDialog,
+        },
+      },
+    } = this.props;
     this.setState({
       open: false,
       open2: false,
     });
-    this.props.store.wallet.closeTxDialog();
+    closeTxDialog();
   }
 
   render() {
-    const { store: { wallet, baseCurrencyStore, marketStore: { marketInfo } } } = this.props;
+    const {
+      store: {
+        wallet,
+        baseCurrencyStore,
+        marketStore: {
+          marketInfo,
+        },
+      },
+    } = this.props;
+    const {
+      openError,
+      open,
+      open2,
+      amount,
+      available,
+      tokenChoice,
+      address,
+    } = this.state;
     const isEnabledFund = wallet.currentAddressSelected !== '';
     const rows = [];
 
@@ -153,66 +189,89 @@ export default @injectIntl @inject('store') @observer class DepositExchangeButto
         <button
           disabled={!isEnabledFund}
           className="ui positive button depositButton"
+          type='button'
           onClick={() => this.handleClickOpenDepositChoice(wallet.addresses, wallet.currentAddressKey, wallet.currentAddressSelected)}
         >
-          <FastRewind className='verticalTextButton'></FastRewind>
-          <AccountBalanceWallet className='verticalTextButton'></AccountBalanceWallet>
-          <span className='verticalTextButton leftPadMidBut'>Deposit</span>
+          <FastRewind className='verticalTextButton' />
+          <AccountBalance className='verticalTextButton' />
+          <span className='verticalTextButton leftPadMidBut'>
+            Deposit
+          </span>
         </button>
 
         <Dialog
-          open={this.state.openError}
+          open={openError}
           onClose={this.handleClose}
           aria-labelledby="form-dialog-title"
         >
-          <DialogTitle id="form-dialog-title">Deposit to Exchange Contract</DialogTitle>
+          <DialogTitle id="form-dialog-title">
+            Deposit to Exchange Contract
+          </DialogTitle>
           <DialogContent>
             <DialogContentText>
               Please select an address first.
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.handleClose}>Close</Button>
+            <Button onClick={this.handleClose}>
+              Close
+            </Button>
           </DialogActions>
         </Dialog>
         <Dialog
-          open={this.state.open}
+          open={open}
           onClose={this.handleClose}
           aria-labelledby="form-dialog-title"
         >
-          <DialogTitle id="form-dialog-title">Deposit to Exchange Contract</DialogTitle>
+          <DialogTitle id="form-dialog-title">
+            Deposit to Exchange Contract
+          </DialogTitle>
           <DialogActions>
             {rows}
-            <Button onClick={this.handleClose}>Close</Button>
+            <Button onClick={this.handleClose}>
+              Close
+            </Button>
           </DialogActions>
         </Dialog>
         <Dialog
-          open={this.state.open2}
+          open={open2}
           onClose={this.handleClose}
           aria-labelledby="form-dialog-title2"
         >
-          <DialogTitle id="form-dialog-title2">Deposit {this.state.tokenChoice} to Exchange Contract</DialogTitle>
+          <DialogTitle id="form-dialog-title2">
+            Deposit
+            &nbsp;
+            {tokenChoice}
+            &nbsp;
+            to
+            &nbsp;
+            Exchange
+            &nbsp;
+            Contract
+          </DialogTitle>
           <DialogContent>
             <DialogContentText>
               Current Address:
             </DialogContentText>
             <DialogContentText>
-              {this.state.address}
+              {address}
             </DialogContentText>
             <DialogContentText>
               Available:
             </DialogContentText>
             <DialogContentText>
-              {this.state.available} {this.state.tokenChoice}
+              {available}
+              &nbsp;
+              {tokenChoice}
             </DialogContentText>
             <TextField
               id="standard-number"
               label="Amount"
-              value={this.state.amount}
+              value={amount}
               onChange={this.handleChange('amount')}
               type="number"
               min={0}
-              max={this.state.available}
+              max={available}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -220,7 +279,7 @@ export default @injectIntl @inject('store') @observer class DepositExchangeButto
             />
           </DialogContent>
           <DialogActions>
-            <Button onClick={() => wallet.prepareDepositExchange(this.state.address, this.state.amount, this.state.tokenChoice)} color="primary">
+            <Button onClick={() => wallet.prepareDepositExchange(address, amount, tokenChoice)} color="primary">
               Deposit
             </Button>
             <Button onClick={this.handleClose} color="primary">
@@ -234,7 +293,9 @@ export default @injectIntl @inject('store') @observer class DepositExchangeButto
           onClose={this.handleClose}
           aria-labelledby="form-dialog-title2"
         >
-          <DialogTitle id="form-dialog-title2">Warning</DialogTitle>
+          <DialogTitle id="form-dialog-title2">
+            Warning
+          </DialogTitle>
           <DialogContent>
             <DialogContentText>
               You need to leave atleast 2 RUNES in your wallet to cover GAS fees.

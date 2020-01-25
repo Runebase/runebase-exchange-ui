@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import { injectIntl, defineMessages } from 'react-intl';
+import {
+  Typography,
+  Card,
+  withStyles,
+} from '@material-ui/core';
 import MarketView from './MarketView';
 import LoadingElement from '../Loading';
+import styles from '../styles';
 
 const messages = defineMessages({
   loadAllMarketsMsg: {
@@ -11,9 +17,12 @@ const messages = defineMessages({
   },
 });
 
-export default @injectIntl @observer @inject('store') class Markets extends Component {
+export default @withStyles(styles, { withTheme: true }) @injectIntl @observer @inject('store') class Markets extends Component {
   render() {
     const {
+      classes: {
+        dashboardCardTitle,
+      },
       store: {
         marketStore,
       },
@@ -21,6 +30,11 @@ export default @injectIntl @observer @inject('store') class Markets extends Comp
 
     return (
       <>
+        <Card className={dashboardCardTitle}>
+          <Typography color='textPrimary'>
+            Markets
+          </Typography>
+        </Card>
         <Events marketStore={marketStore} />
       </>
     );

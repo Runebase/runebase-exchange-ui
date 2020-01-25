@@ -1,4 +1,4 @@
-import { observable, action, runInAction, computed, reaction } from 'mobx';
+import { observable, action, computed, reaction } from 'mobx';
 import _ from 'lodash';
 import { Routes } from 'constants';
 import { queryAllFundRedeems } from '../network/graphql/queries';
@@ -69,14 +69,14 @@ export default class {
   }
 
   @action
-  init = async (limit = this.limit) => {
+  init = async () => {
     Object.assign(this, INIT_VALUES); // reset all properties
     this.app.ui.location = Routes.EXCHANGE;
     await this.getFundRedeemInfo();
     this.loading = false;
   }
 
-  getPendingInfo = async (limit = this.limit, skip = this.skip) => {
+  getPendingInfo = async (limit = 500, skip = this.skip) => {
     if (this.subscription) {
       // this.subscription.unsubscribe();
     }
@@ -85,7 +85,7 @@ export default class {
         const orderBy = { field: 'time', direction: 'DESC' };
         let pendingInfo = [];
         const filters = [{ owner: this.app.wallet.addresses[this.app.wallet.currentAddressKey].address, status: 'PENDING' }];
-        pendingInfo = await queryAllFundRedeems(filters, orderBy, 500, skip);
+        pendingInfo = await queryAllFundRedeems(filters, orderBy, limit, skip);
         this.onPendingInfo(pendingInfo);
         // this.subscribeFundRedeemInfo();
       }
