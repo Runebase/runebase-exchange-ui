@@ -157,6 +157,15 @@ export default class {
     );
   }
 
+  @action currentTokenDecimals = async (tokenChoice) => {
+    if (tokenChoice === 'RUNES') {
+      this.decimals = 8;
+    } else {
+      this.decimals = (_.find(this.app.marketStore.marketInfo, { market: tokenChoice })).decimals;
+    }
+    return this.decimals;
+  }
+
   @action
   closeTxDialog = async () => {
     try {

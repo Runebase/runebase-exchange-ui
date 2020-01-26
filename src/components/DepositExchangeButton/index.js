@@ -29,7 +29,7 @@ export default @injectIntl @inject('store') @observer class DepositExchangeButto
       open: false,
       open2: false,
       openError: false,
-      amount: 0,
+      amount: '',
       tokenChoice: '',
       address: '',
       available: '',
@@ -54,9 +54,20 @@ export default @injectIntl @inject('store') @observer class DepositExchangeButto
     });
   };
 
-  handleClickOpenDepositDialog = (event, addresses, currentAddressKey, currentAddressSelected) => {
+  handleClickOpenDepositDialog = async (event, addresses, currentAddressKey, currentAddressSelected) => {
+    const {
+      store: {
+        wallet: {
+          currentTokenDecimals,
+        },
+      },
+    } = this.props;
+
+    currentTokenDecimals(event.currentTarget.value);
+
     Object.keys(addresses[currentAddressKey].Wallet).forEach((currency) => {
       if (event.currentTarget.value === currency) {
+        console.log(event.currentTarget.value);
         this.setState({
           tokenChoice: currency,
           available: addresses[currentAddressKey].Wallet[currency],
@@ -84,9 +95,12 @@ export default @injectIntl @inject('store') @observer class DepositExchangeButto
     });
   };
 
-  handleChange = name => event => {
+  handleChange = () => event => {
     const {
       store: {
+        wallet: {
+          decimals,
+        },
         baseCurrencyStore: {
           baseCurrency: {
             pair,
@@ -98,23 +112,27 @@ export default @injectIntl @inject('store') @observer class DepositExchangeButto
       available,
       tokenChoice,
     } = this.state;
-    if (event.target.value === '' || /^\d+(\.\d{1,8})?$/.test(event.target.value)) {
+
+    const onlyNumbers = new RegExp(`^(?:0|[1-9][0-9]*)(?:\\.[0-9]{1,${decimals}})?$`);
+    console.log(event.target.value);
+
+    if (event.target.value === '' || (onlyNumbers.test(event.target.value))) {
       this.setState({
-        [name]: event.target.value,
+        amount: event.target.value,
       });
     }
 
-    if (event.target.value > available) {
+    if (Number(event.target.value) > Number(available)) {
       this.setState({
-        [name]: available,
+        amount: available,
       });
     }
 
     // Keep atleast 2 RUNES for gasCoverage.
     if (tokenChoice === pair) {
-      if (available > 2 && available < event.target.value) {
+      if (Number(available) > 2 && Number(available) < Number(event.target.value)) {
         this.setState({
-          [name]: available - 2,
+          amount: Number(available) - 2,
         });
       }
     }
@@ -163,6 +181,7 @@ export default @injectIntl @inject('store') @observer class DepositExchangeButto
     } = this.state;
     const isEnabledFund = wallet.currentAddressSelected !== '';
     const rows = [];
+    const steps = Number(`1e-${wallet.decimals}`).toLocaleString('fullwide', { useGrouping: true, maximumSignificantDigits: wallet.decimals });
 
     rows.push(<Button
       key='depositBaseCurrency'
@@ -264,18 +283,19 @@ export default @injectIntl @inject('store') @observer class DepositExchangeButto
               &nbsp;
               {tokenChoice}
             </DialogContentText>
+            <DialogContentText>
+              Amount:
+            </DialogContentText>
             <TextField
               id="standard-number"
-              label="Amount"
-              value={amount}
-              onChange={this.handleChange('amount')}
+              className='inputWidth'
               type="number"
+              step={steps}
               min={0}
               max={available}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              margin="normal"
+              value={amount}
+              onChange={this.handleChange()}
+              name="amount"
             />
           </DialogContent>
           <DialogActions>

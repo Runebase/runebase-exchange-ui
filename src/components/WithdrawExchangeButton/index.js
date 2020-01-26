@@ -40,6 +40,7 @@ export default @injectIntl @inject('store') @observer class WithdrawExchangeButt
     Object.keys(addresses[currentAddressKey].Exchange).forEach((currency) => {
       this.hasExchange[currency] = addresses[currentAddressKey].Exchange[currency] > 0;
     });
+
     if (currentAddressSelected === '') {
       this.setState({
         open: false,
@@ -48,6 +49,7 @@ export default @injectIntl @inject('store') @observer class WithdrawExchangeButt
       });
       return;
     }
+
     this.setState({
       open: true,
       open2: false,
@@ -55,6 +57,16 @@ export default @injectIntl @inject('store') @observer class WithdrawExchangeButt
   };
 
   handleClickOpenRedeemDialog = (event, addresses, currentAddressKey, currentAddressSelected) => {
+    const {
+      store: {
+        wallet: {
+          currentTokenDecimals,
+        },
+      },
+    } = this.props;
+
+    currentTokenDecimals(event.currentTarget.value);
+
     Object.keys(addresses[currentAddressKey].Exchange).forEach((currency) => {
       if (event.currentTarget.value === currency) {
         this.setState({
@@ -80,18 +92,28 @@ export default @injectIntl @inject('store') @observer class WithdrawExchangeButt
     });
   };
 
-  handleChange = name => event => {
+  handleChange = () => event => {
+    const {
+      store: {
+        wallet: {
+          decimals,
+        },
+      },
+    } = this.props;
     const {
       available,
     } = this.state;
-    if (event.target.value === '' || /^\d+(\.\d{1,8})?$/.test(event.target.value)) {
+
+    const regex = new RegExp(`^(?:0|[1-9][0-9]*)(?:\\.[0-9]{1,${decimals}})?$`);
+
+    if (event.target.value === '' || regex.test(event.target.value)) {
       this.setState({
-        [name]: event.target.value,
+        amount: event.target.value,
       });
     }
     if (event.target.value > available) {
       this.setState({
-        [name]: available,
+        amount: available,
       });
     }
   };
@@ -141,6 +163,7 @@ export default @injectIntl @inject('store') @observer class WithdrawExchangeButt
     } = this.state;
     const isEnabledRedeem = wallet.currentAddressSelected !== '';
     const rows = [];
+    const steps = Number(`1e-${wallet.decimals}`).toLocaleString('fullwide', { useGrouping: true, maximumSignificantDigits: wallet.decimals });
 
     rows.push(<Button
       key='withdrawBaseCurrency'
@@ -245,18 +268,18 @@ export default @injectIntl @inject('store') @observer class WithdrawExchangeButt
               &nbsp;
               {tokenChoice}
             </DialogContentText>
+            <DialogContentText>
+              Amount:
+            </DialogContentText>
             <TextField
               id="standard-number"
-              label="Amount"
-              value={amount}
-              onChange={this.handleChange('amount')}
-              type='number'
+              className='inputWidth'
+              type="number"
+              step={steps}
               min={0}
-              max={20}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              margin="normal"
+              value={amount}
+              onChange={this.handleChange()}
+              name="amount"
             />
           </DialogContent>
           <DialogActions>
